@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ItemCard from '../item-card/item-card'
-import { BurgerIcon, ListIcon, ProfileIcon, Logo, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerIcon, ListIcon, Counter, Logo, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = () => {
@@ -8,13 +8,13 @@ const BurgerIngredients = () => {
     return (
 
         <div className="text text_type_main-default">
-            <div>
-                <h1 className="text text_type_main-large">Соберите бургер</h1>
-            </div>
-            <div style={{ display: 'flex' }}>
-                <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+            <h1 className="text_type_main-large">Соберите бургер</h1>
+
+            <div className={styles.tabs}>
+                <Tab value="one" active={current === 'one'} onClick={setCurrent} className={styles.tab}>
                     Булки
                 </Tab>
+
                 <Tab value="two" active={current === 'two'} onClick={setCurrent}>
                     Соусы
                 </Tab>
@@ -22,11 +22,33 @@ const BurgerIngredients = () => {
                     Начинки
                 </Tab>
             </div>
+
+            <div className={styles.option}>
+                <h2 className={`${styles.h2} text text_type_main-medium`}>Булки</h2>
+                <div className={styles.cards}>
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                </div>
+
+            </div>
+
             <div>
-                <h2>Булки</h2>
-                <div className={styles.list}>
-                    <ItemCard/>
-                    <ItemCard/> 
+                <h2>Соусы</h2>
+                <div className={styles.cards}>
+                    <ItemCard />
+                    <ItemCard />
+                </div>
+
+            </div>
+
+            <div>
+                <h2>Начинка</h2>
+                <div className={styles.cards}>
+                    <ItemCard />
+                    <ItemCard />
                 </div>
 
             </div>

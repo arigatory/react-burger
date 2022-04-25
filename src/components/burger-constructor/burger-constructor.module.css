@@ -1,3 +1,30 @@
 .main {
-    padding-top: 160px;
+	padding-top: 160px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.list {
+    margin-bottom: 40px;
+}
+
+
+.constructorItem {
+	display: flex;
+	align-items: center;
+    margin-bottom: 16px;
+}
+
+.drag {
+	height: 32px;
+	margin-right: 13px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.price {
+    margin-right: 40px;
 }

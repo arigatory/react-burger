@@ -1,12 +1,8 @@
 .header {
     display: flex;
     align-items: center;
-    justify-content: center;
-     padding-top: 16px;
-    padding-bottom: 16px;
-    margin-right: auto;
-    margin-left: auto;
     background-color: #1C1C21;
+    justify-content: flex-start;
 }
 
 .navItem {
@@ -22,9 +18,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 200px;
+    flex-grow: 1;
 }
 
 .constructorIcon {
     margin-right: 8px;
 }
+
+  
+  @media (min-width: 575.98px){
+    .header {
+      padding: 0 calc(50vw - 270px);
+    }
+  }
+  
+  @media (min-width: 767.98px){
+    .header {
+      padding: 0 calc(50vw - 360px);
+    }
+  }
+  
+  @media (min-width: 991.98px) {
+    .header {
+      padding: 14px calc(50vw - 480px);
+    }
+  }
+  
+  @media (min-width: 1199.98px){
+    .header {
+      padding: 16px calc(50vw - 590px);
+    }
+  }

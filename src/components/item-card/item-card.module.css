@@ -1,17 +1,22 @@
+.option {
+    margin-bottom: 8px;
+}
+
 .card {
-    max-width: 280px;
-    min-height: 208px;
     border: 1px dashed #4C4CFF;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-right: 24px;
-}
+    margin-bottom: 32px;
+    width: 45%;
+    position: relative;
+  }
 
 img {
-    width: 240px;
     margin-bottom: 4px;
+    max-width: 240px;
 }
 
 .price {
@@ -27,3 +32,5 @@ img {
 .description {
     margin: 0;
 }
+
+

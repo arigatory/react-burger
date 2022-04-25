@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './item-card.module.css';
-import { BurgerIcon, ListIcon, ProfileIcon, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerIcon, Counter, ProfileIcon, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
 
@@ -8,6 +8,7 @@ const ItemCard = () => {
 
     return (
         <div className={styles.card}>
+            <Counter count={1} size="default" />
             <img src="https://code.s3.yandex.net/react/code/bun-02-large.png" alt="Фото блюда" />
             <div className={styles.price}>
                 <span className={styles.price}>20</span>

@@ -4,17 +4,22 @@ import BurgerConstructor from './components/burger-constructor/burger-constructo
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
 
-
 function App() {
-  return (
-    <>
-      <AppHeader/>
-      <div className={styles.columns}>
-      <BurgerIngredients />
-      <BurgerConstructor />    
-      </div>
-    </>
-  );
+	return (
+		<div>
+			<AppHeader />
+			<div className={styles.container}>
+				<div className={styles.columns}>
+					<div className={styles.column}>
+						<BurgerIngredients />
+					</div>
+					<div className={styles.column}>
+						<BurgerConstructor />
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default App;

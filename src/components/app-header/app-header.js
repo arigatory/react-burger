@@ -35,7 +35,6 @@ const AppHeader = () => {
                 </span>
             </div>
 
-            <span className="text text_type_main-default"></span>
         </header>
     );
 };
