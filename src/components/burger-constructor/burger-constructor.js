@@ -6,8 +6,6 @@ import styles from './burger-constructor.module.css';
 const BurgerConstructor = () => {
     const [current, setCurrent] = useState('one')
     const img = "https://code.s3.yandex.net/react/code/meat-04.png";
-    console.log(styles.hidden);
-
     return (
 
 
