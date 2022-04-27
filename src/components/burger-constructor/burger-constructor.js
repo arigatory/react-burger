@@ -1,75 +1,57 @@
 import React, { useState } from 'react';
-import ItemCard from '../item-card/item-card'
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
+import { data } from '../../utils/data';
 
-const BurgerConstructor = () => {
-    const [current, setCurrent] = useState('one')
-    const img = "https://code.s3.yandex.net/react/code/meat-04.png";
+
+const BurgerConstructor = ({ chosenItems, onBunChanged, bunId }) => {
+
+    const bun = data.find(item => item._id === bunId);
+
+    const renderedItems = chosenItems.map((item, index) => {
+        return (
+            <li className={styles.constructorItem} key={index}>
+                <div className={` ${styles.drag}`}>
+                    <DragIcon type="primary" />
+                </div>
+                <ConstructorElement
+                    text={data[item.index].name}
+                    price={data[item.index].price}
+                    thumbnail={data[item.index].image}
+                />
+            </li>
+        );
+    });
+
     return (
-
-
         <div className={styles.main}>
-            <div className={styles.list}>
-
-                <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
-                    <div className={`${styles.hidden} ${styles.drag}`}>
-                        <DragIcon type="primary" />
-                    </div>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail={img}
-                    />
+            <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
+                <div className={`${styles.hidden} ${styles.drag}`}>
+                    <DragIcon type="primary" />
                 </div>
+                <ConstructorElement
+                    type="top"
+                    isLocked={true}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
+                />
+            </div>
 
-                <div className={styles.constructorItem}>
-                    <div className={` ${styles.drag}`}>
-                        <DragIcon type="primary" />
-                    </div>
-                    <ConstructorElement
-                        text="Краторная булка N-200i (середина)"
-                        price={50}
-                        thumbnail={img}
-                    />
+            <ul className={styles.list}>
+                {renderedItems}
+            </ul>
+            <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
+                <div className={`${styles.hidden} ${styles.drag}`}>
+                    <DragIcon type="primary" />
                 </div>
-
-                <div className={styles.constructorItem}>
-                    <div className={` ${styles.drag}`}>
-                        <DragIcon type="primary" />
-                    </div>
-                    <ConstructorElement
-                        text="Краторная булка N-200i (середина)"
-                        price={50}
-                        thumbnail={img}
-                    />
-                </div>
-
-                <div className={styles.constructorItem}>
-                    <div className={` ${styles.drag}`}>
-                        <DragIcon type="primary" />
-                    </div>
-                    <ConstructorElement
-                        text="Краторная булка N-200i (середина)"
-                        price={50}
-                        thumbnail={img}
-                    />
-                </div>
-
-                <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
-                    <div className={`${styles.hidden} ${styles.drag}`}>
-                        <DragIcon type="primary" />
-                    </div>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail={img}
-                    />
-                </div>
+                <ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text={bun.name}
+                    price={bun.price}
+                    thumbnail={bun.image}
+                />
             </div>
 
             <div>

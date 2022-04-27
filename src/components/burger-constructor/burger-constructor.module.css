@@ -1,19 +1,27 @@
 .main {
 	padding-top: 160px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: column;
 }
 
 .list {
-    margin-bottom: 40px;
+	margin-bottom: 40px;
+	overflow: auto;
+	max-height: calc(100vh - 600px);
 }
 
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
 
 .constructorItem {
 	display: flex;
 	align-items: center;
-    margin-bottom: 16px;
+	margin-bottom: 16px;
+	margin-right: 16px;
 }
 
 .drag {
@@ -26,5 +34,5 @@
 }
 
 .price {
-    margin-right: 40px;
+	margin-right: 40px;
 }
