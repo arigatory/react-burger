@@ -4,24 +4,30 @@ import styles from './burger-constructor.module.css';
 import { data } from '../../utils/data';
 
 
-const BurgerConstructor = ({ chosenItems, onBunChanged, bunId }) => {
+const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient }) => {
 
     const bun = data.find(item => item._id === bunId);
 
-    const renderedItems = chosenItems.map((item, index) => {
+    const renderedItems = selectedIngredients.map((item) => {
         return (
-            <li className={styles.constructorItem} key={index}>
+            <li className={styles.constructorItem} key={item._id}>
                 <div className={` ${styles.drag}`}>
                     <DragIcon type="primary" />
                 </div>
                 <ConstructorElement
-                    text={data[item.index].name}
-                    price={data[item.index].price}
-                    thumbnail={data[item.index].image}
+                    text={item.name}
+                    price={item.price}
+                    thumbnail={item.image}
+                    handleClose={() => onDeleteIngredient(item)}
                 />
             </li>
         );
     });
+
+    let total = 2 * bun.price;
+    if (Array.isArray(selectedIngredients) && selectedIngredients.length) {
+        selectedIngredients.forEach((item) => {total += item.price});
+    }
 
     return (
         <div className={styles.main}>
@@ -56,7 +62,7 @@ const BurgerConstructor = ({ chosenItems, onBunChanged, bunId }) => {
 
             <div>
                 <span className={styles.price}>
-                    <span className="text text_type_main-large">610</span>
+                    <span className="text text_type_main-large mr-2">{total}</span>
                     <CurrencyIcon type="primary" />
                 </span>
                 <Button type="primary" size="large">

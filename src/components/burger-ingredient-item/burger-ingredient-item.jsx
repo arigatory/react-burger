@@ -7,7 +7,6 @@ const BurgerIngredientItem = ({ ingredientData, count, onClick }) => {
 
 	const handleClick = () => {
 		onClick(ingredientData);
-		console.log('BurgerIngredientItem clicked');
 	};
 
 	return (
