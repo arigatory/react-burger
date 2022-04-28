@@ -38,21 +38,21 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 			<div className={styles.categories}>
 				<BurgerIngredientCategory
 					title={'Булки'}
-					categoryId='buns'
+					categoryId="buns"
 					ingredients={buns}
 					onIngredientClick={handleClick}
 				/>
 
 				<BurgerIngredientCategory
-					title={'Соусы'}
-					categoryId='sauses'
+					title={'Начинки'}
+					categoryId="main"
 					ingredients={mains}
 					onIngredientClick={handleClick}
 				/>
 
 				<BurgerIngredientCategory
-					title={'Начинки'}
-					categoryId='main'
+					title={'Соусы'}
+					categoryId="sauses"
 					ingredients={sauses}
 					onIngredientClick={handleClick}
 				/>
@@ -62,8 +62,8 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 };
 
 BurgerIngredients.propTypes = {
-    onBunChanged: PropTypes.func.isRequired, 
-    onSelectIngredient: PropTypes.func.isRequired,
-}
+	onBunChanged: PropTypes.func.isRequired,
+	onSelectIngredient: PropTypes.func.isRequired
+};
 
 export default BurgerIngredients;

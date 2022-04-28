@@ -9,9 +9,9 @@ const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient }) =
 
     const bun = data.find(item => item._id === bunId);
 
-    const renderedItems = selectedIngredients.map((item) => {
+    const renderedItems = selectedIngredients.map((item, index) => {
         return (
-            <li className={styles.constructorItem} key={item._id}>
+            <li className={styles.constructorItem} key={index}>
                 <div className={` ${styles.drag}`}>
                     <DragIcon type="primary" />
                 </div>
