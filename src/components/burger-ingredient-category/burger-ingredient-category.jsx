@@ -27,7 +27,7 @@ const BurgerIngredientCategory = ({ title, categoryId, ingredients, onIngredient
 
 BurgerIngredientCategory.propTypes = {
 	title: PropTypes.string.isRequired,
-	categoryId: PropTypes.oneOf(['buns', 'main', 'sauses']),
+	categoryId: PropTypes.oneOf(['buns', 'mains', 'sauses']),
 	ingredients: PropTypes.array, 
 	onIngredientClick: PropTypes.func
 };

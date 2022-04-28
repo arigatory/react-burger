@@ -25,16 +25,17 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 			<h1 className="text_type_main-large">Соберите бургер</h1>
 
 			<div className={styles.tabs}>
-				<Tab value="one" active={current === 'one'} onClick={setCurrent} className={styles.tab}>
+				<Tab value="buns" active={current === 'buns'} onClick={setCurrent} className={styles.tab}>
 					Булки
 				</Tab>
-				<Tab value="two" active={current === 'two'} onClick={setCurrent}>
+				<Tab value="sauses" active={current === 'sauses'} onClick={setCurrent}>
 					Соусы
 				</Tab>
-				<Tab value="three" active={current === 'three'} onClick={setCurrent}>
+				<Tab value="mains" active={current === 'mains'} onClick={setCurrent}>
 					Начинки
 				</Tab>
 			</div>
+            
 			<div className={styles.categories}>
 				<BurgerIngredientCategory
 					title={'Булки'}
@@ -44,16 +45,17 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 				/>
 
 				<BurgerIngredientCategory
-					title={'Начинки'}
-					categoryId="main"
-					ingredients={mains}
-					onIngredientClick={handleClick}
-				/>
-
-				<BurgerIngredientCategory
 					title={'Соусы'}
 					categoryId="sauses"
 					ingredients={sauses}
+					onIngredientClick={handleClick}
+				/>
+
+                
+				<BurgerIngredientCategory
+					title={'Начинки'}
+					categoryId="mains"
+					ingredients={mains}
 					onIngredientClick={handleClick}
 				/>
 			</div>
