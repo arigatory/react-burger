@@ -2,6 +2,8 @@ import React from 'react';
 import { data } from '../../utils/data';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 import styles from './burger-ingredient-category.module.css';
+import PropTypes from 'prop-types';
+
 
 const BurgerIngredientCategory = ({ title, categoryId, ingredients, onIngredientClick }) => {
 	const renderedIngredients = ingredients.map((ingredient) => {
@@ -22,5 +24,13 @@ const BurgerIngredientCategory = ({ title, categoryId, ingredients, onIngredient
 		</div>
 	);
 };
+
+BurgerIngredientCategory.propTypes = {
+	title: PropTypes.string.isRequired,
+	categoryId: PropTypes.oneOf(['buns', 'main', 'sauses']),
+	ingredients: PropTypes.array, 
+	onIngredientClick: PropTypes.func
+};
+
 
 export default BurgerIngredientCategory;

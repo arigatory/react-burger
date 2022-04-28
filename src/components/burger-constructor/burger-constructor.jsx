@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import { data } from '../../utils/data';
+import PropTypes from 'prop-types';
 
 
 const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient }) => {
@@ -72,5 +73,11 @@ const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient }) =
         </div>
     )
 };
+
+BurgerConstructor.prototypes = {
+    bunId: PropTypes.string,
+    selectedIngredients: PropTypes.array,
+    onDeleteIngredient: PropTypes.func.isRequired
+}
 
 export default BurgerConstructor;

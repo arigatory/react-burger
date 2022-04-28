@@ -3,6 +3,7 @@ import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingre
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { data } from '../../utils/data';
+import PropTypes from 'prop-types';
 
 const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 	const [ current, setCurrent ] = useState('one');
@@ -27,7 +28,6 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 				<Tab value="one" active={current === 'one'} onClick={setCurrent} className={styles.tab}>
 					Булки
 				</Tab>
-
 				<Tab value="two" active={current === 'two'} onClick={setCurrent}>
 					Соусы
 				</Tab>
@@ -38,21 +38,21 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 			<div className={styles.categories}>
 				<BurgerIngredientCategory
 					title={'Булки'}
-					categoryId={1}
+					categoryId='buns'
 					ingredients={buns}
 					onIngredientClick={handleClick}
 				/>
 
 				<BurgerIngredientCategory
 					title={'Соусы'}
-					categoryId={2}
+					categoryId='sauses'
 					ingredients={mains}
 					onIngredientClick={handleClick}
 				/>
 
 				<BurgerIngredientCategory
 					title={'Начинки'}
-					categoryId={3}
+					categoryId='main'
 					ingredients={sauses}
 					onIngredientClick={handleClick}
 				/>
@@ -60,5 +60,10 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
 		</div>
 	);
 };
+
+BurgerIngredients.propTypes = {
+    onBunChanged: PropTypes.func.isRequired, 
+    onSelectIngredient: PropTypes.func.isRequired,
+}
 
 export default BurgerIngredients;
