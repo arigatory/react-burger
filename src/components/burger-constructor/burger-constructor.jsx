@@ -4,9 +4,8 @@ import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 
 
-const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient, data }) => {
-
-    const bun = data.find(item => item._id === bunId);
+const BurgerConstructor = ({ selectedIngredients, selectedBun, onDeleteIngredient }) => {
+    const [total, setTotal] = useState(0);
 
     const renderedItems = selectedIngredients.map((item, index) => {
         return (
@@ -24,41 +23,42 @@ const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient, dat
         );
     });
 
-    let total = 2 * bun.price;
     if (Array.isArray(selectedIngredients) && selectedIngredients.length) {
         selectedIngredients.forEach((item) => {total += item.price});
     }
 
     return (
         <div className={styles.main}>
-            <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
+{  selectedBun &&          <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
                 <div className={`${styles.hidden} ${styles.drag}`}>
                     <DragIcon type="primary" />
                 </div>
                 <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text={bun.name}
-                    price={bun.price}
-                    thumbnail={bun.image}
+                    text={selectedBun.name}
+                    price={selectedBun.price}
+                    thumbnail={selectedBun.image}
                 />
-            </div>
+            </div>}
 
             <ul className={styles.list}>
                 {renderedItems}
             </ul>
-            <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
+
+
+{ selectedBun &&            <div className={`${styles.constructorItem} ${styles.constructorItemFix}`}>
                 <div className={`${styles.hidden} ${styles.drag}`}>
                     <DragIcon type="primary" />
                 </div>
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
-                    text={bun.name}
-                    price={bun.price}
-                    thumbnail={bun.image}
+                    text={selectedBun.name}
+                    price={selectedBun.price}
+                    thumbnail={selectedBun.image}
                 />
-            </div>
+            </div>}
 
             <div>
                 <span className={styles.price}>

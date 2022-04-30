@@ -3,41 +3,42 @@ import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
-import { hardcodedData } from '../../utils/data';
+import useIngredients from '../../hooks/useIngredients';
+import Modal from '../modal/modal';
 
 const App = () => {
-	let data = hardcodedData;
-
-	const [ bunId, setBunId ] = useState(data[0]._id);
+	const data = useIngredients();
+	const [ selectedBun, setSelectedBun ] = useState(null);
 	const [ selectedIngredients, setSelectedIngredients ] = useState([]);
+	const [ openModal, setOpenModal ] = useState(false);
 
-	useEffect(() => {
-		const getData = async (url) => {
-			let response = await fetch(url);
-			if (response.ok) {
-				let json = await response.json();
-				console.log(json)
-				
-			} else {
-				alert("Ошибка HTTP: " + response.status);
-			}
-		}
-		getData('https://norma.nomoreparties.space/api/ingredients');
-	}, []);
+	const onOpenModal = () => {
+		setOpenModal(true);
+	};
+	const onCloseModal = () => {
+		setOpenModal(false);
+	};
 
+	useEffect(
+		() => {
+			setSelectedBun(data[0]);
+		},
+		[ data ]
+	);
 
-	const onBunChanged = (id) => {
-		setBunId(id);
+	const onBunChanged = (bun) => {
+		setSelectedBun(bun);
 	};
 
 	const onSelectIngredient = (ingredient) => {
-		const existingItem = selectedIngredients.find((item) => item.id === ingredient._id);
-		setSelectedIngredients([ ...selectedIngredients, ingredient ]);
+		// const existingItem = selectedIngredients.find((item) => item.id === ingredient._id);
+		// setSelectedIngredients([ ...selectedIngredients, ingredient ]);
+		onOpenModal();
 	};
 
 	const onDeleteIngredient = (ingredient) => {
 		setSelectedIngredients(selectedIngredients.filter((item) => item._id !== ingredient._id));
-	}
+	};
 
 	return (
 		<div className={styles.body}>
@@ -54,15 +55,17 @@ const App = () => {
 					</div>
 					<div className={styles.column}>
 						<BurgerConstructor
-							selectedIngredients={selectedIngredients} 
-							bunId={bunId}
+							selectedIngredients={selectedIngredients}
+							selectedBun={selectedBun}
 							onDeleteIngredient={onDeleteIngredient}
-							data={data} />
+							data={data}
+						/>
 					</div>
 				</div>
 			</div>
+			{openModal && <Modal onClose={onCloseModal}>I'm just a modal, not model</Modal>}
 		</div>
 	);
-}
+};
 
 export default App;
