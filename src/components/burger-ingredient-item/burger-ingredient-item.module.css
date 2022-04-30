@@ -1,0 +1,18 @@
+.article {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-basis: 50%;
+}
+
+.price {
+    display: flex;
+    vertical-align: middle;
+}
+
+.text {
+    text-align: center;
+}
