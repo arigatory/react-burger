@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import { data } from '../../utils/data';
 import PropTypes from 'prop-types';
 
-const BurgerIngredients = ({ onBunChanged, onSelectIngredient }) => {
+const BurgerIngredients = ({ onBunChanged, onSelectIngredient, data }) => {
 	const [ current, setCurrent ] = useState('one');
 
 	const handleClick = (e) => {

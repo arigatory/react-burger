@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { data } from '../../utils/data';
 import PropTypes from 'prop-types';
 
 
-const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient }) => {
+const BurgerConstructor = ({ selectedIngredients, bunId, onDeleteIngredient, data }) => {
 
     const bun = data.find(item => item._id === bunId);
 

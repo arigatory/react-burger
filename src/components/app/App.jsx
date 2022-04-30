@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
-import { data } from '../../utils/data';
+import { hardcodedData } from '../../utils/data';
 
-function App() {
+const App = () => {
+	let data = hardcodedData;
+
 	const [ bunId, setBunId ] = useState(data[0]._id);
 	const [ selectedIngredients, setSelectedIngredients ] = useState([]);
+
+	useEffect(() => {
+		const getData = async (url) => {
+			let response = await fetch(url);
+			if (response.ok) {
+				let json = await response.json();
+				console.log(json)
+				
+			} else {
+				alert("Ошибка HTTP: " + response.status);
+			}
+		}
+		getData('https://norma.nomoreparties.space/api/ingredients');
+	}, []);
+
 
 	const onBunChanged = (id) => {
 		setBunId(id);
@@ -32,13 +49,15 @@ function App() {
 							onBunChanged={onBunChanged}
 							onSelectIngredient={onSelectIngredient}
 							selectedIngredients={selectedIngredients}
+							data={data}
 						/>
 					</div>
 					<div className={styles.column}>
 						<BurgerConstructor
 							selectedIngredients={selectedIngredients} 
 							bunId={bunId}
-							onDeleteIngredient={onDeleteIngredient} />
+							onDeleteIngredient={onDeleteIngredient}
+							data={data} />
 					</div>
 				</div>
 			</div>
