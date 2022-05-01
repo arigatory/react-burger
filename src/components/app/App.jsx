@@ -4,20 +4,13 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
 import useIngredients from '../../hooks/useIngredients';
-import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
 const App = () => {
 	const data = useIngredients();
 	const [ selectedBun, setSelectedBun ] = useState(null);
 	const [ selectedIngredients, setSelectedIngredients ] = useState([]);
-	const [ openModal, setOpenModal ] = useState(false);
-
-	const onOpenModal = () => {
-		setOpenModal(true);
-	};
-	const onCloseModal = () => {
-		setOpenModal(false);
-	};
+	const [ openOrderDetails, setOpenOrderDetails ] = useState(false);
 
 	useEffect(
 		() => {
@@ -26,18 +19,12 @@ const App = () => {
 		[ data ]
 	);
 
-	const onBunChanged = (bun) => {
-		setSelectedBun(bun);
+	const onOpenOrderDetails = () => {
+		setOpenOrderDetails(true);
 	};
 
-	const onSelectIngredient = (ingredient) => {
-		// const existingItem = selectedIngredients.find((item) => item.id === ingredient._id);
-		// setSelectedIngredients([ ...selectedIngredients, ingredient ]);
-		onOpenModal();
-	};
-
-	const onDeleteIngredient = (ingredient) => {
-		setSelectedIngredients(selectedIngredients.filter((item) => item._id !== ingredient._id));
+	const onCloseOrderDetails = () => {
+		setOpenOrderDetails(false);
 	};
 
 	return (
@@ -47,9 +34,6 @@ const App = () => {
 				<div className={styles.columns}>
 					<div className={styles.column}>
 						<BurgerIngredients
-							onBunChanged={onBunChanged}
-							onSelectIngredient={onSelectIngredient}
-							selectedIngredients={selectedIngredients}
 							data={data}
 						/>
 					</div>
@@ -57,13 +41,13 @@ const App = () => {
 						<BurgerConstructor
 							selectedIngredients={selectedIngredients}
 							selectedBun={selectedBun}
-							onDeleteIngredient={onDeleteIngredient}
 							data={data}
+							onOrder={onOpenOrderDetails}
 						/>
 					</div>
 				</div>
 			</div>
-			{openModal && <Modal onClose={onCloseModal}>I'm just a modal, not model</Modal>}
+			{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails}/>}
 		</div>
 	);
 };

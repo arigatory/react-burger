@@ -4,15 +4,11 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 
-const BurgerIngredients = ({ onBunChanged, onSelectIngredient, data }) => {
+const BurgerIngredients = ({ data }) => {
 	const [ current, setCurrent ] = useState('one');
 
 	const handleClick = (e) => {
-		if (e.type === 'bun') {
-			onBunChanged(e._id);
-		} else {
-			onSelectIngredient(e);
-		}
+		console.log(e);
 	};
 
 	const buns = data.filter((item) => item.type === 'bun');
@@ -34,7 +30,7 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient, data }) => {
 					Начинки
 				</Tab>
 			</div>
-            
+
 			<div className={styles.categories}>
 				<BurgerIngredientCategory
 					title={'Булки'}
@@ -50,7 +46,6 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient, data }) => {
 					onIngredientClick={handleClick}
 				/>
 
-                
 				<BurgerIngredientCategory
 					title={'Начинки'}
 					categoryId="mains"
@@ -62,9 +57,9 @@ const BurgerIngredients = ({ onBunChanged, onSelectIngredient, data }) => {
 	);
 };
 
-BurgerIngredients.propTypes = {
-	onBunChanged: PropTypes.func.isRequired,
-	onSelectIngredient: PropTypes.func.isRequired
-};
+// BurgerIngredients.propTypes = {
+// 	onBunChanged: PropTypes.func.isRequired,
+// 	onSelectIngredient: PropTypes.func.isRequired
+// };
 
 export default BurgerIngredients;

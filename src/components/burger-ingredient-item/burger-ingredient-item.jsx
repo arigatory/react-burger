@@ -1,18 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient-item.module.css';
 import PropTypes from 'prop-types';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 
-const BurgerIngredientItem = ({ ingredientData, count, onClick }) => {
+const BurgerIngredientItem = ({ ingredientData, count }) => {
 	const { image, price, name } = ingredientData;
+	const [ openIngredientDetails, setOpenIngredientDetails ] = useState(false);
 
-	const handleClick = () => {
-		onClick(ingredientData);
+	const onOpenIngredientDetails = () => {
+		setOpenIngredientDetails(true);
+	};
+
+	const onCloseIngredientDetails = () => {
+		setOpenIngredientDetails(false);
 	};
 
 	return (
-		<article className={styles.article} onClick={handleClick}>
+		<article className={styles.article} onClick={onOpenIngredientDetails}>
 			{count && <Counter count={count} />}
 			<img src={image} alt="Фото ингредиента." className="mb-2" />
 			<div className={`${styles.price} mb-2`}>
@@ -20,6 +26,7 @@ const BurgerIngredientItem = ({ ingredientData, count, onClick }) => {
 				<CurrencyIcon />
 			</div>
 			<p className={`text text_type_main-default ${styles.text}`}>{name}</p>
+		{openIngredientDetails && <IngredientDetails ingredient={ingredientData} onClose={onCloseIngredientDetails} />}
 		</article>
 	);
 };

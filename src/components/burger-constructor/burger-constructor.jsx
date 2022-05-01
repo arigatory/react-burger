@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
+import OrderDetails from '../order-details/order-details';
 
 
-const BurgerConstructor = ({ selectedIngredients, selectedBun, onDeleteIngredient }) => {
+
+const BurgerConstructor = ({ selectedIngredients, selectedBun, onDeleteIngredient, onOrder }) => {
     const [total, setTotal] = useState(0);
 
     const renderedItems = selectedIngredients.map((item, index) => {
@@ -65,7 +67,7 @@ const BurgerConstructor = ({ selectedIngredients, selectedBun, onDeleteIngredien
                     <span className="text text_type_main-large mr-2">{total}</span>
                     <CurrencyIcon type="primary" />
                 </span>
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={onOrder}>
                     Оформить заказ
                 </Button>
             </div>
