@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from '../modal/modal';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import PropTypes from 'prop-types';
+import menuItemPropTypes from '../../utils/constants';
 import styles from './order-details.module.css';
 
 const OrderDetails = ({ onClose }) => {
@@ -79,6 +80,10 @@ const OrderDetails = ({ onClose }) => {
             </div>
 		</Modal>
 	);
+};
+
+OrderDetails.propTypes = {
+    onClose: PropTypes.func.isRequired
 };
 
 export default OrderDetails;

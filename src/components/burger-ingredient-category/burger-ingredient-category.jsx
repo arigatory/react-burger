@@ -1,19 +1,13 @@
 import React from 'react';
-import { data } from '../../utils/data';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 import styles from './burger-ingredient-category.module.css';
 import PropTypes from 'prop-types';
+import menuItemPropTypes from '../../utils/constants';
 
-
-const BurgerIngredientCategory = ({ title, categoryId, ingredients, onIngredientClick }) => {
+const BurgerIngredientCategory = ({ title, categoryId, ingredients }) => {
 	const renderedIngredients = ingredients.map((ingredient) => {
 		return (
-			<BurgerIngredientItem
-				key={ingredient._id}
-				ingredientData={ingredient}
-				count={1}
-				onClick={onIngredientClick}
-			/>
+			<BurgerIngredientItem ingredient={ingredient} key={ingredient._id} count={1}/>
 		);
 	});
 
@@ -27,10 +21,8 @@ const BurgerIngredientCategory = ({ title, categoryId, ingredients, onIngredient
 
 BurgerIngredientCategory.propTypes = {
 	title: PropTypes.string.isRequired,
-	categoryId: PropTypes.oneOf(['buns', 'mains', 'sauses']),
-	ingredients: PropTypes.array, 
-	onIngredientClick: PropTypes.func
+	categoryId: PropTypes.oneOf([ 'buns', 'mains', 'sauses' ]),
+	ingredients: PropTypes.arrayOf(menuItemPropTypes)
 };
-
 
 export default BurgerIngredientCategory;

@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import menuItemPropTypes from '../../utils/constants';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -20,5 +22,9 @@ const Modal = ({ onClose, children }) => {
 		modalRoot
 	);
 };
+
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+}
 
 export default Modal;

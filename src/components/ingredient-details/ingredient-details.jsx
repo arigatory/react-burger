@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from '../modal/modal';
-
+import PropTypes from 'prop-types';
+import menuItemPropTypes from '../../utils/constants';
 import styles from './ingredient-details.module.css';
+
 
 const IngredientDetails = ({ ingredient, onClose }) => {
 	return (
@@ -32,5 +34,10 @@ const IngredientDetails = ({ ingredient, onClose }) => {
 		</Modal>
 	);
 };
+
+IngredientDetails.propTypes = {
+	ingredient: menuItemPropTypes.isRequired, 
+	onClose: PropTypes.func.isRequired
+}
 
 export default IngredientDetails;
