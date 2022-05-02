@@ -15,6 +15,9 @@ const App = () => {
 	useEffect(
 		() => {
 			setSelectedBun(data[0]);
+			if (data.length !== 0) {
+				setSelectedIngredients([data[3],data[5],data[6]]);				
+			}
 		},
 		[ data ]
 	);

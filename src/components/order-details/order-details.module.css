@@ -3,5 +3,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.number {
+    margin-bottom: 32px;
+}
+
+.id {
+    margin-bottom: 60px;
+}
+
+.img {
+    margin-bottom: 60px;
 }

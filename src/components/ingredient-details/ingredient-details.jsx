@@ -3,32 +3,21 @@ import Modal from '../modal/modal';
 import PropTypes from 'prop-types';
 import menuItemPropTypes from '../../utils/constants';
 import styles from './ingredient-details.module.css';
+import NutritionItem from '../nutrition-item/nutrition-item';
 
 
 const IngredientDetails = ({ ingredient, onClose }) => {
 	return (
 		<Modal onClose={onClose}>
 			<div className={styles.content}>
-				<h2 className="text text_type_main-medium">Детали ингредиента</h2>
-				<img src={ingredient.image} alt="" />
-				<p className="text text_type_main-default">{ingredient.name}</p>
+				<h2 className={`${styles.title} text text_type_main-large`}>Детали ингредиента</h2>
+				<img src={ingredient.image_large} alt="Meat image" className={styles.img}/>
+				<p className={`${styles.name} text text_type_main-medium`}>{ingredient.name}</p>
 				<ul className={styles.ul}>
-					<li className={styles.li}>
-						<p className="text text_type_main-small text_color_inactive">Калории,ккал</p>
-						<p className={`text text_type_digits-default text_color_inactive {styles.value}`}>{ingredient.calories}</p>
-					</li>
-					<li className={styles.li}>
-						<p className="text text_type_main-small text_color_inactive">Белки, г</p>
-						<p className={`text text_type_digits-default text_color_inactive {styles.value}`}>{ingredient.proteins}</p>
-					</li>
-					<li className={styles.li}>
-						<p className="text text_type_main-small text_color_inactive">Жиры, г</p>
-						<p className={`text text_type_digits-default text_color_inactive {styles.value}`}>{ingredient.fat}</p>
-					</li>
-					<li className={styles.li}>
-						<p className="text text_type_main-small text_color_inactive">Углеводы, г</p>
-						<p className={`text text_type_digits-default text_color_inactive {styles.value}`}>{ingredient.carbohydrates}</p>
-					</li>
+					<NutritionItem title="Калории,ккал" amount={ingredient.calories}/>
+					<NutritionItem title="Белки, г" amount={ingredient.proteins}/>
+					<NutritionItem title="Жиры, г" amount={ingredient.fat}/>
+					<NutritionItem title="Углеводы, г" amount={ingredient.carbohydrates}/>
 				</ul>
 			</div>
 		</Modal>

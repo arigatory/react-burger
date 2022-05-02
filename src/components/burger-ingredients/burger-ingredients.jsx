@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
@@ -7,24 +7,30 @@ import menuItemPropTypes from '../../utils/constants';
 
 
 const BurgerIngredients = ({ data }) => {
-	const [ current, setCurrent ] = useState('one');
+	const [ current, setCurrent ] = useState('bun');
 
 	const buns = data.filter((item) => item.type === 'bun');
 	const mains = data.filter((item) => item.type === 'main');
 	const sauses = data.filter((item) => item.type === 'sauce');
+
+	useEffect(() => {
+		const target = document.querySelector(`#${current}`)
+		target.scrollIntoView({behavior: 'smooth'});
+	  }, [current]);
+
 
 	return (
 		<div className="text text_type_main-default mr-2">
 			<h1 className="text_type_main-large">Соберите бургер</h1>
 
 			<div className={styles.tabs}>
-				<Tab value="buns" active={current === 'buns'} onClick={setCurrent} className={styles.tab}>
+				<Tab value="bun" active={current === 'bun'} onClick={setCurrent} className={styles.tab}>
 					Булки
 				</Tab>
-				<Tab value="sauses" active={current === 'sauses'} onClick={setCurrent}>
+				<Tab value="sause" active={current === 'sause'} onClick={setCurrent}>
 					Соусы
 				</Tab>
-				<Tab value="mains" active={current === 'mains'} onClick={setCurrent}>
+				<Tab value="main" active={current === 'main'} onClick={setCurrent}>
 					Начинки
 				</Tab>
 			</div>
@@ -32,19 +38,19 @@ const BurgerIngredients = ({ data }) => {
 			<div className={styles.categories}>
 				<BurgerIngredientCategory
 					title={'Булки'}
-					categoryId="buns"
+					id="bun"
 					ingredients={buns}
 				/>
 
 				<BurgerIngredientCategory
 					title={'Соусы'}
-					categoryId="sauses"
+					id="sause"
 					ingredients={sauses}
 				/>
 
 				<BurgerIngredientCategory
 					title={'Начинки'}
-					categoryId="mains"
+					id="main"
 					ingredients={mains}
 				/>
 			</div>
