@@ -1,0 +1,20 @@
+.constructorItem {
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
+	margin-right: 16px;
+}
+
+.drag {
+	height: 32px;
+	margin-right: 13px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.bun{
+    max-width: 536px;
+    margin-left: 36px;
+}

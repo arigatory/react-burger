@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
-import { data } from '../../utils/data';
+import useIngredients from '../../hooks/useIngredients';
+import OrderDetails from '../order-details/order-details';
 
-function App() {
-	const [ bunId, setBunId ] = useState(data[0]._id);
+const App = () => {
+	const data = useIngredients();
+	const [ selectedBun, setSelectedBun ] = useState(null);
 	const [ selectedIngredients, setSelectedIngredients ] = useState([]);
+	const [ openOrderDetails, setOpenOrderDetails ] = useState(false);
 
-	const onBunChanged = (id) => {
-		setBunId(id);
+	useEffect(
+		() => {
+			setSelectedBun(data[0]);
+			if (data.length !== 0) {
+				setSelectedIngredients([data[3],data[5],data[6]]);				
+			}
+		},
+		[ data ]
+	);
+
+	const onOpenOrderDetails = () => {
+		setOpenOrderDetails(true);
 	};
 
-	const onSelectIngredient = (ingredient) => {
-		const existingItem = selectedIngredients.find((item) => item.id === ingredient._id);
-		setSelectedIngredients([ ...selectedIngredients, ingredient ]);
+	const onCloseOrderDetails = () => {
+		setOpenOrderDetails(false);
 	};
-
-	const onDeleteIngredient = (ingredient) => {
-		setSelectedIngredients(selectedIngredients.filter((item) => item._id !== ingredient._id));
-	}
 
 	return (
 		<div className={styles.body}>
@@ -29,21 +37,22 @@ function App() {
 				<div className={styles.columns}>
 					<div className={styles.column}>
 						<BurgerIngredients
-							onBunChanged={onBunChanged}
-							onSelectIngredient={onSelectIngredient}
-							selectedIngredients={selectedIngredients}
+							data={data}
 						/>
 					</div>
 					<div className={styles.column}>
 						<BurgerConstructor
-							selectedIngredients={selectedIngredients} 
-							bunId={bunId}
-							onDeleteIngredient={onDeleteIngredient} />
+							selectedIngredients={selectedIngredients}
+							selectedBun={selectedBun}
+							data={data}
+							onOrder={onOpenOrderDetails}
+						/>
 					</div>
 				</div>
 			</div>
+			{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails}/>}
 		</div>
 	);
-}
+};
 
 export default App;

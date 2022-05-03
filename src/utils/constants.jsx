@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const menuItemPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -12,3 +14,5 @@ const menuItemPropTypes = PropTypes.shape({
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
 });
+
+export default menuItemPropTypes;

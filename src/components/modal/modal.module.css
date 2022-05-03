@@ -1,0 +1,24 @@
+.modal {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background: rgba(22, 22, 26, 1);
+    margin: auto;
+    width: 720px;
+    position: relative;
+    z-index: 10;
+    border-radius: 20px;
+    padding: 16px;
+}
+
+.close {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}
