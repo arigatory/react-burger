@@ -6,11 +6,11 @@ import menuItemPropTypes from '../../utils/constants';
 import styles from './order-details.module.css';
 import image from '../../images/order.svg';
 
-const OrderDetails = ({ onClose }) => {
+const OrderDetails = ({ onClose, order }) => {
 	return (
 		<Modal onClose={onClose}>
             <div className={styles.content}>
-			<p className={`${styles.number} text text_type_digits-large`}>034536</p>
+			<p className={`${styles.number} text text_type_digits-large`}>{order.number}</p>
 			<div className={`${styles.id} text text_type_main-medium`}>идентификатор заказа</div>
 			<img  className={styles.img}  src={image} alt="order.svg" />
 			<p className="text text_type_main-small mb-2">Ваш заказ начали готовить</p>
