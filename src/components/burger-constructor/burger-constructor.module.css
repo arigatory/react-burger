@@ -10,14 +10,17 @@
 	margin-bottom: 40px;
 }
 
+.burgerTop{
+	margin-bottom: 10px;
+}
 
 ul {
-	margin-bottom: 40px;
 	overflow: auto;
 	max-height: calc(100vh - 600px);
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	margin-top: 16px;
 }
 
 .constructorItem {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SelectedIngredientsContext } from '../services/selectedIngredientsContext';
 
+const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+
 const useOrder = () => {
-    const url = 'https://norma.nomoreparties.space/api/orders';
     const [selectedIngredients] = useContext(SelectedIngredientsContext);
     const [order, setOrder] = useState({});
 
@@ -11,21 +12,17 @@ const useOrder = () => {
             return (ingredient._id);
         });
         if (Array.isArray(selectedIds) && selectedIds.length) {
-            try {
-                getData(url, selectedIds);
-            }
-            catch (e) {
-                setOrder({});
-            }
+            fetchOrder(selectedIds);
+            setOrder({});
         }
     }, [selectedIngredients]);
 
-    const getData = async (url, ids) => {
+    const fetchOrder = async (ids) => {
         try {
             const body = {
                 ingredients: ids
             };
-            let response = await fetch(url,
+            let response = await fetch(`${BURGER_API_URL}/orders`,
                 {
                     method: 'POST',
                     headers: {
@@ -38,12 +35,11 @@ const useOrder = () => {
             }
         }
         catch (e) {
-            console.log(e);
             setOrder({});
         }
     }
 
-    return () => { return order };
+    return order ;
 };
 
 export default useOrder;

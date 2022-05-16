@@ -9,47 +9,51 @@ import { SelectedIngredientsContext } from '../../services/selectedIngredientsCo
 import { SelectedBunContext } from '../../services/selectedBunContext';
 
 const App = () => {
-	const data = useIngredients();
+	const ingredients = useIngredients();
 	const selectedBunState = useState(null);
 	const selectedIngredientsState = useState([]);
 
 	useEffect(
 		() => {
 			const [ selectedBun, setSelectedBun ] = selectedBunState;
-			setSelectedBun(data[0]);
-			if (data.length !== 0) {
-				const [ i, setI ] = selectedIngredientsState;
-				setI([ data[randomIngredientIndex()], data[randomIngredientIndex()], data[randomIngredientIndex()] ]);
+			setSelectedBun(ingredients[0]);
+			if (ingredients.length !== 0) {
+				const [ _, setI ] = selectedIngredientsState;
+				setI([
+					ingredients[randomIngredientIndex()],
+					ingredients[randomIngredientIndex()],
+					ingredients[randomIngredientIndex()]
+				]);
 			}
 		},
-		[ data ]
+		[ ingredients ]
 	);
 
-	
 	const randomIngredientIndex = () => {
-		return Math.floor(Math.random() * (data.length - 1) + 1);
+		return Math.floor(Math.random() * (ingredients.length - 1) + 1);
 	};
 
 	return (
-		<IngredientsContext.Provider value={data}>
-			<SelectedIngredientsContext.Provider value={selectedIngredientsState}>
-				<SelectedBunContext.Provider value={selectedBunState}>
-					<div className={styles.body}>
-						<AppHeader />
+		<div className={styles.body}>
+			<AppHeader />
+
+			<IngredientsContext.Provider value={ingredients}>
+				<SelectedIngredientsContext.Provider value={selectedIngredientsState}>
+					<SelectedBunContext.Provider value={selectedBunState}>
 						<div className={styles.container}>
 							<div className={styles.columns}>
 								<div className={styles.column}>
 									<BurgerIngredients />
 								</div>
 								<div className={styles.column}>
-									<BurgerConstructor/>
+									<BurgerConstructor />
 								</div>
 							</div>
 						</div>
-					</div>
-				</SelectedBunContext.Provider>
-			</SelectedIngredientsContext.Provider>
-		</IngredientsContext.Provider>
+					</SelectedBunContext.Provider>
+				</SelectedIngredientsContext.Provider>
+			</IngredientsContext.Provider>
+		</div>
 	);
 };
 

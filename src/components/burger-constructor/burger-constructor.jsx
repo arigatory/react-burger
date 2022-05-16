@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import BurgerBun from '../burger-bun/burger-bun';
@@ -12,13 +12,28 @@ const BurgerConstructor = () => {
 	const [selectedIngredients, setSelectedIngredients] = useContext(SelectedIngredientsContext);
 	const [selectedBun, setSelectedBun] = useContext(SelectedBunContext);
 	const [ total, setTotal ] = useState(0);
-	let renderedItems;
-	const makeOrder = useOrder();
+	const renderedItems = useMemo(()=>{
+		if (!selectedIngredients.isEmpty) {
+		
+			return selectedIngredients.map((item, index) => {
+				return (
+					<li className={styles.constructorItem} key={index}>
+						<div className={` ${styles.drag}`}>
+							<DragIcon type="primary" />
+						</div>
+						<ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
+					</li>
+				);	});
+		} else {
+			return null;
+		}
+	},[selectedIngredients]);
+	const order = useOrder();
 	const [ openOrderDetails, setOpenOrderDetails ] = useState(false);
-	const [order, setOrder] = useState({});
+	const [orderInfo, setOrderInfo] = useState({});
 	
 	const onOpenOrderDetails = () => {
-		setOrder(makeOrder());
+		setOrderInfo(order);
 		setOpenOrderDetails(true);
 	};
 
@@ -28,20 +43,7 @@ const BurgerConstructor = () => {
 
 
 
-	if (!selectedIngredients.isEmpty) {
-		
-		renderedItems = selectedIngredients.map((item, index) => {
-			return (
-				<li className={styles.constructorItem} key={index}>
-					<div className={` ${styles.drag}`}>
-						<DragIcon type="primary" />
-					</div>
-					<ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-				</li>
-			);	});
-	} else {
-		renderedItems = "";
-	}
+	
 
 	useEffect(() => {
 		if (selectedBun) {
@@ -52,11 +54,9 @@ const BurgerConstructor = () => {
 	return (
 		<div className={styles.main}>
 			<div className={styles.burger}>
-				{selectedBun && <BurgerBun bun={selectedBun} type="top" />}
+				{selectedBun && <BurgerBun bun={selectedBun} type="top"/>}
 
-				<br />
 				<ul>{renderedItems}</ul>
-				<br />
 
 				{selectedBun && <BurgerBun bun={selectedBun} type="bottom" />}
 			</div>
@@ -69,7 +69,7 @@ const BurgerConstructor = () => {
 				<Button type="primary" size="large" onClick={onOpenOrderDetails}>
 					Оформить заказ
 				</Button>
-				{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails} order={order}/>}
+				{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails} order={orderInfo}/>}
 
 			</div>
 		</div>
