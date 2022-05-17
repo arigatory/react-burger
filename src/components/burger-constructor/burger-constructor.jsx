@@ -1,27 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
-import menuItemPropTypes from '../../utils/constants';
 import BurgerBun from '../burger-bun/burger-bun';
+import { SelectedIngredientsContext } from '../../services/selectedIngredientsContext';
+import { SelectedBunContext } from '../../services/selectedBunContext';
+import useOrder from '../../hooks/useOrder';
+import OrderDetails from '../order-details/order-details';
 
-const BurgerConstructor = ({ selectedBun, onOrder, selectedIngredients }) => {
+
+const BurgerConstructor = () => {
+	const [selectedIngredients, setSelectedIngredients] = useContext(SelectedIngredientsContext);
+	const [selectedBun, setSelectedBun] = useContext(SelectedBunContext);
 	const [ total, setTotal ] = useState(0);
-	let renderedItems;
+	const renderedItems = useMemo(()=>{
+		if (!selectedIngredients.isEmpty) {
+		
+			return selectedIngredients.map((item, index) => {
+				return (
+					<li className={styles.constructorItem} key={index}>
+						<div className={` ${styles.drag}`}>
+							<DragIcon type="primary" />
+						</div>
+						<ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
+					</li>
+				);	});
+		} else {
+			return null;
+		}
+	},[selectedIngredients]);
+	const order = useOrder();
+	const [ openOrderDetails, setOpenOrderDetails ] = useState(false);
+	const [orderInfo, setOrderInfo] = useState({});
 	
-	if (!selectedIngredients.isEmpty) {
-		renderedItems = selectedIngredients.map((item, index) => {
-			return (
-				<li className={styles.constructorItem} key={index}>
-					<div className={` ${styles.drag}`}>
-						<DragIcon type="primary" />
-					</div>
-					<ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-				</li>
-			);	});
-	} else {
-		renderedItems = "";
-	}
+	const onOpenOrderDetails = () => {
+		setOrderInfo(order);
+		setOpenOrderDetails(true);
+	};
+
+	const onCloseOrderDetails = () => {
+		setOpenOrderDetails(false);
+	};
+
+
+
+	
 
 	useEffect(() => {
 		if (selectedBun) {
@@ -32,11 +54,9 @@ const BurgerConstructor = ({ selectedBun, onOrder, selectedIngredients }) => {
 	return (
 		<div className={styles.main}>
 			<div className={styles.burger}>
-				{selectedBun && <BurgerBun bun={selectedBun} type="top" />}
+				{selectedBun && <BurgerBun bun={selectedBun} type="top"/>}
 
-				<br />
 				<ul>{renderedItems}</ul>
-				<br />
 
 				{selectedBun && <BurgerBun bun={selectedBun} type="bottom" />}
 			</div>
@@ -46,17 +66,14 @@ const BurgerConstructor = ({ selectedBun, onOrder, selectedIngredients }) => {
 					<span className="text text_type_main-large mr-2">{total}</span>
 					<CurrencyIcon type="primary" />
 				</span>
-				<Button type="primary" size="large" onClick={onOrder}>
+				<Button type="primary" size="large" onClick={onOpenOrderDetails}>
 					Оформить заказ
 				</Button>
+				{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails} order={orderInfo}/>}
+
 			</div>
 		</div>
 	);
-};
-
-BurgerConstructor.propTypes = {
-	selectedBun: menuItemPropTypes,
-	onOrder: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

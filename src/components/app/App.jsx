@@ -4,53 +4,55 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import styles from './App.module.css';
 import useIngredients from '../../hooks/useIngredients';
-import OrderDetails from '../order-details/order-details';
+import { IngredientsContext } from '../../services/ingredientsContext';
+import { SelectedIngredientsContext } from '../../services/selectedIngredientsContext';
+import { SelectedBunContext } from '../../services/selectedBunContext';
 
 const App = () => {
-	const data = useIngredients();
-	const [ selectedBun, setSelectedBun ] = useState(null);
-	const [ selectedIngredients, setSelectedIngredients ] = useState([]);
-	const [ openOrderDetails, setOpenOrderDetails ] = useState(false);
+	const ingredients = useIngredients();
+	const selectedBunState = useState(null);
+	const selectedIngredientsState = useState([]);
 
 	useEffect(
 		() => {
-			setSelectedBun(data[0]);
-			if (data.length !== 0) {
-				setSelectedIngredients([data[3],data[5],data[6]]);				
+			const [ selectedBun, setSelectedBun ] = selectedBunState;
+			setSelectedBun(ingredients[0]);
+			if (ingredients.length !== 0) {
+				const [ _, setI ] = selectedIngredientsState;
+				setI([
+					ingredients[randomIngredientIndex()],
+					ingredients[randomIngredientIndex()],
+					ingredients[randomIngredientIndex()]
+				]);
 			}
 		},
-		[ data ]
+		[ ingredients ]
 	);
 
-	const onOpenOrderDetails = () => {
-		setOpenOrderDetails(true);
-	};
-
-	const onCloseOrderDetails = () => {
-		setOpenOrderDetails(false);
+	const randomIngredientIndex = () => {
+		return Math.floor(Math.random() * (ingredients.length - 1) + 1);
 	};
 
 	return (
 		<div className={styles.body}>
 			<AppHeader />
-			<div className={styles.container}>
-				<div className={styles.columns}>
-					<div className={styles.column}>
-						<BurgerIngredients
-							data={data}
-						/>
-					</div>
-					<div className={styles.column}>
-						<BurgerConstructor
-							selectedIngredients={selectedIngredients}
-							selectedBun={selectedBun}
-							data={data}
-							onOrder={onOpenOrderDetails}
-						/>
-					</div>
-				</div>
-			</div>
-			{openOrderDetails && <OrderDetails onClose={onCloseOrderDetails}/>}
+
+			<IngredientsContext.Provider value={ingredients}>
+				<SelectedIngredientsContext.Provider value={selectedIngredientsState}>
+					<SelectedBunContext.Provider value={selectedBunState}>
+						<div className={styles.container}>
+							<div className={styles.columns}>
+								<div className={styles.column}>
+									<BurgerIngredients />
+								</div>
+								<div className={styles.column}>
+									<BurgerConstructor />
+								</div>
+							</div>
+						</div>
+					</SelectedBunContext.Provider>
+				</SelectedIngredientsContext.Provider>
+			</IngredientsContext.Provider>
 		</div>
 	);
 };

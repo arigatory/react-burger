@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import menuItemPropTypes from '../../utils/constants';
+import { IngredientsContext} from '../../services/ingredientsContext';
 
-
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+	const data = useContext(IngredientsContext);
 	const [ current, setCurrent ] = useState('bun');
 
 	const buns = data.filter((item) => item.type === 'bun');
@@ -58,8 +59,5 @@ const BurgerIngredients = ({ data }) => {
 	);
 };
 
-BurgerIngredients.propTypes = {
-	data: PropTypes.arrayOf(menuItemPropTypes).isRequired,
-};
 
 export default BurgerIngredients;
