@@ -7,54 +7,56 @@ import useIngredients from '../../hooks/useIngredients';
 import { IngredientsContext } from '../../services/ingredientsContext';
 import { SelectedIngredientsContext } from '../../services/selectedIngredientsContext';
 import { SelectedBunContext } from '../../services/selectedBunContext';
+import { Provider } from 'react-redux';
+import { store } from '../../state';
+
 
 const App = () => {
-	const ingredients = useIngredients();
-	const selectedBunState = useState(null);
-	const selectedIngredientsState = useState([]);
+  const ingredients = useIngredients();
+  const selectedBunState = useState(null);
+  const selectedIngredientsState = useState([]);
 
-	useEffect(
-		() => {
-			const [ selectedBun, setSelectedBun ] = selectedBunState;
-			setSelectedBun(ingredients[0]);
-			if (ingredients.length !== 0) {
-				const [ _, setI ] = selectedIngredientsState;
-				setI([
-					ingredients[randomIngredientIndex()],
-					ingredients[randomIngredientIndex()],
-					ingredients[randomIngredientIndex()]
-				]);
-			}
-		},
-		[ ingredients ]
-	);
+  useEffect(() => {
+    const [selectedBun, setSelectedBun] = selectedBunState;
+    setSelectedBun(ingredients[0]);
+    if (ingredients.length !== 0) {
+      const [_, setI] = selectedIngredientsState;
+      setI([
+        ingredients[randomIngredientIndex()],
+        ingredients[randomIngredientIndex()],
+        ingredients[randomIngredientIndex()],
+      ]);
+    }
+  }, [ingredients]);
 
-	const randomIngredientIndex = () => {
-		return Math.floor(Math.random() * (ingredients.length - 1) + 1);
-	};
+  const randomIngredientIndex = () => {
+    return Math.floor(Math.random() * (ingredients.length - 1) + 1);
+  };
 
-	return (
-		<div className={styles.body}>
-			<AppHeader />
+  return (
+    <Provider store={store}>
+      <div className={styles.body}>
+        <AppHeader />
 
-			<IngredientsContext.Provider value={ingredients}>
-				<SelectedIngredientsContext.Provider value={selectedIngredientsState}>
-					<SelectedBunContext.Provider value={selectedBunState}>
-						<div className={styles.container}>
-							<div className={styles.columns}>
-								<div className={styles.column}>
-									<BurgerIngredients />
-								</div>
-								<div className={styles.column}>
-									<BurgerConstructor />
-								</div>
-							</div>
-						</div>
-					</SelectedBunContext.Provider>
-				</SelectedIngredientsContext.Provider>
-			</IngredientsContext.Provider>
-		</div>
-	);
+        <IngredientsContext.Provider value={ingredients}>
+          <SelectedIngredientsContext.Provider value={selectedIngredientsState}>
+            <SelectedBunContext.Provider value={selectedBunState}>
+              <div className={styles.container}>
+                <div className={styles.columns}>
+                  <div className={styles.column}>
+                    <BurgerIngredients />
+                  </div>
+                  <div className={styles.column}>
+                    <BurgerConstructor />
+                  </div>
+                </div>
+              </div>
+            </SelectedBunContext.Provider>
+          </SelectedIngredientsContext.Provider>
+        </IngredientsContext.Provider>
+      </div>
+    </Provider>
+  );
 };
 
 export default App;
