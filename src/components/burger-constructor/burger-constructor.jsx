@@ -11,10 +11,16 @@ import useOrder from '../../hooks/useOrder';
 import OrderDetails from '../order-details/order-details';
 import { useSelector } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
+import { useDrop } from 'react-dnd';
 
 const BurgerConstructor = () => {
-  const { deleteIngredient } = useActions();
-
+  const { deleteIngredient, addIngredient } = useActions();
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop: (item) => {
+      onDropHandler(item);
+    },
+  });
   const { selectedIngredients, selectedBun } = useSelector(
     (state) => state.ingredients
   );
@@ -23,6 +29,10 @@ const BurgerConstructor = () => {
 
   const onDeleteIngredient = (index) => {
     deleteIngredient(index);
+  };
+
+  const onDropHandler = (item) => {
+    addIngredient(item);
   };
 
   const renderedItems = useMemo(() => {
@@ -71,7 +81,7 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedIngredients]);
 
   return (
-    <div className={styles.main}>
+    <div className={styles.main} ref={dropTarget}>
       <div className={styles.burger}>
         {selectedBun && <BurgerBun bun={selectedBun} type="top" />}
 

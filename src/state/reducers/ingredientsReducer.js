@@ -1,8 +1,11 @@
 import {
+  CLOSE_INGREDIENT,
   DELETE_INGREDIENT,
+  ADD_INGREDIENT,
   FETCH_INGREDIENTS,
   FETCH_INGREDIENTS_ERROR,
-  FETCH_INGREDIENTS_SUCCESS
+  FETCH_INGREDIENTS_SUCCESS,
+  VIEW_INGREDIENT
 } from '../action-types';
 
 const INITIAL_STATE = {
@@ -14,7 +17,8 @@ const INITIAL_STATE = {
     mains: [],
   },
   selectedBun: {},
-  selectedIngredients: []
+  selectedIngredients: [],
+  currentIngredient: null,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,7 +33,7 @@ export default (state = INITIAL_STATE, action) => {
       const buns = action.payload.filter((item) => item.type === 'bun');
       const sauces = action.payload.filter((item) => item.type === 'sauce');
       const mains = action.payload.filter((item) => item.type === 'main');
-      const res = {
+      return {
         ...state,
         loading: false,
         ingredients: {
@@ -39,10 +43,8 @@ export default (state = INITIAL_STATE, action) => {
         },
         error: "",
         selectedBun: buns[1],
-        selectedIngredients: [mains[0],mains[0]]
+        selectedIngredients: [mains[0], mains[0]]
       };
-      console.log(action.payload);
-      return res;
     case FETCH_INGREDIENTS_ERROR:
       return {
         ...state,
@@ -56,6 +58,24 @@ export default (state = INITIAL_STATE, action) => {
           ...state.selectedIngredients.slice(0, action.payload),
           ...state.selectedIngredients.slice(action.payload + 1)
         ]
+      }
+      case ADD_INGREDIENT:
+        return {
+          ...state,
+          selectedIngredients: [
+            ...state.selectedIngredients,
+            action.payload
+          ]
+        }
+    case VIEW_INGREDIENT:
+      return {
+        ...state,
+        currentIngredient: action.payload
+      }
+    case CLOSE_INGREDIENT:
+      return {
+        ...state,
+        currentIngredient: null
       }
     default:
       return state;

@@ -1,9 +1,11 @@
-import { Dispatch } from "redux";
 import {
   DELETE_INGREDIENT,
   FETCH_INGREDIENTS,
   FETCH_INGREDIENTS_ERROR,
   FETCH_INGREDIENTS_SUCCESS,
+  VIEW_INGREDIENT,
+  CLOSE_INGREDIENT,
+  ADD_INGREDIENT
 } from "../action-types";
 
 export const loadIngredients = () => {
@@ -44,4 +46,22 @@ export const deleteIngredient = (index) => {
   }
 }
 
+export const viewIngredient = (ingredient) => {
+  return {
+    type: VIEW_INGREDIENT,
+    payload: ingredient
+  }
+}
 
+export const closeIngredient = () => {
+  return {
+    type: CLOSE_INGREDIENT
+  }
+}
+
+export const addIngredient = (ingredient) => { 
+  return {
+    type: ADD_INGREDIENT,
+    payload: ingredient
+  }
+}

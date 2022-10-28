@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -9,7 +9,8 @@ import { SelectedIngredientsContext } from '../../services/selectedIngredientsCo
 import { SelectedBunContext } from '../../services/selectedBunContext';
 import { Provider } from 'react-redux';
 import { store } from '../../state';
-
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
   const ingredients = useIngredients();
@@ -35,26 +36,29 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <div className={styles.body}>
-        <AppHeader />
-
-        <IngredientsContext.Provider value={ingredients}>
-          <SelectedIngredientsContext.Provider value={selectedIngredientsState}>
-            <SelectedBunContext.Provider value={selectedBunState}>
-              <div className={styles.container}>
-                <div className={styles.columns}>
-                  <div className={styles.column}>
-                    <BurgerIngredients />
-                  </div>
-                  <div className={styles.column}>
-                    <BurgerConstructor />
+      <DndProvider backend={HTML5Backend}>
+        <div className={styles.body}>
+          <AppHeader />
+          <IngredientsContext.Provider value={ingredients}>
+            <SelectedIngredientsContext.Provider
+              value={selectedIngredientsState}
+            >
+              <SelectedBunContext.Provider value={selectedBunState}>
+                <div className={styles.container}>
+                  <div className={styles.columns}>
+                    <div className={styles.column}>
+                      <BurgerIngredients />
+                    </div>
+                    <div className={styles.column}>
+                      <BurgerConstructor />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SelectedBunContext.Provider>
-          </SelectedIngredientsContext.Provider>
-        </IngredientsContext.Provider>
-      </div>
+              </SelectedBunContext.Provider>
+            </SelectedIngredientsContext.Provider>
+          </IngredientsContext.Provider>
+        </div>
+      </DndProvider>
     </Provider>
   );
 };
