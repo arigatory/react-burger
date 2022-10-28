@@ -21,7 +21,7 @@ const INITIAL_STATE = {
   currentIngredient: null,
 }
 
-export default (state = INITIAL_STATE, action) => {
+const ingredientsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_INGREDIENTS:
       return {
@@ -59,14 +59,14 @@ export default (state = INITIAL_STATE, action) => {
           ...state.selectedIngredients.slice(action.payload + 1)
         ]
       }
-      case ADD_INGREDIENT:
-        return {
-          ...state,
-          selectedIngredients: [
-            ...state.selectedIngredients,
-            action.payload
-          ]
-        }
+    case ADD_INGREDIENT:
+      return {
+        ...state,
+        selectedIngredients: [
+          ...state.selectedIngredients,
+          action.payload
+        ]
+      }
     case VIEW_INGREDIENT:
       return {
         ...state,
@@ -81,3 +81,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default ingredientsReducer;

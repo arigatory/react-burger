@@ -17,7 +17,7 @@ const IngredientDetails = ({ ingredient }) => {
         </h2>
         <img
           src={currentIngredient.image_large}
-          alt="Meat image"
+          alt="Meat"
           className={styles.img}
         />
         <p className={`${styles.name} text text_type_main-medium`}>

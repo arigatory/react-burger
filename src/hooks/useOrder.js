@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { SelectedIngredientsContext } from '../services/selectedIngredientsContext';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';

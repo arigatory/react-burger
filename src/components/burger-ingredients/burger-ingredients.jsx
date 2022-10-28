@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
@@ -18,13 +18,14 @@ const BurgerIngredients = () => {
 
   const buns = ingredients.buns;
   const mains = ingredients.mains;
-	const sauses = ingredients.sauces;
-	
+  const sauses = ingredients.sauces;
+  // const sauses = ingredients.filter((item) => item.type === 'sauce');
+
 	useEffect(() => {
 		loadIngredients();
 
-    const target = document.querySelector(`#${current}`);
-    target.scrollIntoView({ behavior: 'smooth' });
+    // const target = document.querySelector(`#${current}`);
+    // target.scrollIntoView({ behavior: 'smooth' });
   },[]);
 
   return (
