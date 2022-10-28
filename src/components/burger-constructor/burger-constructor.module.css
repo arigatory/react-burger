@@ -32,6 +32,7 @@ ul {
 .drag {
 	height: 32px;
 	margin-right: 13px;
+	cursor:move;
 }
 
 

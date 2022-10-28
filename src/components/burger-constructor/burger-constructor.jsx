@@ -36,6 +36,8 @@ const BurgerConstructor = () => {
   };
 
   const renderedItems = useMemo(() => {
+    if (!selectedIngredients)
+      return null;
     if (!selectedIngredients.isEmpty) {
       return selectedIngredients.map((item, index) => {
         return (
@@ -56,18 +58,18 @@ const BurgerConstructor = () => {
       return null;
     }
   }, [selectedIngredients]);
-  const order = useOrder();
-  const [openOrderDetails, setOpenOrderDetails] = useState(false);
-  const [orderInfo, setOrderInfo] = useState({});
+  // const order = useOrder();
+  // const [openOrderDetails, setOpenOrderDetails] = useState(false);
+  // const [orderInfo, setOrderInfo] = useState({});
 
-  const onOpenOrderDetails = () => {
-    setOrderInfo(order);
-    setOpenOrderDetails(true);
-  };
+  // const onOpenOrderDetails = () => {
+  //   setOrderInfo(order);
+  //   setOpenOrderDetails(true);
+  // };
 
-  const onCloseOrderDetails = () => {
-    setOpenOrderDetails(false);
-  };
+  // const onCloseOrderDetails = () => {
+  //   setOpenOrderDetails(false);
+  // };
 
   useEffect(() => {
     if (selectedBun) {
@@ -95,12 +97,14 @@ const BurgerConstructor = () => {
           <span className="text text_type_main-large mr-2">{total}</span>
           <CurrencyIcon type="primary" />
         </span>
-        <Button type="primary" size="large" onClick={onOpenOrderDetails}>
+        <Button type="primary" size="large"
+          // onClick={onOpenOrderDetails}
+        >
           Оформить заказ
         </Button>
-        {openOrderDetails && (
+        {/* {openOrderDetails && (
           <OrderDetails onClose={onCloseOrderDetails} order={orderInfo} />
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -25,9 +25,7 @@ const App = () => {
               <div className={styles.column}>
                 <BurgerIngredients />
               </div>
-              {/* <div className={styles.column}>
-                      <BurgerConstructor />
-                    </div> */}
+              <BurgerConstructor />
             </div>
           </div>
         </div>
