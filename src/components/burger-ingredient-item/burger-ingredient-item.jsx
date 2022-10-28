@@ -16,10 +16,10 @@ const BurgerIngredientItem = ({ ingredient }) => {
   const { currentIngredient, selectedIngredients, selectedBun } = useSelector(
     (state) => state.ingredients
   );
-	const [, dragRef] = useDrag({
-		type: 'ingredient',
-		item: ingredient
-	});
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: ingredient,
+  });
 
   const onOpenIngredientDetails = (ingredient) => {
     viewIngredient(ingredient);
@@ -36,7 +36,8 @@ const BurgerIngredientItem = ({ ingredient }) => {
   return (
     <>
       {currentIngredient && <IngredientDetails ingredient={ingredient} />}
-      <article ref={dragRef}
+      <article
+        ref={dragRef}
         className={styles.article}
         onClick={() => onOpenIngredientDetails(ingredient)}
       >

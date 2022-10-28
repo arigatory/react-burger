@@ -25,7 +25,6 @@ const useIngredients = () => {
             }
         }
         catch (e) {
-            console.log(e);
             setIngredients(hardcodedData);
         }
     }

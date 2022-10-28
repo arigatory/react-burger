@@ -1,9 +1,17 @@
 import Modal from '../modal/modal';
-import PropTypes from 'prop-types';
 import styles from './order-details.module.css';
 import image from '../../images/order.svg';
+import { useActions } from '../../hooks/useActions';
+import { useSelector } from 'react-redux';
 
-const OrderDetails = ({ onClose, order }) => {
+const OrderDetails = () => {
+  const { closeOrder } = useActions();
+  const { order } = useSelector((state) => state.ingredients);
+
+  const onClose = () => {
+    closeOrder();
+  };
+
   return (
     <Modal onClose={onClose}>
       <div className={styles.content}>
@@ -23,10 +31,6 @@ const OrderDetails = ({ onClose, order }) => {
       </div>
     </Modal>
   );
-};
-
-OrderDetails.propTypes = {
-  onClose: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

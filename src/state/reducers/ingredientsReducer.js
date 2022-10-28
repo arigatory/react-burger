@@ -5,7 +5,12 @@ import {
   FETCH_INGREDIENTS,
   FETCH_INGREDIENTS_ERROR,
   FETCH_INGREDIENTS_SUCCESS,
-  VIEW_INGREDIENT
+  VIEW_INGREDIENT,
+  POST_ORDER,
+  POST_ORDER_SUCCESS,
+  POST_ORDER_ERROR,
+  MOVE_INGREDIENT,
+  CLOSE_ORDER
 } from '../action-types';
 
 const INITIAL_STATE = {
@@ -19,6 +24,7 @@ const INITIAL_STATE = {
   selectedBun: {},
   selectedIngredients: [],
   currentIngredient: null,
+  order: null,
 }
 
 const ingredientsReducer = (state = INITIAL_STATE, action) => {
@@ -43,7 +49,7 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
         },
         error: "",
         selectedBun: buns[1],
-        selectedIngredients: [mains[0], mains[0]]
+        selectedIngredients: [mains[0]]
       };
     case FETCH_INGREDIENTS_ERROR:
       return {
@@ -76,6 +82,39 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentIngredient: null
+      }
+    case MOVE_INGREDIENT:
+      const ingredients = [...state.selectedIngredients];
+      const temp = ingredients[action.payload.i];
+      ingredients[action.payload.i] = ingredients[action.payload.j];
+      ingredients[action.payload.j] = temp;
+      return {
+        ...state,
+        selectedIngredients: ingredients
+      }
+    case POST_ORDER:
+      return {
+        ...state,
+        error: ""
+      }
+    case POST_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: "",
+        order: action.payload
+      }
+    case POST_ORDER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+
+    case CLOSE_ORDER:
+      return {
+        ...state,
+        order: null
       }
     default:
       return state;

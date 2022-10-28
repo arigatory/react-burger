@@ -5,7 +5,7 @@ import NutritionItem from '../nutrition-item/nutrition-item';
 import { useActions } from '../../hooks/useActions';
 import { useSelector } from 'react-redux';
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
   const { closeIngredient } = useActions();
   const { currentIngredient } = useSelector((state) => state.ingredients);
 

@@ -5,8 +5,16 @@ import {
   FETCH_INGREDIENTS_SUCCESS,
   VIEW_INGREDIENT,
   CLOSE_INGREDIENT,
-  ADD_INGREDIENT
+  MOVE_INGREDIENT,
+  POST_ORDER,
+  CLOSE_ORDER,
+  ADD_INGREDIENT,
+  POST_ORDER_SUCCESS,
+  POST_ORDER_ERROR
 } from "../action-types";
+
+const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+
 
 export const loadIngredients = () => {
   return async (dispatch) => {
@@ -15,7 +23,7 @@ export const loadIngredients = () => {
     });
 
     try {
-      const response = await fetch('https://norma.nomoreparties.space/api/ingredients');
+      const response = await fetch(`${BURGER_API_URL}/ingredients`);
       if (response.ok) {
         const ingredients = (await response.json()).data;
         dispatch({
@@ -59,9 +67,65 @@ export const closeIngredient = () => {
   }
 }
 
-export const addIngredient = (ingredient) => { 
+export const addIngredient = (ingredient) => {
   return {
     type: ADD_INGREDIENT,
     payload: ingredient
+  }
+}
+
+export const moveIngredient = (i, j) => {
+  return {
+    type: MOVE_INGREDIENT,
+    payload: {
+      i: i,
+      j: j
+    }
+  }
+}
+
+export const postOrder = (ids) => {
+  return async (dispatch) => {
+    dispatch({
+      type: POST_ORDER,
+    });
+
+    try {
+      const body = {
+        ingredients: ids
+      };
+      const response = await fetch(`${BURGER_API_URL}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      });
+      if (response.ok) {
+        const order = (await response.json()).order;
+        dispatch({
+          type: POST_ORDER_SUCCESS,
+          payload: order
+        });
+      } else {
+        dispatch({
+          type: POST_ORDER_ERROR,
+          payload: "Не удалось сделать заказ"
+        });
+      }
+    } catch (err) {
+      if (err) {
+        dispatch({
+          type: POST_ORDER_ERROR,
+          payload: err.message,
+        });
+      }
+    }
+  }
+}
+
+export const closeOrder = () => {
+  return {
+    type: CLOSE_ORDER
   }
 }
