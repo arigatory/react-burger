@@ -9,13 +9,13 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = () => {
-  const { ref: refBun, inView: seeBun } = useInView({
+  const { ref: refBun, inView: seeBun, entry: entryBun } = useInView({
     threshold: 0.2,
   });
-  const { ref: refMain, inView: seeMain } = useInView({
+  const { ref: refMain, inView: seeMain, entry: entryMain } = useInView({
     threshold: 0.2,
   });
-  const { ref: refSauce, inView: seeSauce } = useInView({
+  const { ref: refSauce, inView: seeSauce, entry: entrySauce } = useInView({
     threshold: 0.2,
   });
   const { loadIngredients, closeIngredient } = useActions();
@@ -23,7 +23,7 @@ const BurgerIngredients = () => {
     (state) => state.ingredients
   );
 
-  const [current, setCurrent] = useState('bun');
+  const [current, setCurrent] = useState();
 
   const buns = ingredients.buns;
   const mains = ingredients.mains;
@@ -33,6 +33,10 @@ const BurgerIngredients = () => {
     loadIngredients();
     // eslint-disable-next-line
   }, []);
+
+  const onTabClick = (entry) => {
+    entry.target.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="text text_type_main-default mr-2">
@@ -44,20 +48,15 @@ const BurgerIngredients = () => {
       <h1 className="text_type_main-large">Соберите бургер</h1>
 
       <div className={styles.tabs}>
-        <Tab
-          value="bun"
-          active={seeBun}
-          onClick={setCurrent}
-          className={styles.tab}
-        >
+        <Tab active={seeBun} onClick={()=> onTabClick(entryBun)}>
           Булки
         </Tab>
 
-        <Tab value="sauce" active={seeSauce} onClick={setCurrent}>
+        <Tab active={seeSauce} onClick={()=> onTabClick(entrySauce)}>
           Соусы
         </Tab>
 
-        <Tab value="main" active={seeMain} onClick={setCurrent}>
+        <Tab active={seeMain} onClick={()=> onTabClick(entryMain)}>
           Начинки
         </Tab>
       </div>
