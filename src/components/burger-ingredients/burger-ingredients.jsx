@@ -10,14 +10,15 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = () => {
   const { ref: refBun, inView: seeBun, entry: entryBun } = useInView({
-    threshold: 0.2,
+    threshold: 0.5,
+  });
+  const { ref: refSauce, inView: seeSauce, entry: entrySauce } = useInView({
+    threshold: 0.8,
   });
   const { ref: refMain, inView: seeMain, entry: entryMain } = useInView({
     threshold: 0.2,
   });
-  const { ref: refSauce, inView: seeSauce, entry: entrySauce } = useInView({
-    threshold: 0.2,
-  });
+
   const { loadIngredients, closeIngredient } = useActions();
   const { ingredients, error, loading, currentIngredient } = useSelector(
     (state) => state.ingredients
