@@ -1,13 +1,25 @@
 import { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { useSelector } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = () => {
-  const { loadIngredients } = useActions();
-  const { ingredients, error, loading } = useSelector(
+  const { ref: refBun, inView: seeBun } = useInView({
+    threshold: 0.2,
+  });
+  const { ref: refMain, inView: seeMain } = useInView({
+    threshold: 0.2,
+  });
+  const { ref: refSauce, inView: seeSauce } = useInView({
+    threshold: 0.2,
+  });
+  const { loadIngredients, closeIngredient } = useActions();
+  const { ingredients, error, loading, currentIngredient } = useSelector(
     (state) => state.ingredients
   );
 
@@ -24,21 +36,28 @@ const BurgerIngredients = () => {
 
   return (
     <div className="text text_type_main-default mr-2">
+      {currentIngredient && (
+        <Modal onClose={closeIngredient}>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
       <h1 className="text_type_main-large">Соберите бургер</h1>
 
       <div className={styles.tabs}>
         <Tab
           value="bun"
-          active={current === 'bun'}
+          active={seeBun}
           onClick={setCurrent}
           className={styles.tab}
         >
           Булки
         </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+
+        <Tab value="sauce" active={seeSauce} onClick={setCurrent}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+
+        <Tab value="main" active={seeMain} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>
@@ -46,23 +65,29 @@ const BurgerIngredients = () => {
       {loading && <h3>Загрузка ингредиентов...</h3>}
       {!error && !loading && (
         <div className={styles.categories}>
-          <BurgerIngredientCategory
-            title={'Булки'}
-            id="bun"
-            ingredients={buns}
-          />
+          <div ref={refBun}>
+            <BurgerIngredientCategory
+              title={'Булки'}
+              id="bun"
+              ingredients={buns}
+            />
+          </div>
 
-          <BurgerIngredientCategory
-            title={'Соусы'}
-            id="sauce"
-            ingredients={sauses}
-          />
+          <div ref={refSauce}>
+            <BurgerIngredientCategory
+              title={'Соусы'}
+              id="sauce"
+              ingredients={sauses}
+            />
+          </div>
 
-          <BurgerIngredientCategory
-            title={'Начинки'}
-            id="main"
-            ingredients={mains}
-          />
+          <div ref={refMain}>
+            <BurgerIngredientCategory
+              title={'Начинки'}
+              id="main"
+              ingredients={mains}
+            />
+          </div>
         </div>
       )}
     </div>

@@ -12,7 +12,7 @@ import { useDrag } from 'react-dnd';
 
 const BurgerIngredientItem = ({ ingredient }) => {
   const { image, price, name } = ingredient;
-  const { viewIngredient } = useActions();
+  const { viewIngredient, closeIngredient } = useActions();
   const { currentIngredient, selectedIngredients, selectedBun } = useSelector(
     (state) => state.ingredients
   );
@@ -34,8 +34,6 @@ const BurgerIngredientItem = ({ ingredient }) => {
       count += 2;
     }
   return (
-    <>
-      {currentIngredient && <IngredientDetails ingredient={ingredient} />}
       <article
         ref={dragRef}
         className={styles.article}
@@ -49,7 +47,6 @@ const BurgerIngredientItem = ({ ingredient }) => {
         </div>
         <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
       </article>
-    </>
   );
 };
 

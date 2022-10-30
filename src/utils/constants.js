@@ -16,3 +16,5 @@ const menuItemPropTypes = PropTypes.shape({
 });
 
 export default menuItemPropTypes;
+
+export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';

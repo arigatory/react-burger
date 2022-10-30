@@ -13,15 +13,14 @@ const App = () => {
       <DndProvider backend={HTML5Backend}>
         <div className={styles.body}>
           <AppHeader />
-
-          <div className={styles.container}>
+          <main className={styles.container}>
             <div className={styles.columns}>
               <div className={styles.column}>
                 <BurgerIngredients />
               </div>
               <BurgerConstructor />
             </div>
-          </div>
+          </main>
         </div>
       </DndProvider>
     </Provider>

@@ -10,9 +10,10 @@ import { useSelector } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import Modal from '../modal/modal';
 
 const BurgerConstructor = () => {
-  const { addIngredient, moveIngredient, postOrder } = useActions();
+  const { addIngredient, moveIngredient, postOrder, closeOrder } = useActions();
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop: (item) => {
@@ -22,7 +23,6 @@ const BurgerConstructor = () => {
   const { selectedIngredients, selectedBun, order } = useSelector(
     (state) => state.ingredients
   );
-
   const [total, setTotal] = useState(0);
 
   const onDropHandler = (item) => {
@@ -55,14 +55,14 @@ const BurgerConstructor = () => {
     } else {
       return null;
     }
-  }, [selectedIngredients, moveCard]);
+  }, [selectedIngredients, moveCard, selectedBun]);
 
   useEffect(() => {
     if (selectedBun) {
       setTotal(
         selectedIngredients.reduce(
           (pre, cur) => pre + cur.price,
-          selectedBun.price
+          (selectedBun.price || 0) * 2
         )
       );
     }
@@ -73,7 +73,6 @@ const BurgerConstructor = () => {
     ids.push(selectedBun._id);
     postOrder(ids);
   };
-
   return (
     <div className={styles.main} ref={dropTarget}>
       <div className={styles.burger}>
@@ -83,8 +82,7 @@ const BurgerConstructor = () => {
             Перетащите сюда ингредиент
           </p>
         )}
-        <p></p>
-        {renderedItems}
+        <ul>{renderedItems}</ul>
         {selectedBun && <BurgerBun bun={selectedBun} type="bottom" />}
       </div>
 
@@ -101,7 +99,11 @@ const BurgerConstructor = () => {
         >
           Оформить заказ
         </Button>
-        {order && <OrderDetails />}
+        {order && (
+          <Modal onClose={closeOrder}>
+            <OrderDetails />
+          </Modal>
+        )}
       </div>
     </div>
   );

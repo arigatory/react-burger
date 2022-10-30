@@ -49,7 +49,7 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
         },
         error: "",
         selectedBun: buns[1],
-        selectedIngredients: [mains[0]]
+        selectedIngredients: []
       };
     case FETCH_INGREDIENTS_ERROR:
       return {
@@ -66,12 +66,20 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
         ]
       }
     case ADD_INGREDIENT:
-      return {
-        ...state,
-        selectedIngredients: [
-          ...state.selectedIngredients,
-          action.payload
-        ]
+      if (action.payload.type === 'bun') {
+        return {
+          ...state,
+          selectedBun: action.payload
+        }
+      }
+      else {
+        return {
+          ...state,
+          selectedIngredients: [
+            ...state.selectedIngredients,
+            action.payload
+          ]
+        }
       }
     case VIEW_INGREDIENT:
       return {

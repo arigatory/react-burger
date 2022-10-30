@@ -12,9 +12,8 @@ import {
   POST_ORDER_SUCCESS,
   POST_ORDER_ERROR
 } from "../action-types";
-
-const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
-
+import { BURGER_API_URL } from '../../utils/constants';
+import { request } from '../../utils/api';
 
 export const loadIngredients = () => {
   return async (dispatch) => {
@@ -23,19 +22,12 @@ export const loadIngredients = () => {
     });
 
     try {
-      const response = await fetch(`${BURGER_API_URL}/ingredients`);
-      if (response.ok) {
-        const ingredients = (await response.json()).data;
-        dispatch({
-          type: FETCH_INGREDIENTS_SUCCESS,
-          payload: ingredients
-        });
-      } else {
-        dispatch({
-          type: FETCH_INGREDIENTS_ERROR,
-          payload: "Не удалось загрузить ингредиенты"
-        });
-      }
+      const response = await request(`${BURGER_API_URL}/ingredients`);
+      const ingredients = response.data;
+      dispatch({
+        type: FETCH_INGREDIENTS_SUCCESS,
+        payload: ingredients
+      });
     } catch (err) {
       if (err) {
         dispatch({
@@ -94,25 +86,18 @@ export const postOrder = (ids) => {
       const body = {
         ingredients: ids
       };
-      const response = await fetch(`${BURGER_API_URL}/orders`, {
+      const response = await request(`${BURGER_API_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body)
       });
-      if (response.ok) {
-        const order = (await response.json()).order;
-        dispatch({
-          type: POST_ORDER_SUCCESS,
-          payload: order
-        });
-      } else {
-        dispatch({
-          type: POST_ORDER_ERROR,
-          payload: "Не удалось сделать заказ"
-        });
-      }
+      const order = response.order;
+      dispatch({
+        type: POST_ORDER_SUCCESS,
+        payload: order
+      });
     } catch (err) {
       if (err) {
         dispatch({
