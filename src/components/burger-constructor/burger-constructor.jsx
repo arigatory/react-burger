@@ -11,6 +11,7 @@ import { useActions } from '../../hooks/useActions';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import Modal from '../modal/modal';
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => {
   const { addIngredient, moveIngredient, postOrder, closeOrder } = useActions();
@@ -42,7 +43,7 @@ const BurgerConstructor = () => {
       return selectedIngredients.map((item, index) => {
         return (
           <BurgerConstructorItem
-            key={index}
+            key={uuidv4()}
             name={item.name}
             image={item.image}
             price={item.price}
@@ -55,20 +56,20 @@ const BurgerConstructor = () => {
     } else {
       return null;
     }
-  }, [selectedIngredients, moveCard, selectedBun]);
+  }, [selectedIngredients, moveCard]);
 
   useEffect(() => {
-    if (selectedBun) {
-      setTotal(
-        selectedIngredients.reduce(
-          (pre, cur) => pre + cur.price,
-          (selectedBun.price || 0) * 2
-        )
-      );
+    let bunCost = 0;
+    if (selectedBun && selectedBun.price) {
+      bunCost = selectedBun.price * 2;
     }
+    setTotal(
+      selectedIngredients.reduce((pre, cur) => pre + cur.price, bunCost)
+    );
   }, [selectedBun, selectedIngredients]);
 
   const onPostClick = () => {
+    if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);
     postOrder(ids);

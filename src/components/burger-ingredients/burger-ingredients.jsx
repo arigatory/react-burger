@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -22,8 +22,6 @@ const BurgerIngredients = () => {
   const { ingredients, error, loading, currentIngredient } = useSelector(
     (state) => state.ingredients
   );
-
-  const [current, setCurrent] = useState();
 
   const buns = ingredients.buns;
   const mains = ingredients.mains;

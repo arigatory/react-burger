@@ -48,7 +48,7 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
           mains: mains,
         },
         error: "",
-        selectedBun: buns[1],
+        selectedBun: null,
         selectedIngredients: []
       };
     case FETCH_INGREDIENTS_ERROR:
@@ -110,7 +110,9 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: "",
-        order: action.payload
+        order: action.payload,
+        selectedBun: null,
+        selectedIngredients: []
       }
     case POST_ORDER_ERROR:
       return {

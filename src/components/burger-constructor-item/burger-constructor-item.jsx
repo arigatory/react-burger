@@ -6,6 +6,7 @@ import styles from './burger-constructor-item.module.css';
 import { useActions } from '../../hooks/useActions';
 import { useDrag, useDrop } from 'react-dnd';
 import { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 const BurgerConstructorItem = ({ name, price, image, index, moveCard }) => {
   const ref = useRef(null);
@@ -71,6 +72,13 @@ const BurgerConstructorItem = ({ name, price, image, index, moveCard }) => {
       />
     </div>
   );
+};
+
+BurgerConstructorItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default BurgerConstructorItem;

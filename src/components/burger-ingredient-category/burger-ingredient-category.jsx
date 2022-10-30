@@ -15,7 +15,7 @@ const BurgerIngredientCategory = ({ title, ingredients, id }) => {
   });
 
   return (
-    <div key={id} id={id}>
+    <div id={id}>
       <h3 className="text text_type_main-medium mt-10 mb-6">{title}</h3>
       <div className={styles.items}>{renderedIngredients}</div>
     </div>

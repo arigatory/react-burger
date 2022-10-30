@@ -3,17 +3,15 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient-item.module.css';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import menuItemPropTypes from '../../utils/constants';
-import PropTypes from 'prop-types';
 import { useActions } from '../../hooks/useActions';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 
 const BurgerIngredientItem = ({ ingredient }) => {
   const { image, price, name } = ingredient;
-  const { viewIngredient, closeIngredient } = useActions();
-  const { currentIngredient, selectedIngredients, selectedBun } = useSelector(
+  const { viewIngredient } = useActions();
+  const { selectedIngredients, selectedBun } = useSelector(
     (state) => state.ingredients
   );
   const [, dragRef] = useDrag({
@@ -52,7 +50,6 @@ const BurgerIngredientItem = ({ ingredient }) => {
 
 BurgerIngredientItem.propTypes = {
   ingredient: menuItemPropTypes.isRequired,
-  count: PropTypes.number,
 };
 
 export default BurgerIngredientItem;
