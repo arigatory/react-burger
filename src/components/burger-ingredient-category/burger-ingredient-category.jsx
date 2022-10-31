@@ -9,7 +9,6 @@ const BurgerIngredientCategory = ({ title, ingredients, id }) => {
       <BurgerIngredientItem
         ingredient={ingredient}
         key={ingredient._id}
-        count={1}
       />
     );
   });

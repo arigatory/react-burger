@@ -12,6 +12,7 @@ import {
   MOVE_INGREDIENT,
   CLOSE_ORDER
 } from '../action-types';
+import { v4 as uuidv4 } from 'uuid';
 
 const INITIAL_STATE = {
   loading: false,
@@ -66,10 +67,12 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
         ]
       }
     case ADD_INGREDIENT:
+      const ingredient = action.payload;
+      ingredient.dragId = uuidv4();
       if (action.payload.type === 'bun') {
         return {
           ...state,
-          selectedBun: action.payload
+          selectedBun: ingredient
         }
       }
       else {
@@ -77,7 +80,7 @@ const ingredientsReducer = (state = INITIAL_STATE, action) => {
           ...state,
           selectedIngredients: [
             ...state.selectedIngredients,
-            action.payload
+            ingredient
           ]
         }
       }

@@ -11,7 +11,6 @@ import { useActions } from '../../hooks/useActions';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import Modal from '../modal/modal';
-import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => {
   const { addIngredient, moveIngredient, postOrder, closeOrder } = useActions();
@@ -43,7 +42,7 @@ const BurgerConstructor = () => {
       return selectedIngredients.map((item, index) => {
         return (
           <BurgerConstructorItem
-            key={uuidv4()}
+            key={item.dragId}
             name={item.name}
             image={item.image}
             price={item.price}
