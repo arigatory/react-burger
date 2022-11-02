@@ -9,7 +9,7 @@ import BurgerBun from '../burger-bun/burger-bun';
 import { useSelector } from 'react-redux';
 import { useActions } from '../../hooks/useActions';
 import { useDrop } from 'react-dnd';
-import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import BurgerConstructorList from '../burger-constructor-list/burger-constructor-list';
 import Modal from '../modal/modal';
 
 const BurgerConstructor = () => {
@@ -36,27 +36,6 @@ const BurgerConstructor = () => {
     [moveIngredient]
   );
 
-  const renderedItems = useMemo(() => {
-    if (!selectedIngredients) return null;
-    if (!selectedIngredients.isEmpty) {
-      return selectedIngredients.map((item, index) => {
-        return (
-          <BurgerConstructorItem
-            key={item.dragId}
-            name={item.name}
-            image={item.image}
-            price={item.price}
-            index={index}
-            moveCard={moveCard}
-            id={item._id}
-          />
-        );
-      });
-    } else {
-      return null;
-    }
-  }, [selectedIngredients, moveCard]);
-
   useEffect(() => {
     let bunCost = 0;
     if (selectedBun && selectedBun.price) {
@@ -82,7 +61,7 @@ const BurgerConstructor = () => {
             Перетащите сюда ингредиент
           </p>
         )}
-        <ul>{renderedItems}</ul>
+        <BurgerConstructorList ingredients={selectedIngredients} />
         {selectedBun && <BurgerBun bun={selectedBun} type="bottom" />}
       </div>
 
