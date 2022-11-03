@@ -3,7 +3,7 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient-item.module.css';
-import menuItemPropTypes from '../../utils/constants';
+import { menuItemPropTypes } from '../../utils/constants';
 import { useActions } from '../../hooks/useActions';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
@@ -32,19 +32,19 @@ const BurgerIngredientItem = ({ ingredient }) => {
       count += 2;
     }
   return (
-      <article
-        ref={dragRef}
-        className={styles.article}
-        onClick={() => onOpenIngredientDetails(ingredient)}
-      >
-        {count > 0 && <Counter count={count} />}
-        <img src={image} alt="Фото ингредиента." className="mb-2" />
-        <div className={`${styles.price} mb-2`}>
-          <span className="text text_type_digits-default mr-1">{price}</span>
-          <CurrencyIcon />
-        </div>
-        <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
-      </article>
+    <article
+      ref={dragRef}
+      className={styles.article}
+      onClick={() => onOpenIngredientDetails(ingredient)}
+    >
+      {count > 0 && <Counter count={count} />}
+      <img src={image} alt="Фото ингредиента." className="mb-2" />
+      <div className={`${styles.price} mb-2`}>
+        <span className="text text_type_digits-default mr-1">{price}</span>
+        <CurrencyIcon />
+      </div>
+      <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
+    </article>
   );
 };
 

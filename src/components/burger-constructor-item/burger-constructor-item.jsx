@@ -32,7 +32,8 @@ const BurgerConstructorItem = ({ name, price, image, index }) => {
 BurgerConstructorItem.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired
+  index: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default BurgerConstructorItem;

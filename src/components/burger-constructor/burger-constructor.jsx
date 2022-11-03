@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   CurrencyIcon,
   Button,
@@ -13,7 +13,7 @@ import BurgerConstructorList from '../burger-constructor-list/burger-constructor
 import Modal from '../modal/modal';
 
 const BurgerConstructor = () => {
-  const { addIngredient, moveIngredient, postOrder, closeOrder } = useActions();
+  const { addIngredient, postOrder, closeOrder } = useActions();
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop: (item) => {
@@ -28,13 +28,6 @@ const BurgerConstructor = () => {
   const onDropHandler = (item) => {
     addIngredient(item);
   };
-
-  const moveCard = useCallback(
-    (dragIndex, hoverIndex) => {
-      moveIngredient(dragIndex, hoverIndex);
-    },
-    [moveIngredient]
-  );
 
   useEffect(() => {
     let bunCost = 0;

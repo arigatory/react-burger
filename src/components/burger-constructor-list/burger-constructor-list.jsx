@@ -2,6 +2,8 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useActions } from '../../hooks/useActions';
 import styles from './burger-constructor-list.module.css';
+import PropTypes from 'prop-types';
+import { draggableIngredientPropTypes } from '../../utils/constants';
 
 
 const BurgerConstructorList = ({ ingredients }) => {
@@ -29,7 +31,7 @@ const BurgerConstructorList = ({ ingredients }) => {
                     index={index}
                   >
                     {(provided) => (
-                      <li
+                      <li className={styles.item}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
@@ -52,6 +54,10 @@ const BurgerConstructorList = ({ ingredients }) => {
       </Droppable>
     </DragDropContext>
   );
+};
+
+BurgerConstructorItem.propTypes = {
+  ingredients: PropTypes.arrayOf(draggableIngredientPropTypes),
 };
 
 export default BurgerConstructorList;

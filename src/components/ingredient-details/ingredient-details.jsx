@@ -1,4 +1,4 @@
-import menuItemPropTypes from '../../utils/constants';
+import { menuItemPropTypes } from '../../utils/constants';
 import styles from './ingredient-details.module.css';
 import NutritionItem from '../nutrition-item/nutrition-item';
 import { useSelector } from 'react-redux';
