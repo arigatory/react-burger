@@ -14,6 +14,7 @@ import {
 } from "../action-types";
 import { BURGER_API_URL } from '../../utils/constants';
 import { request } from '../../utils/api';
+import { v4 as uuidv4 } from 'uuid';
 
 export const loadIngredients = () => {
   return async (dispatch) => {
@@ -60,6 +61,7 @@ export const closeIngredient = () => {
 }
 
 export const addIngredient = (ingredient) => {
+  ingredient = { ...ingredient, dragId: uuidv4() };
   return {
     type: ADD_INGREDIENT,
     payload: ingredient
