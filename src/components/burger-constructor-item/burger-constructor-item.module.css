@@ -1,0 +1,22 @@
+.burger {
+  margin-bottom: 40px;
+}
+
+.burgerTop {
+  margin-bottom: 10px;
+}
+
+.constructorItem {
+  display: flex;
+  align-items: center;
+}
+
+.drag {
+  height: 32px;
+  margin-right: 13px;
+  cursor: hand;
+}
+
+.price {
+  margin-right: 40px;
+}

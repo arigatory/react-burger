@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const menuItemPropTypes = PropTypes.shape({
+export const menuItemPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -15,4 +15,9 @@ const menuItemPropTypes = PropTypes.shape({
     __v: PropTypes.number.isRequired,
 });
 
-export default menuItemPropTypes;
+export const draggableIngredientPropTypes = PropTypes.shape({
+    ...menuItemPropTypes,
+    dragId: PropTypes.string.isRequired
+});
+
+export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';

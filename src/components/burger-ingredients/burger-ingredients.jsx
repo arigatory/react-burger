@@ -1,63 +1,95 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
-import menuItemPropTypes from '../../utils/constants';
-import { IngredientsContext} from '../../services/ingredientsContext';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../hooks/useActions';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = () => {
-	const data = useContext(IngredientsContext);
-	const [ current, setCurrent ] = useState('bun');
+  const { ref: refBun, inView: seeBun, entry: entryBun } = useInView({
+    threshold: 0.5,
+  });
+  const { ref: refSauce, inView: seeSauce, entry: entrySauce } = useInView({
+    threshold: 0.8,
+  });
+  const { ref: refMain, inView: seeMain, entry: entryMain } = useInView({
+    threshold: 0.2,
+  });
 
-	const buns = data.filter((item) => item.type === 'bun');
-	const mains = data.filter((item) => item.type === 'main');
-	const sauses = data.filter((item) => item.type === 'sauce');
+  const { loadIngredients, closeIngredient } = useActions();
+  const { ingredients, error, loading, currentIngredient } = useSelector(
+    (state) => state.ingredients
+  );
 
-	useEffect(() => {
-		const target = document.querySelector(`#${current}`)
-		target.scrollIntoView({behavior: 'smooth'});
-	  }, [current]);
+  const buns = ingredients.buns;
+  const mains = ingredients.mains;
+  const sauses = ingredients.sauces;
 
+  useEffect(() => {
+    loadIngredients();
+    // eslint-disable-next-line
+  }, []);
 
-	return (
-		<div className="text text_type_main-default mr-2">
-			<h1 className="text_type_main-large">Соберите бургер</h1>
+  const onTabClick = (entry) => {
+    entry.target.scrollIntoView({ behavior: 'smooth' });
+  };
 
-			<div className={styles.tabs}>
-				<Tab value="bun" active={current === 'bun'} onClick={setCurrent} className={styles.tab}>
-					Булки
-				</Tab>
-				<Tab value="sause" active={current === 'sause'} onClick={setCurrent}>
-					Соусы
-				</Tab>
-				<Tab value="main" active={current === 'main'} onClick={setCurrent}>
-					Начинки
-				</Tab>
-			</div>
+  return (
+    <div className="text text_type_main-default mr-2">
+      {currentIngredient && (
+        <Modal onClose={closeIngredient}>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
+      <h1 className="text_type_main-large">Соберите бургер</h1>
 
-			<div className={styles.categories}>
-				<BurgerIngredientCategory
-					title={'Булки'}
-					id="bun"
-					ingredients={buns}
-				/>
+      <div className={styles.tabs}>
+        <Tab active={seeBun} onClick={()=> onTabClick(entryBun)}>
+          Булки
+        </Tab>
 
-				<BurgerIngredientCategory
-					title={'Соусы'}
-					id="sause"
-					ingredients={sauses}
-				/>
+        <Tab active={seeSauce} onClick={()=> onTabClick(entrySauce)}>
+          Соусы
+        </Tab>
 
-				<BurgerIngredientCategory
-					title={'Начинки'}
-					id="main"
-					ingredients={mains}
-				/>
-			</div>
-		</div>
-	);
+        <Tab active={seeMain} onClick={()=> onTabClick(entryMain)}>
+          Начинки
+        </Tab>
+      </div>
+      {error && <h3>{error}</h3>}
+      {loading && <h3>Загрузка ингредиентов...</h3>}
+      {!error && !loading && (
+        <div className={styles.categories}>
+          <div ref={refBun}>
+            <BurgerIngredientCategory
+              title={'Булки'}
+              id="bun"
+              ingredients={buns}
+            />
+          </div>
+
+          <div ref={refSauce}>
+            <BurgerIngredientCategory
+              title={'Соусы'}
+              id="sauce"
+              ingredients={sauses}
+            />
+          </div>
+
+          <div ref={refMain}>
+            <BurgerIngredientCategory
+              title={'Начинки'}
+              id="main"
+              ingredients={mains}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
-
 
 export default BurgerIngredients;
