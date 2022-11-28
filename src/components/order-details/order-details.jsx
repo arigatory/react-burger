@@ -1,9 +1,9 @@
 import styles from './order-details.module.css';
 import image from '../../images/order.svg';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../app/store/configureStore';
 
 const OrderDetails = () => {
-  const { order } = useSelector((state) => state.ingredients);
+  const { order } = useAppSelector((state) => state.burgerConstructor);
 
   return (
     <div className={styles.content}>

@@ -4,13 +4,13 @@ import styles from './constructor.module.css';
 
 export default function Constructor() {
   return (
-      <main className={styles.container}>
-        <div className={styles.columns}>
-          <div className={styles.column}>
-            <BurgerIngredients />
-          </div>
-          <BurgerConstructor />
+    <main className={styles.container}>
+      <div className={styles.columns}>
+        <div className={styles.column}>
+          <BurgerIngredients />
         </div>
-      </main>
+        <BurgerConstructor />
+      </div>
+    </main>
   );
 }

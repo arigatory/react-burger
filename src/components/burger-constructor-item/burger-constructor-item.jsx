@@ -3,15 +3,17 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor-item.module.css';
-import { useActions } from '../../hooks/useActions';
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useAppDispatch } from '../../app/store/configureStore';
+import { removeIngredient } from '../burger-constructor/burgerConstructorSlice';
 
 const BurgerConstructorItem = ({ name, price, image, index }) => {
+  const dispatch = useAppDispatch();
+
   const ref = useRef(null);
-  const { deleteIngredient } = useActions();
   const onDeleteIngredient = (index) => {
-    deleteIngredient(index);
+    dispatch(removeIngredient(index));
   };
 
   return (

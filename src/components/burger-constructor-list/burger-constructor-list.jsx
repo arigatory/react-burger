@@ -1,19 +1,23 @@
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useActions } from '../../hooks/useActions';
 import styles from './burger-constructor-list.module.css';
-import PropTypes from 'prop-types';
-import { draggableIngredientPropTypes } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
+import { moveIngredient } from '../burger-constructor/burgerConstructorSlice';
 
-
-const BurgerConstructorList = ({ ingredients }) => {
-  const { moveIngredient } = useActions();
+const BurgerConstructorList = () => {
+  const { selectedIngredients } = useAppSelector(
+    (state) => state.burgerConstructor
+  );
+  const dispatch = useAppDispatch();
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
-
-    moveIngredient(result.draggableId);
-    moveIngredient(result.source.index, result.destination.index);
+    dispatch(
+      moveIngredient({
+        i: result.source.index,
+        j: result.destination.index,
+      })
+    );
   };
 
   return (
@@ -21,9 +25,9 @@ const BurgerConstructorList = ({ ingredients }) => {
       <Droppable droppableId="ingredients">
         {(provided) => (
           <ul {...provided.droppableProp} ref={provided.innerRef}>
-            {ingredients &&
-              ingredients.length > 0 &&
-              ingredients.map((item, index) => {
+            {selectedIngredients &&
+              selectedIngredients.length > 0 &&
+              selectedIngredients.map((item, index) => {
                 return (
                   <Draggable
                     key={item.dragId}
@@ -31,7 +35,8 @@ const BurgerConstructorList = ({ ingredients }) => {
                     index={index}
                   >
                     {(provided) => (
-                      <li className={styles.item}
+                      <li
+                        className={styles.item}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
@@ -54,10 +59,6 @@ const BurgerConstructorList = ({ ingredients }) => {
       </Droppable>
     </DragDropContext>
   );
-};
-
-BurgerConstructorItem.propTypes = {
-  ingredients: PropTypes.arrayOf(draggableIngredientPropTypes),
 };
 
 export default BurgerConstructorList;

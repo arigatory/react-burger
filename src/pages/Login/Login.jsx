@@ -4,9 +4,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState, useRef } from 'react';
 import styles from './login.module.css';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
+  const history = useHistory();
   const [value, setValue] = useState('value');
   const inputRef = useRef(null);
   const onIconClick = () => {
@@ -45,14 +46,18 @@ export default function Login() {
         extraClass={`${styles.input} ml-1`}
       />
 
-      <Button type="primary" size="medium">
+      <Button type="primary" size="medium" extraClass={styles.button}>
         Войти
       </Button>
       <div className={styles.line}>
         <span className="text text_type_main-default text_color_inactive">
           Вы — новый пользователь?
         </span>
-        <Button type="secondary" size="medium">
+        <Button
+          onClick={() => history.push('/register')}
+          type="secondary"
+          size="medium"
+        >
           Зарегистрироваться
         </Button>
       </div>
@@ -60,7 +65,11 @@ export default function Login() {
         <span className="text text_type_main-default text_color_inactive">
           Забыли пароль?
         </span>
-        <Button type="secondary" size="medium">
+        <Button
+          type="secondary"
+          size="medium"
+          onClick={() => history.push('/forgot-password')}
+        >
           Восстановить пароль
         </Button>
       </div>

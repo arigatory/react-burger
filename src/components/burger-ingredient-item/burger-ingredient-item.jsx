@@ -4,14 +4,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredient-item.module.css';
 import { menuItemPropTypes } from '../../utils/constants';
-import { useActions } from '../../hooks/useActions';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
+import { viewIngredient } from '../burger-ingredients/ingredientsSlice';
 
 const BurgerIngredientItem = ({ ingredient }) => {
+  const dispatch = useAppDispatch();
   const { image, price, name } = ingredient;
-  const { viewIngredient } = useActions();
-  const { selectedIngredients, selectedBun } = useSelector(
+  const { selectedIngredients, selectedBun } = useAppSelector(
     (state) => state.ingredients
   );
   const [, dragRef] = useDrag({
@@ -20,12 +20,15 @@ const BurgerIngredientItem = ({ ingredient }) => {
   });
 
   const onOpenIngredientDetails = (ingredient) => {
-    viewIngredient(ingredient);
+    dispatch(viewIngredient(ingredient));
   };
 
-  let count = selectedIngredients.filter(
-    (item) => ingredient._id === item._id
-  ).length;
+  let count;
+  if (selectedIngredients) {
+    count = selectedIngredients.filter(
+      (item) => ingredient._id === item._id
+    ).length;
+  }
 
   if (selectedBun && ingredient)
     if (selectedBun._id === ingredient._id) {

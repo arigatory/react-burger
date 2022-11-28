@@ -6,27 +6,33 @@ import {
 import OrderDetails from '../order-details/order-details';
 import styles from './burger-constructor.module.css';
 import BurgerBun from '../burger-bun/burger-bun';
-import { useSelector } from 'react-redux';
-import { useActions } from '../../hooks/useActions';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorList from '../burger-constructor-list/burger-constructor-list';
 import Modal from '../modal/modal';
+import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
+import {
+  addIngredient,
+  closeOrder,
+  postOrderAsync,
+} from './burgerConstructorSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => {
-  const { addIngredient, postOrder, closeOrder } = useActions();
+  const dispatch = useAppDispatch();
+
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop: (item) => {
       onDropHandler(item);
     },
   });
-  const { selectedIngredients, selectedBun, order } = useSelector(
-    (state) => state.ingredients
+  const { selectedIngredients, selectedBun, order, loading } = useAppSelector(
+    (state) => state.burgerConstructor
   );
   const [total, setTotal] = useState(0);
 
   const onDropHandler = (item) => {
-    addIngredient(item);
+    dispatch(addIngredient({ ...item, dragId: uuidv4() }));
   };
 
   useEffect(() => {
@@ -43,8 +49,17 @@ const BurgerConstructor = () => {
     if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);
-    postOrder(ids);
+    dispatch(postOrderAsync(ids));
   };
+
+  if (loading) {
+    return (
+      <h1 className="text text_type_main-large pt-10">
+        Отправка заказа...
+      </h1>
+    );
+  }
+
   return (
     <div className={styles.main} ref={dropTarget}>
       <div className={styles.burger}>
@@ -54,7 +69,7 @@ const BurgerConstructor = () => {
             Перетащите сюда ингредиент
           </p>
         )}
-        <BurgerConstructorList ingredients={selectedIngredients} />
+        <BurgerConstructorList />
         {selectedBun && <BurgerBun bun={selectedBun} type="bottom" />}
       </div>
 
@@ -72,7 +87,7 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
         {order && (
-          <Modal onClose={closeOrder}>
+          <Modal onClose={() => dispatch(closeOrder())}>
             <OrderDetails />
           </Modal>
         )}

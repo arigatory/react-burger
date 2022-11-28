@@ -1,11 +1,9 @@
 import Constructor from '../pages/Constructor/Constructor';
-import { Provider } from 'react-redux';
-import { store } from '../state';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from '../components/app-header/app-header';
 import styles from './App.module.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from '../pages/Login/Login';
 import NotFound from '../pages/NotFound/NotFound';
 import Register from '../pages/Register/Register';
@@ -18,7 +16,7 @@ import Orders from '../pages/Orders/Orders';
 
 const App = () => {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
         <div className={styles.body}>
           <Router>
@@ -37,7 +35,7 @@ const App = () => {
           </Router>
         </div>
       </DndProvider>
-    </Provider>
+    // </Provider>
   );
 };
 
