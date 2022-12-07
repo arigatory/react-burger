@@ -7,6 +7,7 @@ export default function Orders() {
   const { data, title } = useAppSelector(state => state.orders);
   return (
     <>
+      <h1 className='text text_type_main-large mb-8'>Небольшой тест Redux</h1>
       <button onClick={() => dispatch(decrement(1))}>
         Decrement
       </button>

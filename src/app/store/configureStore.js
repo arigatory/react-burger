@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { burgerConstructorSlice } from '../../components/burger-constructor/burgerConstructorSlice';
-import { ingredientsSlice } from '../../components/burger-ingredients/ingredientsSlice';
+import { burgerConstructorSlice } from '../../pages/Constructor/constructorSlice';
+import { ingredientsSlice } from '../../pages/Constructor/ingredientsSlice';
 import { ordersSlice } from '../../pages/Orders/ordersSlice';
 
 export const store = configureStore({
