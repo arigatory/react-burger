@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
-import { loadIngredientsAsync } from '../Constructor/ingredientsSlice';
+import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
+import { loadIngredientsAsync } from '../../app/redux/ingredientsSlice';
 import NutritionItem from '../Constructor/nutrition-item/nutrition-item';
 import styles from './ingredientDetail.module.css';
 

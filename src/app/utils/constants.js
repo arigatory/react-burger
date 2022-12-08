@@ -19,5 +19,3 @@ export const draggableIngredientPropTypes = PropTypes.shape({
     ...menuItemPropTypes,
     dragId: PropTypes.string.isRequired
 });
-
-export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';

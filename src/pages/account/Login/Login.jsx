@@ -1,14 +1,16 @@
 import styles from './login.module.css';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
-import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
+import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
-import { loginUser } from '../accountSlice';
+import { loginUser } from '../../../app/redux/accountSlice';
 
 export default function Login() {
   const { user } = useAppSelector((state) => state.account);
   const history = useHistory();
+  const location = useLocation();
+
   const dispatch = useAppDispatch();
   const {
     register,
@@ -25,7 +27,7 @@ export default function Login() {
     }
   }
 
-  if (user) return <Redirect to='/' />
+  if (user) return <Redirect to={location?.state?.from || '/'} />
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>

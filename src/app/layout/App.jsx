@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from './app-header/app-header';
 import styles from './App.module.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Login from '../../pages/account/Login/Login';
 import NotFound from '../../pages/NotFound/NotFound';
 import Register from '../../pages/account/Register/Register';
@@ -12,12 +12,17 @@ import ResetPassword from '../../pages/account/ResetPassword/ResetPassword';
 import Profile from '../../pages/Profile/Profile';
 import IngredientDetail from '../../pages/IngredientDetail/IngredientDetail';
 import Orders from '../../pages/Orders/Orders';
-import { useAppDispatch } from '../store/configureStore';
+import { useAppDispatch } from '../redux/configureStore';
 import { useCallback, useEffect } from 'react';
-import { fetchProfile } from '../../pages/account/accountSlice';
+import { fetchProfile } from '../redux/accountSlice';
 import ProtectedRoute from './ProtectedRoute';
+import Modal from '../components/modal/modal';
+import { history } from '../..';
 
 const App = () => {
+  let location = useLocation();
+
+
   const dispatch = useAppDispatch();
   const initApp = useCallback(async () => {
     try {
@@ -31,12 +36,14 @@ const App = () => {
     initApp();
   }, [initApp]);
 
+  let background = location.state && location.state.background;
+
   return (
     // <Provider store={store}>
     <DndProvider backend={HTML5Backend}>
       <div className={styles.body}>
         <AppHeader />
-        <Switch>
+        <Switch location={background || location}>
           <Route exact path="/" component={Constructor} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
@@ -47,6 +54,7 @@ const App = () => {
           <Route exact path="/orders" component={Orders} />
           <Route component={NotFound} />
         </Switch>
+        {background && <Route path="/ingredients/:id" children={<Modal onClose={history.goBack}><IngredientDetail/></Modal>} />}
       </div>
     </DndProvider>
     // </Provider>

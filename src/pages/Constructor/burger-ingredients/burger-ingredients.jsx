@@ -4,9 +4,9 @@ import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingre
 import styles from './burger-ingredients.module.css';
 import Modal from '../../../app/components/modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
-import { closeIngredient, loadIngredientsAsync } from '../ingredientsSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
 import { Tab } from '../../../app/components/yandex/dist';
+import { closeIngredient, loadIngredientsAsync } from '../../../app/redux/ingredientsSlice';
 
 const BurgerIngredients = () => {
   const { ingredientsLoaded, ingredients, error, loading, currentIngredient } =

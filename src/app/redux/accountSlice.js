@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { history } from '../..';
-import agent from '../../app/api/agent';
+import agent from '../api/agent';
 
 const initialState = {
   user: null,

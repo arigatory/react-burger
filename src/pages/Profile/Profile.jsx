@@ -1,9 +1,9 @@
 import styles from './profile.module.css';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from '../../app/store/configureStore';
+import { useAppDispatch } from '../../app/redux/configureStore';
 import { Input } from '../../app/components/yandex/dist';
 import { useForm } from 'react-hook-form';
-import { signOut } from '../account/accountSlice';
+import { signOut } from '../../app/redux/accountSlice';
 
 export default function ResetPassword() {
   const history = useHistory();

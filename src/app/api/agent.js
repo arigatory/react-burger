@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { store } from '../store/configureStore';
+import { store } from '../redux/configureStore';
 
 axios.defaults.baseURL = 'https://norma.nomoreparties.space/api/';
 
@@ -33,6 +33,10 @@ const Ingredients = {
   details: (ingredientId) => requests.get(`/ingredients/${ingredientId}/`),
 };
 
+const Orders = {
+  post: (ids) => requests.post('/orders', { ingredients: ids }),
+};
+
 const Account = {
   login: (values) => requests.post('/auth/login', values),
   register: (values) => requests.post('/auth/register', values),
@@ -47,6 +51,7 @@ const Account = {
 const agent = {
   Ingredients,
   Account,
+  Orders,
 };
 
 export default agent;

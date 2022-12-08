@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import agent from '../../app/api/agent';
 
 const initialState = {
@@ -11,6 +11,9 @@ const initialState = {
   },
   currentIngredient: null,
 };
+
+const ingredientsAdapter = createEntityAdapter();
+
 
 export const loadIngredientsAsync = createAsyncThunk(
   'ingredients/loadIngredientsAsync',

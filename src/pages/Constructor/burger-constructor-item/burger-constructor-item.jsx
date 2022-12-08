@@ -1,8 +1,8 @@
 import styles from './burger-constructor-item.module.css';
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useAppDispatch } from '../../../app/store/configureStore';
-import { removeIngredient } from '../constructorSlice';
+import { useAppDispatch } from '../../../app/redux/configureStore';
+import { removeIngredient } from '../../../app/redux/constructorSlice';
 import { DragIcon } from '../../../app/components/yandex/dist';
 import { ConstructorElement } from '../../../app/components/yandex/dist';
 

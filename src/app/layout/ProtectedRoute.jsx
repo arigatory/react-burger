@@ -2,7 +2,7 @@ import {
   Redirect,
   Route,
 } from 'react-router-dom';
-import { useAppSelector } from '../store/configureStore';
+import { useAppSelector } from '../redux/configureStore';
 
 export default function ProtectedRoute({ component: Component, ...rest }) {
   const { user } = useAppSelector((state) => state.account);

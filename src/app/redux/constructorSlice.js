@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { request } from '../../utils/api';
-import { BURGER_API_URL } from '../../utils/constants';
+import agent from '../api/agent';
 
 const initialState = {
   selectedBun: null,
@@ -12,19 +11,10 @@ const initialState = {
 
 export const postOrderAsync = createAsyncThunk(
   'order/postOrder',
-  async (ids) => {
+  async (ingredients) => {
     try {
-      const body = {
-        ingredients: ids
-      };
-      const response = await request(`${BURGER_API_URL}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-      });
-      return response.order;
+      const res = await agent.Orders.post(ingredients);
+      return res.order;
     } catch (error) {
       console.log(error);
     }

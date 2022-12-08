@@ -1,13 +1,15 @@
 import styles from './burger-ingredient-item.module.css';
-import { menuItemPropTypes } from '../../../utils/constants';
+import { menuItemPropTypes } from '../../../app/utils/constants';
 import { useDrag } from 'react-dnd';
-import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
-import { viewIngredient } from '../ingredientsSlice';
+import {
+  useAppSelector,
+} from '../../../app/redux/configureStore';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Counter } from '../../../app/components/yandex/dist';
+import { Link, useLocation } from 'react-router-dom';
 
 const BurgerIngredientItem = ({ ingredient }) => {
-  const dispatch = useAppDispatch();
+  let location = useLocation();
   const { image, price, name } = ingredient;
   const { selectedIngredients, selectedBun } = useAppSelector(
     (state) => state.ingredients
@@ -16,10 +18,6 @@ const BurgerIngredientItem = ({ ingredient }) => {
     type: 'ingredient',
     item: ingredient,
   });
-
-  const onOpenIngredientDetails = (ingredient) => {
-    dispatch(viewIngredient(ingredient));
-  };
 
   let count;
   if (selectedIngredients) {
@@ -33,12 +31,12 @@ const BurgerIngredientItem = ({ ingredient }) => {
       count += 2;
     }
   return (
-    <article
+    <Link
       ref={dragRef}
       className={styles.article}
-      onClick={() => {
-        onOpenIngredientDetails(ingredient);
-        window.history.replaceState(null, "Детали", `/ingredients/${ingredient._id}`)
+      to={{
+        pathname: `/ingredients/${ingredient._id}`,
+        state: { background: location },
       }}
     >
       {count > 0 && <Counter count={count} />}
@@ -48,7 +46,7 @@ const BurgerIngredientItem = ({ ingredient }) => {
         <CurrencyIcon />
       </div>
       <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
-    </article>
+    </Link>
   );
 };
 

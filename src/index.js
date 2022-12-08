@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './app/layout/App';
-import { store } from './app/store/configureStore';
+import { store } from './app/redux/configureStore';
 import { createBrowserHistory } from 'history';
 import { Router } from 'react-router-dom';
 

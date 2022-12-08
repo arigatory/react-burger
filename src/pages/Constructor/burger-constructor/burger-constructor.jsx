@@ -5,12 +5,12 @@ import BurgerBun from '../burger-bun/burger-bun';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorList from '../burger-constructor-list/burger-constructor-list';
 import Modal from '../../../app/components/modal/modal';
-import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
+import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
 import {
   addIngredient,
   closeOrder,
   postOrderAsync,
-} from '../constructorSlice';
+} from '../../../app/redux/constructorSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';

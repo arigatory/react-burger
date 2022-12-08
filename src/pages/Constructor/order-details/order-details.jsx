@@ -1,6 +1,6 @@
 import styles from './order-details.module.css';
 import image from './order.svg';
-import { useAppSelector } from '../../../app/store/configureStore';
+import { useAppSelector } from '../../../app/redux/configureStore';
 
 const OrderDetails = () => {
   const { order } = useAppSelector((state) => state.burgerConstructor);

@@ -6,7 +6,7 @@ import {
   ProfileIcon,
   Logo,
 } from '../../components/yandex/dist';
-import { useAppSelector } from '../../store/configureStore';
+import { useAppSelector } from '../../redux/configureStore';
 
 const AppHeader = () => {
   const location = useLocation();

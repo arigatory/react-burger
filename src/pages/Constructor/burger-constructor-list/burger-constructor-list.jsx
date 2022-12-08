@@ -1,8 +1,8 @@
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import styles from './burger-constructor-list.module.css';
-import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
-import { moveIngredient } from '../constructorSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
+import { moveIngredient } from '../../../app/redux/constructorSlice';
 
 const BurgerConstructorList = () => {
   const { selectedIngredients } = useAppSelector(

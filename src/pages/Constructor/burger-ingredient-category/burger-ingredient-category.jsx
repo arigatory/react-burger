@@ -1,7 +1,7 @@
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 import styles from './burger-ingredient-category.module.css';
 import PropTypes from 'prop-types';
-import { menuItemPropTypes } from '../../../utils/constants';
+import { menuItemPropTypes } from '../../../app/utils/constants';
 
 const BurgerIngredientCategory = ({ title, ingredients, id }) => {
   const renderedIngredients = ingredients.map((ingredient) => {

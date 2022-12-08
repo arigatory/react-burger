@@ -1,8 +1,8 @@
 import styles from './forgotPassword.module.css';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from '../../../app/store/configureStore';
+import { useAppDispatch } from '../../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
-import { forgotPassword } from '../accountSlice';
+import { forgotPassword } from '../../../app/redux/accountSlice';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
 
