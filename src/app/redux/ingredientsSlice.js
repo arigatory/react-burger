@@ -1,19 +1,13 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
 import agent from '../../app/api/agent';
 
-const initialState = {
-  ingredientsLoaded: false,
-  status: 'idle',
-  ingredients: {
-    buns: [],
-    sauses: [],
-    mains: [],
-  },
-  currentIngredient: null,
-};
-
-const ingredientsAdapter = createEntityAdapter();
-
+const ingredientsAdapter = createEntityAdapter({
+  selectId: (item) => item._id,
+});
 
 export const loadIngredientsAsync = createAsyncThunk(
   'ingredients/loadIngredientsAsync',
@@ -26,9 +20,24 @@ export const loadIngredientsAsync = createAsyncThunk(
   }
 );
 
+export const loadIngredientAsync = createAsyncThunk(
+  'ingredients/loadIngredientAsync',
+  async (ingredientId) => {
+    try {
+      return (await agent.Ingredients.list()).data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState,
+  initialState: ingredientsAdapter.getInitialState({
+    ingredientsLoaded: false,
+    status: 'idle',
+    ingredients: [],
+  }),
   reducers: {
     setIngredients(state, action) {
       state.ingredients = action.payload;
@@ -45,14 +54,7 @@ export const ingredientsSlice = createSlice({
       state.status = 'pendingLoadIngredients';
     });
     builder.addCase(loadIngredientsAsync.fulfilled, (state, action) => {
-      const buns = action.payload.filter((item) => item.type === 'bun');
-      const sauces = action.payload.filter((item) => item.type === 'sauce');
-      const mains = action.payload.filter((item) => item.type === 'main');
-      state.ingredients = {
-        buns: buns,
-        sauses: sauces,
-        mains: mains,
-      };
+      ingredientsAdapter.setAll(state, action.payload);
       state.status = 'idle';
       state.ingredientsLoaded = true;
     });
@@ -61,6 +63,8 @@ export const ingredientsSlice = createSlice({
     });
   },
 });
+
+export const ingredientsSelectors = ingredientsAdapter.getSelectors(state => state.ingredients);
 
 export const { setIngredients, viewIngredient, closeIngredient } =
   ingredientsSlice.actions;

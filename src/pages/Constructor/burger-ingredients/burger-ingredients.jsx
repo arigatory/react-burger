@@ -4,12 +4,20 @@ import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingre
 import styles from './burger-ingredients.module.css';
 import Modal from '../../../app/components/modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../app/redux/configureStore';
 import { Tab } from '../../../app/components/yandex/dist';
-import { closeIngredient, loadIngredientsAsync } from '../../../app/redux/ingredientsSlice';
+import {
+  closeIngredient,
+  ingredientsSelectors,
+  loadIngredientsAsync,
+} from '../../../app/redux/ingredientsSlice';
 
 const BurgerIngredients = () => {
-  const { ingredientsLoaded, ingredients, error, loading, currentIngredient } =
+  const ingredients = useAppSelector(ingredientsSelectors.selectAll);
+  const { ingredientsLoaded, error, loading, currentIngredient } =
     useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
 
@@ -35,9 +43,9 @@ const BurgerIngredients = () => {
     threshold: 0.2,
   });
 
-  const buns = ingredients.buns;
-  const mains = ingredients.mains;
-  const sauses = ingredients.sauses;
+  const buns = ingredients.filter((item) => item.type === 'bun');
+  const sauses = ingredients.filter((item) => item.type === 'sauce');
+  const mains = ingredients.filter((item) => item.type === 'main');
 
   useEffect(() => {
     if (!ingredientsLoaded) dispatch(loadIngredientsAsync());

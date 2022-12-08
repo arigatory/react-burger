@@ -1,5 +1,5 @@
 import styles from './app-header.module.css';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   BurgerIcon,
   ListIcon,
@@ -59,7 +59,9 @@ const AppHeader = () => {
       </NavLink>
 
       <div className={styles.logo}>
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
 
       <NavLink
@@ -76,7 +78,7 @@ const AppHeader = () => {
             '/profile'
           )} text_type_main-default`}
         >
-          {user? `${user.name}`: 'Личный кабинет' }
+          {user ? `${user.name}` : 'Личный кабинет'}
         </span>
       </NavLink>
     </header>
