@@ -6,7 +6,7 @@ const initialState = {
   status: 'idle',
   ingredients: {
     buns: [],
-    sauces: [],
+    sauses: [],
     mains: [],
   },
   currentIngredient: null,
@@ -47,7 +47,7 @@ export const ingredientsSlice = createSlice({
       const mains = action.payload.filter((item) => item.type === 'main');
       state.ingredients = {
         buns: buns,
-        sauces: sauces,
+        sauses: sauces,
         mains: mains,
       };
       state.status = 'idle';

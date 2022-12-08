@@ -19,7 +19,7 @@ export default function ForgotPassword() {
 
   async function submitForm(data) {
     await dispatch(forgotPassword(data));
-    history.push('/reset-password');
+    history.push('/reset-password', { from: 'forgot-password' });
   }
 
   return (
@@ -28,15 +28,15 @@ export default function ForgotPassword() {
         Восстановление пароля
       </p>
       <form method="post" onSubmit={handleSubmit(submitForm)}>
-        <Input
-          {...register('email', { required: 'E-mail обязателен' })}
-          error={!!errors.email}
-          type={'text'}
-          placeholder={'Укажите e-mail'}
-          errorText={errors?.email?.message}
-          size={'default'}
-          extraClass={`${styles.input} ml-1`}
-        />
+      <Input
+        {...register('email', { required: 'E-mail обязателен' })}
+        error={!!errors.email}
+        type={'text'}
+        placeholder={'Укажите e-mail'}
+        errorText={errors?.email?.message}
+        size={'default'}
+        extraClass={`${styles.input} ml-1`}
+      />
 
         <Button
           htmlType="submit"

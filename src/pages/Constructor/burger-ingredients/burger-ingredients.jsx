@@ -37,7 +37,7 @@ const BurgerIngredients = () => {
 
   const buns = ingredients.buns;
   const mains = ingredients.mains;
-  const sauses = ingredients.sauces;
+  const sauses = ingredients.sauses;
 
   useEffect(() => {
     if (!ingredientsLoaded) dispatch(loadIngredientsAsync());

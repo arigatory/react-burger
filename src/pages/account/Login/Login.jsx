@@ -1,57 +1,72 @@
-import { useState, useRef } from 'react';
 import styles from './login.module.css';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
+import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
+import { useForm } from 'react-hook-form';
+import { loginUser } from '../accountSlice';
 
 export default function Login() {
+  const { user } = useAppSelector((state) => state.account);
   const history = useHistory();
-  const [value, setValue] = useState('value');
-  const inputRef = useRef(null);
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    alert('Icon Click Callback');
-  };
+  const dispatch = useAppDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors, isValid },
+  } = useForm({ mode: 'onChange' });
+
+  async function submitForm(data) {
+    try {
+      await dispatch(loginUser(data));
+      history.push('/');
+    } catch (error) {
+      console.log("Login error:", error);
+    }
+  }
+
+  if (user) return <Redirect to='/' />
+
   return (
-    <div className={styles.login}>
+    <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
       <p className={`text text_type_main-medium ${styles.header}`}>Вход</p>
       <Input
+        {...register('email', { required: 'E-mail обязателен' })}
+        error={!!errors.email}
         type={'text'}
-        placeholder={'E-mail'}
-        onChange={(e) => setValue(e.target.value)}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
+        placeholder={'Укажите e-mail'}
+        errorText={errors?.email?.message}
         size={'default'}
         extraClass={`${styles.input} ml-1`}
       />
 
       <Input
-        type={'password'}
-        placeholder={'Пароль'}
-        onChange={(e) => setValue(e.target.value)}
-        icon={'ShowIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
+        {...register('password', { required: 'Введите новый пароль' })}
+        error={!!errors.password}
+        errorText={errors?.password?.message}
+        type="password"
+        placeholder="Введите новый пароль"
         size={'default'}
         extraClass={`${styles.input} ml-1`}
+        icon={'ShowIcon'}
       />
 
-      <Button type="primary" size="medium" extraClass={styles.button}>
-        Войти
+      <Button
+        htmlType="submit"
+        type="primary"
+        size="medium"
+        extraClass={styles.button}
+        disabled={!isValid}
+      >
+        {isSubmitting ? 'Загрузка...' : 'Войти'}
       </Button>
+
       <div className={styles.line}>
         <span className="text text_type_main-default text_color_inactive">
           Вы — новый пользователь?
         </span>
         <Button
+          htmlType="button"
           onClick={() => history.push('/register')}
           type="secondary"
           size="medium"
@@ -66,11 +81,12 @@ export default function Login() {
         <Button
           type="secondary"
           size="medium"
+          htmlType="button"
           onClick={() => history.push('/forgot-password')}
         >
           Восстановить пароль
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -14,8 +14,10 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
+import { history } from '../../..';
 
 const BurgerConstructor = () => {
+  const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
 
   const [, dropTarget] = useDrop({
@@ -44,6 +46,7 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedIngredients]);
 
   const onPostClick = () => {
+    if (!user) history.push('/login', { from: '/' });
     if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);

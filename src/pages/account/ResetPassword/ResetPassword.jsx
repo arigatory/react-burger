@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styles from './resetPassword.module.css';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/store/configureStore';
@@ -12,15 +11,18 @@ export default function ResetPassword() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'onChange',
   });
 
   async function submitForm(data) {
-    await dispatch(resetPassword(data));
+    dispatch(resetPassword(data));
     history.push('/login');
   }
+
+  if (history?.location?.state?.from !== 'forgot-password')
+    return history.push('/forgot-password');
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>

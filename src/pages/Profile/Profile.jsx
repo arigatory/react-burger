@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import styles from './profile.module.css';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../app/store/configureStore';
-import { Button, Input } from '../../app/components/yandex/dist';
+import { Input } from '../../app/components/yandex/dist';
 import { useForm } from 'react-hook-form';
+import { signOut } from '../account/accountSlice';
 
 export default function ResetPassword() {
   const history = useHistory();
@@ -11,7 +11,7 @@ export default function ResetPassword() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'onChange',
   });
@@ -37,7 +37,9 @@ export default function ResetPassword() {
       </div>
 
       <div className={styles.row}>
-        <span className="text text_type_main-medium text_color_inactive">История заказов</span>
+        <span className="text text_type_main-medium text_color_inactive">
+          История заказов
+        </span>
         <Input
           {...register('login', { required: 'Введите логин' })}
           error={!!errors.login}
@@ -50,7 +52,12 @@ export default function ResetPassword() {
       </div>
 
       <div className={styles.row}>
-        <span className="text text_type_main-medium text_color_inactive">Выход</span>
+        <span
+          onClick={() => dispatch(signOut())}
+          className={`${styles.logOut} text text_type_main-medium text_color_inactive`}
+        >
+          Выход
+        </span>
         <Input
           {...register('password', { required: 'Введите пароль' })}
           error={!!errors.password}

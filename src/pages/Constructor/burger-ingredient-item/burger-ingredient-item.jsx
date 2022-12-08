@@ -36,7 +36,10 @@ const BurgerIngredientItem = ({ ingredient }) => {
     <article
       ref={dragRef}
       className={styles.article}
-      onClick={() => onOpenIngredientDetails(ingredient)}
+      onClick={() => {
+        onOpenIngredientDetails(ingredient);
+        window.history.replaceState(null, "Детали", `/ingredients/${ingredient._id}`)
+      }}
     >
       {count > 0 && <Counter count={count} />}
       <img src={image} alt="Фото ингредиента." className="mb-2" />

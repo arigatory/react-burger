@@ -6,9 +6,11 @@ import {
   ProfileIcon,
   Logo,
 } from '../../components/yandex/dist';
+import { useAppSelector } from '../../store/configureStore';
 
 const AppHeader = () => {
   const location = useLocation();
+  const { user } = useAppSelector((state) => state.account);
 
   const getNavLinkClass = (path) => {
     return location.pathname === path ? '' : 'text_color_inactive';
@@ -74,7 +76,7 @@ const AppHeader = () => {
             '/profile'
           )} text_type_main-default`}
         >
-          Личный кабинет
+          {user? `${user.name}`: 'Личный кабинет' }
         </span>
       </NavLink>
     </header>

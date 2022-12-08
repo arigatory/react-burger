@@ -1,9 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { history } from '../..';
 import agent from '../../app/api/agent';
 
 const initialState = {
   user: null,
   status: 'idle',
+  token: null,
 };
 
 export const forgotPassword = createAsyncThunk(
@@ -28,10 +30,81 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (data, thunkAPI) => {
+    try {
+      const userDto = await agent.Account.login(data);
+      const { success, accessToken, refreshToken, user } = userDto;
+      if (success) {
+        localStorage.setItem(
+          'token',
+          JSON.stringify({ accessToken, refreshToken })
+        );
+        thunkAPI.dispatch(setUser(user));
+        thunkAPI.dispatch(setToken({ accessToken, refreshToken }));
+      }
+      return user;
+    } catch (error) {
+      thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
+export const fetchProfile = createAsyncThunk(
+  'auth/fetchProfile',
+  async (_, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        thunkAPI.dispatch(setToken(JSON.parse(token)));
+        const userDto = await agent.Account.getProfile();
+        const { success, user } = userDto;
+        if (success) thunkAPI.dispatch(setUser(user));
+        return user;
+      }
+      return null;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  'auth/refreshToken',
+  async (_, thunkAPI) => {
+    try {
+      const tokenDto = await agent.Account.getProfile();
+      const { success, accessToken, refreshToken } = tokenDto;
+      console.log(tokenDto);
+      if (success) {
+        localStorage.setItem('accessToken', JSON.stringify(accessToken));
+        localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
 export const accountSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+    signOut: (state) => {
+      state.user = null;
+      state.token = null;
+      localStorage.removeItem('token');
+      history.push('/');
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(resetPassword.pending, (state) => {
       state.status = 'pending';
@@ -43,5 +116,16 @@ export const accountSlice = createSlice({
       console.log(action.payload);
       state.status = 'idle';
     });
+    builder.addMatcher(isAnyOf(loginUser.fulfilled), (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addMatcher(
+      isAnyOf(loginUser.rejected, fetchProfile.rejected, refreshToken.rejected),
+      (_, action) => {
+        throw action.payload;
+      }
+    );
   },
 });
+
+export const { signOut, setUser, setToken } = accountSlice.actions;
