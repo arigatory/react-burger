@@ -1,22 +1,12 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
-import { ingredientsSelectors, loadIngredientsAsync } from '../../app/redux/ingredientsSlice';
+import { useAppSelector } from '../../app/redux/configureStore';
+import { ingredientsSelectors } from '../../app/redux/ingredientsSlice';
 import NutritionItem from '../Constructor/nutrition-item/nutrition-item';
 import styles from './ingredientDetail.module.css';
 
 export default function IngredientDetail() {
   const { id } = useParams();
   const ingredient = useAppSelector(state => ingredientsSelectors.selectById(state, id));
-
-  const { ingredientsLoaded } = useAppSelector(
-    (state) => state.ingredients
-  );
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!ingredientsLoaded) dispatch(loadIngredientsAsync());
-  }, [dispatch, ingredientsLoaded]);
 
   return (
     <div className={styles.content}>

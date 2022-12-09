@@ -1,25 +1,18 @@
-import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import styles from './burger-ingredients.module.css';
-import Modal from '../../../app/components/modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import {
-  useAppDispatch,
   useAppSelector,
 } from '../../../app/redux/configureStore';
 import { Tab } from '../../../app/components/yandex/dist';
 import {
-  closeIngredient,
   ingredientsSelectors,
-  loadIngredientsAsync,
 } from '../../../app/redux/ingredientsSlice';
 
 const BurgerIngredients = () => {
   const ingredients = useAppSelector(ingredientsSelectors.selectAll);
-  const { ingredientsLoaded, error, loading, currentIngredient } =
+  const { ingredientsLoaded, error, loading } =
     useAppSelector((state) => state.ingredients);
-  const dispatch = useAppDispatch();
 
   const {
     ref: refBun,
@@ -47,11 +40,6 @@ const BurgerIngredients = () => {
   const sauses = ingredients.filter((item) => item.type === 'sauce');
   const mains = ingredients.filter((item) => item.type === 'main');
 
-  useEffect(() => {
-    if (!ingredientsLoaded) dispatch(loadIngredientsAsync());
-    // eslint-disable-next-line
-  }, [dispatch, ingredientsLoaded]);
-
   const onTabClick = (entry) => {
     entry.target.scrollIntoView({ behavior: 'smooth' });
   };
@@ -61,11 +49,6 @@ const BurgerIngredients = () => {
 
   return (
     <div className="text text_type_main-default mr-2">
-      {currentIngredient && (
-        <Modal onClose={() => dispatch(closeIngredient())}>
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
       <h1 className="text_type_main-large">Соберите бургер</h1>
 
       <div className={styles.tabs}>

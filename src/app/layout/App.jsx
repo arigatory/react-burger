@@ -12,25 +12,30 @@ import ResetPassword from '../../pages/account/ResetPassword/ResetPassword';
 import Profile from '../../pages/Profile/Profile';
 import IngredientDetail from '../../pages/IngredientDetail/IngredientDetail';
 import Orders from '../../pages/Orders/Orders';
-import { useAppDispatch } from '../redux/configureStore';
+import { useAppDispatch, useAppSelector } from '../redux/configureStore';
 import { useCallback, useEffect } from 'react';
 import { fetchProfile } from '../redux/accountSlice';
 import ProtectedRoute from './ProtectedRoute';
 import Modal from '../components/modal/modal';
 import { history } from '../..';
+import { loadIngredientsAsync } from '../redux/ingredientsSlice';
 
 const App = () => {
   let location = useLocation();
-
+  const { ingredientsLoaded } = useAppSelector(
+    (state) => state.ingredients
+  );
 
   const dispatch = useAppDispatch();
   const initApp = useCallback(async () => {
     try {
+      if (!ingredientsLoaded) await dispatch(loadIngredientsAsync());
       await dispatch(fetchProfile());
+
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [dispatch, ingredientsLoaded]);
 
   useEffect(() => {
     initApp();
