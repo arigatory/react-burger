@@ -29,8 +29,8 @@ const App = () => {
   const dispatch = useAppDispatch();
   const initApp = useCallback(async () => {
     try {
-      if (!ingredientsLoaded) await dispatch(loadIngredientsAsync());
-      await dispatch(fetchProfile());
+      if (!ingredientsLoaded) dispatch(loadIngredientsAsync());
+      dispatch(fetchProfile());
 
     } catch (error) {
       console.log(error);
