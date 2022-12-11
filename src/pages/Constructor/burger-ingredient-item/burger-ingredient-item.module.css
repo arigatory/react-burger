@@ -1,0 +1,26 @@
+.article {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-basis: 49%;
+  border: 2px solid transparent;
+  border-radius: 10%;
+  transition: border 0.5s;
+}
+
+.article:hover {
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.price {
+  display: flex;
+  vertical-align: middle;
+}
+
+.text {
+  text-align: center;
+}

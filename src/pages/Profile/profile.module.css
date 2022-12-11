@@ -1,0 +1,17 @@
+.profile {
+  padding-top: 100px;
+  padding-left: 100px;
+  max-width: 60%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.logOut:hover {
+  cursor: pointer;
+  color: white;
+}
