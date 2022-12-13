@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { history } from '../..';
 import agent from '../api/agent';
+import { FieldValues } from 'react-hook-form';
+
 
 const initialState = {
   user: null,
@@ -8,12 +10,12 @@ const initialState = {
   token: null,
 };
 
-export const forgotPassword = createAsyncThunk(
+export const forgotPassword = createAsyncThunk<void, FieldValues>(
   'auth/forgotPassword',
   async (data, thunkAPI) => {
     try {
       await agent.Account.forgotPassword(data);
-    } catch (error) {
+    } catch (error: any) {
       thunkAPI.rejectWithValue({ error: error.data });
     }
   }
@@ -24,7 +26,7 @@ export const resetPassword = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       await agent.Account.resetPassword(data);
-    } catch (error) {
+    } catch (error: any) {
       thunkAPI.rejectWithValue({ error: error.data });
     }
   }
@@ -45,7 +47,7 @@ export const loginUser = createAsyncThunk(
         thunkAPI.dispatch(setToken({ accessToken, refreshToken }));
       }
       return user;
-    } catch (error) {
+    } catch (error: any) {
       thunkAPI.rejectWithValue({ error: error.data });
     }
   }
@@ -65,7 +67,7 @@ export const fetchProfile = createAsyncThunk(
         return user;
       }
       return null;
-    } catch (error) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
   }
@@ -82,7 +84,7 @@ export const refreshToken = createAsyncThunk(
         localStorage.setItem('accessToken', JSON.stringify(accessToken));
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       }
-    } catch (error) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
   }

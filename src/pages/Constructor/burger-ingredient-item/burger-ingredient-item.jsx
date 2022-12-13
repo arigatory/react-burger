@@ -1,14 +1,11 @@
 import styles from './burger-ingredient-item.module.css';
-import { menuItemPropTypes } from '../../../app/utils/constants';
 import { useDrag } from 'react-dnd';
-import {
-  useAppSelector,
-} from '../../../app/redux/configureStore';
+import { useAppSelector } from '../../../app/redux/configureStore';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Counter } from '../../../app/components/yandex/dist';
 import { Link, useLocation } from 'react-router-dom';
 
-const BurgerIngredientItem = ({ ingredient }) => {
+export default function BurgerIngredientItem({ ingredient }) {
   let location = useLocation();
   const { image, price, name } = ingredient;
   const { selectedIngredients, selectedBun } = useAppSelector(
@@ -48,10 +45,4 @@ const BurgerIngredientItem = ({ ingredient }) => {
       <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
     </Link>
   );
-};
-
-BurgerIngredientItem.propTypes = {
-  ingredient: menuItemPropTypes.isRequired,
-};
-
-export default BurgerIngredientItem;
+}

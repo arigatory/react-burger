@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styles from './modal.module.css';
 import ModalOverlay from './modal-overlay';
 import { CloseIcon } from '../yandex/dist';
 
-const modalRoot = document.getElementById('react-modals');
+const modalRoot = document.getElementById('react-modals')!;
 
-const Modal = ({ onClose, children }) => {
+interface Props {
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const Modal : FC<Props> = ({ onClose, children }) => {
   const escPressHandler = React.useCallback(
     (e) => {
       if (e.key === 'Escape') {
@@ -36,11 +40,6 @@ const Modal = ({ onClose, children }) => {
     </section>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.object.isRequired,
 };
 
 export default Modal;

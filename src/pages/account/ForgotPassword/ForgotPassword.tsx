@@ -1,7 +1,7 @@
 import styles from './forgotPassword.module.css';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { forgotPassword } from '../../../app/redux/accountSlice';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
@@ -17,9 +17,13 @@ export default function ForgotPassword() {
     mode: 'onChange',
   });
 
-  async function submitForm(data) {
-    await dispatch(forgotPassword(data));
-    history.push('/reset-password', { from: 'forgot-password' });
+  async function submitForm(data: FieldValues) {
+    try {
+      await dispatch(forgotPassword(data));
+      history.push('/reset-password', { from: 'forgot-password' });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -28,15 +32,16 @@ export default function ForgotPassword() {
         Восстановление пароля
       </p>
       <form method="post" onSubmit={handleSubmit(submitForm)}>
-      <Input
-        {...register('email', { required: 'E-mail обязателен' })}
-        error={!!errors.email}
-        type={'text'}
-        placeholder={'Укажите e-mail'}
-        errorText={errors?.email?.message}
-        size={'default'}
-        extraClass={`${styles.input} ml-1`}
-      />
+        <Input
+          {...register('email', { required: 'E-mail обязателен' })}
+          error={!!errors.email}
+          type={'text'}
+          placeholder={'Укажите e-mail'}
+          errorText={errors?.email?.message?.toString()}
+          size={'default'}
+          extraClass={`${styles.input} ml-1`}
+          onBlur={() => { }}
+        />
 
         <Button
           htmlType="submit"

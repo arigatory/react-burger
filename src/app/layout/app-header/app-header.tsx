@@ -10,13 +10,13 @@ import { useAppSelector } from '../../redux/configureStore';
 
 const AppHeader = () => {
   const location = useLocation();
-  const { user } = useAppSelector((state) => state.account);
+  const { user } = useAppSelector((state: any) => state.account);
 
-  const getNavLinkClass = (path) => {
+  const getNavLinkClass = (path: string) => {
     return location.pathname === path ? '' : 'text_color_inactive';
   };
 
-  const getNavLinkType = (path) => {
+  const getNavLinkType = (path: string) => {
     return location.pathname === path ? 'primary' : 'secondary';
   };
 

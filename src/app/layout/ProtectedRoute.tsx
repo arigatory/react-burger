@@ -1,10 +1,15 @@
-import {
-  Redirect,
-  Route,
-} from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAppSelector } from '../redux/configureStore';
 
-export default function ProtectedRoute({ component: Component, ...rest }) {
+interface Props extends RouteProps {
+  component: any ;
+}
+
+
+export default function ProtectedRoute({
+  component: Component,
+  ...rest
+}: Props) {
   const { user } = useAppSelector((state) => state.account);
   return (
     <Route
