@@ -3,13 +3,14 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
 import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
+import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 
 export default function Login() {
   const { user } = useAppSelector((state) => state.account);
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<any>();
 
   const dispatch = useAppDispatch();
   const {
@@ -18,7 +19,7 @@ export default function Login() {
     formState: { isSubmitting, errors, isValid },
   } = useForm({ mode: 'onChange' });
 
-  async function submitForm(data) {
+  async function submitForm(data: FieldValues) {
     try {
       await dispatch(loginUser(data));
       history.push('/');
@@ -32,26 +33,15 @@ export default function Login() {
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
       <p className={`text text_type_main-medium ${styles.header}`}>Вход</p>
-      <Input
+      {/* <MyTextInput
         {...register('email', { required: 'E-mail обязателен' })}
-        error={!!errors.email}
-        type={'text'}
-        placeholder={'Укажите e-mail'}
-        errorText={errors?.email?.message}
-        size={'default'}
-        extraClass={`${styles.input} ml-1`}
+        label="Email"
       />
 
-      <Input
+      <MyTextInput
         {...register('password', { required: 'Введите новый пароль' })}
-        error={!!errors.password}
-        errorText={errors?.password?.message}
-        type="password"
-        placeholder="Введите новый пароль"
-        size={'default'}
-        extraClass={`${styles.input} ml-1`}
-        icon={'ShowIcon'}
-      />
+        label="Password"
+      /> */}
 
       <Button
         htmlType="submit"

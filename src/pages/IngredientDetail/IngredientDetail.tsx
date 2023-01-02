@@ -5,8 +5,10 @@ import NutritionItem from '../Constructor/nutrition-item/nutrition-item';
 import styles from './ingredientDetail.module.css';
 
 export default function IngredientDetail() {
-  const { id } = useParams();
-  const ingredient = useAppSelector(state => ingredientsSelectors.selectById(state, id));
+  const { id } = useParams<{ id: string }>();
+  const ingredient = useAppSelector((state) =>
+    ingredientsSelectors.selectById(state, id)
+  );
 
   return (
     <div className={styles.content}>

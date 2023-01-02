@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
 import { history } from '../../..';
+import { Bun } from '../../../app/models/bun';
 
 const BurgerConstructor = () => {
   const { user } = useAppSelector((state) => state.account);
@@ -22,7 +23,7 @@ const BurgerConstructor = () => {
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop: (item) => {
+    drop: (item: Bun) => {
       onDropHandler(item);
     },
   });
@@ -31,7 +32,7 @@ const BurgerConstructor = () => {
   );
   const [total, setTotal] = useState(0);
 
-  const onDropHandler = (item) => {
+  const onDropHandler = (item: Bun) => {
     dispatch(addIngredient({ ...item, dragId: uuidv4() }));
   };
 
@@ -50,7 +51,7 @@ const BurgerConstructor = () => {
     if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);
-    dispatch(postOrderAsync(ids));
+    dispatch(postOrderAsync());
   };
 
   if (loading) {

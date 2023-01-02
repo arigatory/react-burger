@@ -1,8 +1,14 @@
 import styles from './burger-bun.module.css';
 import PropTypes from 'prop-types';
 import { ConstructorElement } from '../../../app/components/yandex/dist';
+import { Bun } from '../../../app/models/bun';
 
-const BurgerBun = ({ bun, type }) => {
+interface Props {
+  bun: Bun;
+  type: 'top' | 'bottom';  
+}
+
+const BurgerBun = ({ bun, type }: Props) => {
   const topOrButtom =
     type === 'top' ? ' (верх)' : type === 'bottom' ? ' (низ)' : '';
 

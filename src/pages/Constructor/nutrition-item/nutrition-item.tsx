@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
 import styles from './nutrition-item.module.css';
 
-const NutritionItem = ({ title, amount }) => {
+interface Props {
+  title: string;
+  amount: number;
+}
+
+const NutritionItem = ({ title, amount }: Props) => {
   return (
     <li className={styles.li}>
       <p className="text text_type_main-default text_color_inactive">{title}</p>
@@ -10,11 +14,6 @@ const NutritionItem = ({ title, amount }) => {
       </p>
     </li>
   );
-};
-
-NutritionItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
 };
 
 export default NutritionItem;

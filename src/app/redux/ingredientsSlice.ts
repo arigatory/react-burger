@@ -3,9 +3,17 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import agent from '../../app/api/agent';
+import agent from '../api/agent';
+import { Ingredient } from '../models/ingredient';
+import { RootState } from './configureStore';
 
-const ingredientsAdapter = createEntityAdapter({
+interface IngredientsState {
+  ingredientsLoaded: boolean;
+  status: string;
+  ingredients: Ingredient[];
+}
+
+const ingredientsAdapter = createEntityAdapter<Ingredient>({
   selectId: (item) => item._id,
 });
 
@@ -33,7 +41,7 @@ export const loadIngredientAsync = createAsyncThunk(
 
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState: ingredientsAdapter.getInitialState({
+  initialState: ingredientsAdapter.getInitialState<IngredientsState>({
     ingredientsLoaded: false,
     status: 'idle',
     ingredients: [],
@@ -41,12 +49,6 @@ export const ingredientsSlice = createSlice({
   reducers: {
     setIngredients(state, action) {
       state.ingredients = action.payload;
-    },
-    viewIngredient(state, action) {
-      state.currentIngredient = action.payload;
-    },
-    closeIngredient(state) {
-      state.currentIngredient = null;
     },
   },
   extraReducers: (builder) => {
@@ -64,7 +66,9 @@ export const ingredientsSlice = createSlice({
   },
 });
 
-export const ingredientsSelectors = ingredientsAdapter.getSelectors(state => state.ingredients);
+export const ingredientsSelectors = ingredientsAdapter.getSelectors(
+  (state: RootState) => state.ingredients
+);
 
-export const { setIngredients, viewIngredient, closeIngredient } =
+export const { setIngredients } =
   ingredientsSlice.actions;

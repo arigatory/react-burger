@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../app/redux/configureStore';
 import { Input } from '../../app/components/yandex/dist';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
+import MyTextInput from '../../app/components/my-text-input/MyTextInput';
 
 export default function ResetPassword() {
   const history = useHistory();
@@ -16,7 +17,7 @@ export default function ResetPassword() {
     mode: 'onChange',
   });
 
-  async function submitForm(data) {
+  async function submitForm() {
     history.push('/login');
   }
 
@@ -24,31 +25,20 @@ export default function ResetPassword() {
     <form className={styles.profile} onSubmit={handleSubmit(submitForm)}>
       <div className={styles.row}>
         <span className="text text_type_main-medium">Профиль</span>
-        <Input
+        {/* <MyTextInput
+          label="Введите имя"
           {...register('name', { required: 'Введите имя' })}
-          error={!!errors.name}
-          errorText={errors?.name?.message}
-          type="text"
-          placeholder="Имя"
-          size={'default'}
-          extraClass={`${styles.input} ml-1`}
-          icon={'EditIcon'}
-        />
+        /> */}
       </div>
 
       <div className={styles.row}>
         <span className="text text_type_main-medium text_color_inactive">
           История заказов
         </span>
-        <Input
+        {/* <MyTextInput
+          label="Введите логин"
           {...register('login', { required: 'Введите логин' })}
-          error={!!errors.login}
-          errorText={errors?.login?.message}
-          type="text"
-          extraClass={`${styles.input} ml-1`}
-          placeholder="Логин"
-          icon={'EditIcon'}
-        />
+        /> */}
       </div>
 
       <div className={styles.row}>
@@ -58,15 +48,10 @@ export default function ResetPassword() {
         >
           Выход
         </span>
-        <Input
+        {/* <MyTextInput
+          label="Введите логин"
           {...register('password', { required: 'Введите пароль' })}
-          error={!!errors.password}
-          errorText={errors?.password?.message}
-          type="password"
-          extraClass={`${styles.input} ml-1`}
-          placeholder="Пароль"
-          icon={'EditIcon'}
-        />
+        /> */}
       </div>
 
       <div>

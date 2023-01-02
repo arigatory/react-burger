@@ -2,12 +2,17 @@ import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { history } from '../..';
 import agent from '../api/agent';
 import { FieldValues } from 'react-hook-form';
+import { User } from '../models/user';
 
 
-const initialState = {
+interface AccountState {
+  user: User | null;
+  status: string;
+};
+
+const initialState: AccountState = {
   user: null,
   status: 'idle',
-  token: null,
 };
 
 export const forgotPassword = createAsyncThunk<void, FieldValues>(
@@ -32,7 +37,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<User, FieldValues>(
   'auth/login',
   async (data, thunkAPI) => {
     try {
@@ -44,7 +49,6 @@ export const loginUser = createAsyncThunk(
           JSON.stringify({ accessToken, refreshToken })
         );
         thunkAPI.dispatch(setUser(user));
-        thunkAPI.dispatch(setToken({ accessToken, refreshToken }));
       }
       return user;
     } catch (error: any) {
@@ -53,20 +57,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const fetchProfile = createAsyncThunk(
+export const fetchProfile = createAsyncThunk<User>(
   'auth/fetchProfile',
   async (_, thunkAPI) => {
+    thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)));
     try {
-      const token = localStorage.getItem('token');
-
-      if (token) {
-        thunkAPI.dispatch(setToken(JSON.parse(token)));
         const userDto = await agent.Account.getProfile();
-        const { success, user } = userDto;
-        if (success) thunkAPI.dispatch(setUser(user));
+        const { success, accessToken, refreshToken, user } = userDto;
+  
+      if (success) {
+        user.accessToken = accessToken;
+        user.refreshToken = refreshToken;
+        thunkAPI.dispatch(setUser(user));
         return user;
+      } else {
+        return thunkAPI.rejectWithValue({ error: "Can't fetch" });
       }
-      return null;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -97,12 +103,8 @@ export const accountSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
     signOut: (state) => {
       state.user = null;
-      state.token = null;
       localStorage.removeItem('token');
       history.push('/');
     },
@@ -130,4 +132,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setUser, setToken } = accountSlice.actions;
+export const { signOut, setUser } = accountSlice.actions;

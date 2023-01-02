@@ -1,18 +1,14 @@
 import { useInView } from 'react-intersection-observer';
 import BurgerIngredientCategory from '../burger-ingredient-category/burger-ingredient-category';
 import styles from './burger-ingredients.module.css';
-import {
-  useAppSelector,
-} from '../../../app/redux/configureStore';
+import { useAppSelector } from '../../../app/redux/configureStore';
 import { Tab } from '../../../app/components/yandex/dist';
-import {
-  ingredientsSelectors,
-} from '../../../app/redux/ingredientsSlice';
+import { ingredientsSelectors } from '../../../app/redux/ingredientsSlice';
 
 const BurgerIngredients = () => {
   const ingredients = useAppSelector(ingredientsSelectors.selectAll);
-  const { ingredientsLoaded, error, loading } =
-    useAppSelector((state) => state.ingredients);
+  const { ingredientsLoaded } = useAppSelector((state) => state.ingredients);
+  const { loading } = useAppSelector((state) => state.burgerConstructor);
 
   const {
     ref: refBun,
@@ -40,8 +36,8 @@ const BurgerIngredients = () => {
   const sauses = ingredients.filter((item) => item.type === 'sauce');
   const mains = ingredients.filter((item) => item.type === 'main');
 
-  const onTabClick = (entry) => {
-    entry.target.scrollIntoView({ behavior: 'smooth' });
+  const onTabClick = (entry: IntersectionObserverEntry | null = null) => {
+    entry?.target.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (!ingredientsLoaded)
@@ -52,21 +48,28 @@ const BurgerIngredients = () => {
       <h1 className="text_type_main-large">Соберите бургер</h1>
 
       <div className={styles.tabs}>
-        <Tab active={seeBun} onClick={() => onTabClick(entryBun)}>
+        <Tab value="bun" active={seeBun} onClick={() => onTabClick(entryBun)}>
           Булки
         </Tab>
 
-        <Tab active={seeSauce} onClick={() => onTabClick(entrySauce)}>
+        <Tab
+          value="sauce"
+          active={seeSauce}
+          onClick={() => onTabClick(entrySauce)}
+        >
           Соусы
         </Tab>
 
-        <Tab active={seeMain} onClick={() => onTabClick(entryMain)}>
+        <Tab
+          value="main"
+          active={seeMain}
+          onClick={() => onTabClick(entryMain)}
+        >
           Начинки
         </Tab>
       </div>
-      {error && <h3>{error}</h3>}
       {loading && <h3>Загрузка ингредиентов...</h3>}
-      {!error && !loading && (
+      {!loading && (
         <div className={styles.categories}>
           <div ref={refBun}>
             <BurgerIngredientCategory
