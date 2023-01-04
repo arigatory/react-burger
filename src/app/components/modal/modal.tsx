@@ -11,9 +11,9 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Modal : FC<Props> = ({ onClose, children }) => {
+const Modal: FC<Props> = ({ onClose, children }) => {
   const escPressHandler = React.useCallback(
-    (e) => {
+    (e: { key: string }) => {
       if (e.key === 'Escape') {
         onClose();
       }

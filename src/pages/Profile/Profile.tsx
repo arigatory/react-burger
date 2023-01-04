@@ -1,18 +1,14 @@
 import styles from './profile.module.css';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../app/redux/configureStore';
-import { Input } from '../../app/components/yandex/dist';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
-import MyTextInput from '../../app/components/my-text-input/MyTextInput';
 
 export default function ResetPassword() {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const {
-    register,
     handleSubmit,
-    formState: { errors },
   } = useForm({
     mode: 'onChange',
   });

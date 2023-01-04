@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import agent from '../api/agent';
 import { Bun } from '../models/bun';
-import { Ingredient } from '../models/ingredient';
+import { SelectedIngredient } from '../models/ingredient';
 
 interface ConstructorState {
   selectedBun: Bun | null;
-  selectedIngredients: Ingredient[];
+  selectedIngredients: SelectedIngredient[];
   order: any;
   status: string;
   loading: boolean;

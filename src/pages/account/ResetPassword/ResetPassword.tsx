@@ -1,5 +1,5 @@
 import styles from './resetPassword.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { Button } from '../../../app/components/yandex/dist';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function ResetPassword() {
   const history = useHistory();
-  const location = useLocation<any>();
+  // const location = useLocation<any>();
   const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'all',

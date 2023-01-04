@@ -4,19 +4,25 @@ import { useAppSelector } from '../../../app/redux/configureStore';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Counter } from '../../../app/components/yandex/dist';
 import { Link, useLocation } from 'react-router-dom';
+import { Ingredient } from '../../../app/models/ingredient';
 
-export default function BurgerIngredientItem({ ingredient }) {
+interface Props {
+  ingredient: Ingredient;
+}
+
+export default function BurgerIngredientItem({ ingredient }: Props) {
   let location = useLocation();
   const { image, price, name } = ingredient;
-  const { selectedIngredients, selectedBun } = useAppSelector(
-    (state) => state.ingredients
-  );
+  const { ingredients } = useAppSelector((state) => state.ingredients);
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient,
   });
 
-  let count;
+  const selectedIngredients = ingredients.filter((i) => i.type !== 'bun');
+  const selectedBun = ingredients.find((i) => i.type === 'bun');
+
+  let count = 0;
   if (selectedIngredients) {
     count = selectedIngredients.filter(
       (item) => ingredient._id === item._id
@@ -40,7 +46,7 @@ export default function BurgerIngredientItem({ ingredient }) {
       <img src={image} alt="Фото ингредиента." className="mb-2" />
       <div className={`${styles.price} mb-2`}>
         <span className="text text_type_digits-default mr-1">{price}</span>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary" />
       </div>
       <p className={`text text_type_main-default ${styles.text}`}>{name}</p>
     </Link>

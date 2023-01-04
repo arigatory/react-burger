@@ -7,7 +7,7 @@ import { Router } from 'react-router-dom';
 
 export const history = createBrowserHistory();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <Router history={history}>
     <Provider store={store}>

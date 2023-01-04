@@ -1,7 +1,18 @@
+import { Ingredient } from '../../../app/models/ingredient';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 import styles from './burger-ingredient-category.module.css';
 
-export default function BurgerIngredientCategory({ title, ingredients, id }) {
+interface Props {
+  title: string;
+  ingredients: Ingredient[];
+  id: string;
+}
+
+export default function BurgerIngredientCategory({
+  title,
+  ingredients,
+  id,
+}: Props) {
   const renderedIngredients = ingredients.map((ingredient) => {
     return (
       <BurgerIngredientItem ingredient={ingredient} key={ingredient._id} />

@@ -9,14 +9,14 @@ interface Props {
   name: string;
   price: number;
   image: string;
-  index: string;
+  index: string|number;
 }
 
 const BurgerConstructorItem = ({ name, price, image, index }: Props) => {
   const dispatch = useAppDispatch();
 
   const ref = useRef(null);
-  const onDeleteIngredient = (index: string) => {
+  const onDeleteIngredient = (index: string|number) => {
     dispatch(removeIngredient(index));
   };
 

@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { FieldValues, useForm } from 'react-hook-form';
 import { forgotPassword } from '../../../app/redux/accountSlice';
-import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
