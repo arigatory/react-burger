@@ -26,7 +26,7 @@ export const forgotPassword = createAsyncThunk<void, FieldValues>(
   }
 );
 
-export const resetPassword = createAsyncThunk(
+export const resetPassword = createAsyncThunk<void, FieldValues>(
   'auth/resetPassword',
   async (data, thunkAPI) => {
     try {

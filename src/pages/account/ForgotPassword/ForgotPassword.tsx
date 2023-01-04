@@ -5,17 +5,18 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { forgotPassword } from '../../../app/redux/accountSlice';
 import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
+import { yupResolver } from '@hookform/resolvers/yup';
+import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
+import { validationSchema } from './forgotPasswordValidation';
 
 export default function ForgotPassword() {
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors, isValid },
-  } = useForm({
-    mode: 'onChange',
+  const methods = useForm({
+    mode: 'all',
+    resolver: yupResolver(validationSchema),
   });
+  const { control, handleSubmit } = methods;
 
   async function submitForm(data: FieldValues) {
     try {
@@ -32,15 +33,11 @@ export default function ForgotPassword() {
         Восстановление пароля
       </p>
       <form method="post" onSubmit={handleSubmit(submitForm)}>
-        <Input
-          {...register('email', { required: 'E-mail обязателен' })}
-          error={!!errors.email}
-          type={'text'}
-          placeholder={'Укажите e-mail'}
-          errorText={errors?.email?.message?.toString()}
-          size={'default'}
-          extraClass={`${styles.input} ml-1`}
-          onBlur={() => { }}
+        <MyTextInput
+          control={control}
+          name="email"
+          label="Email"
+          styles={styles.input}
         />
 
         <Button
@@ -48,9 +45,9 @@ export default function ForgotPassword() {
           type="primary"
           size="medium"
           extraClass={styles.button}
-          disabled={!isValid}
+          disabled={!methods.formState.isValid}
         >
-          {isSubmitting ? 'Загрузка...' : 'Восстановить'}
+          {methods.formState.isSubmitting ? 'Загрузка...' : 'Восстановить'}
         </Button>
       </form>
 

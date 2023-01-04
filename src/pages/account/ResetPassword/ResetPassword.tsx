@@ -1,58 +1,56 @@
 import styles from './resetPassword.module.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
-import { Button, Input } from '../../../app/components/yandex/dist';
-import { useForm } from 'react-hook-form';
+import { Button } from '../../../app/components/yandex/dist';
+import { FieldValues, useForm } from 'react-hook-form';
 import { resetPassword } from '../../../app/redux/accountSlice';
+import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
+import { validationSchema } from './resetPasswordValidation';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function ResetPassword() {
   const history = useHistory();
+  const location = useLocation<any>();
   const dispatch = useAppDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: 'onChange',
+  const methods = useForm({
+    mode: 'all',
+    resolver: yupResolver(validationSchema),
   });
+  const { control, handleSubmit } = methods;
 
-  async function submitForm(data) {
+  async function submitForm(data: FieldValues) {
     dispatch(resetPassword(data));
     history.push('/login');
   }
 
-  if (history?.location?.state?.from !== 'forgot-password')
-    return history.push('/forgot-password');
+  // if (location?.state?.from?.pathname !== '/forgot-password')
+  //   return history.push('/forgot-password');
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
       <p className={`text text_type_main-medium ${styles.header}`}>
         Восстановление пароля
       </p>
-      <Input
-        {...register('password', { required: 'Введите новый пароль' })}
-        error={!!errors.password}
-        errorText={errors?.password?.message}
-        type="password"
-        placeholder="Введите новый пароль"
-        size={'default'}
-        extraClass={`${styles.input} ml-1`}
-        icon={'ShowIcon'}
-      />
-      <Input
-        {...register('token', { required: 'Введите код из email' })}
-        error={!!errors.token}
-        errorText={errors?.token?.message}
-        type="text"
-        extraClass={`${styles.input} ml-1`}
-        placeholder="Введите код из письма"
+
+      <MyTextInput
+        control={control}
+        name="password"
+        label="Введите новый пароль"
+        styles={styles.input}
       />
 
+      <MyTextInput
+        control={control}
+        name="token"
+        label="Введите код из письма"
+        styles={styles.input}
+      />
       <Button
         htmlType="submit"
         type="primary"
         size="medium"
         extraClass={styles.button}
+        disabled={!methods.formState.isValid}
       >
         Сохранить
       </Button>

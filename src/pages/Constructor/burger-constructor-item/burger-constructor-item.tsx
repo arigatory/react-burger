@@ -1,16 +1,22 @@
 import styles from './burger-constructor-item.module.css';
 import { useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { removeIngredient } from '../../../app/redux/constructorSlice';
 import { DragIcon } from '../../../app/components/yandex/dist';
 import { ConstructorElement } from '../../../app/components/yandex/dist';
 
-const BurgerConstructorItem = ({ name, price, image, index }) => {
+interface Props {
+  name: string;
+  price: number;
+  image: string;
+  index: string;
+}
+
+const BurgerConstructorItem = ({ name, price, image, index }: Props) => {
   const dispatch = useAppDispatch();
 
   const ref = useRef(null);
-  const onDeleteIngredient = (index) => {
+  const onDeleteIngredient = (index: string) => {
     dispatch(removeIngredient(index));
   };
 
@@ -27,13 +33,6 @@ const BurgerConstructorItem = ({ name, price, image, index }) => {
       />
     </div>
   );
-};
-
-BurgerConstructorItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
 };
 
 export default BurgerConstructorItem;

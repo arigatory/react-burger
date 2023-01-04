@@ -10,7 +10,7 @@ const BurgerConstructorList = () => {
   );
   const dispatch = useAppDispatch();
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: { destination: { index: any; }; source: { index: any; }; }) => {
     if (!result.destination) return;
     dispatch(
       moveIngredient({

@@ -1,56 +1,65 @@
 import styles from './login.module.css';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import { Input } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
-import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../app/redux/configureStore';
 import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
+import { validationSchema } from './loginValidation';
 
 export default function Login() {
   const { user } = useAppSelector((state) => state.account);
   const history = useHistory();
   const location = useLocation<any>();
+  const methods = useForm({
+    mode: 'all',
+    resolver: yupResolver(validationSchema),
+  });
+  const { control, handleSubmit } = methods;
 
   const dispatch = useAppDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors, isValid },
-  } = useForm({ mode: 'onChange' });
 
   async function submitForm(data: FieldValues) {
     try {
       await dispatch(loginUser(data));
       history.push('/');
     } catch (error) {
-      console.log("Login error:", error);
+      console.log('Login error:', error);
     }
   }
 
-  if (user) return <Redirect to={location?.state?.from || '/'} />
+  if (user) return <Redirect to={location?.state?.from || '/'} />;
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
       <p className={`text text_type_main-medium ${styles.header}`}>Вход</p>
-      {/* <MyTextInput
-        {...register('email', { required: 'E-mail обязателен' })}
-        label="Email"
-      />
 
       <MyTextInput
-        {...register('password', { required: 'Введите новый пароль' })}
-        label="Password"
-      /> */}
+        control={control}
+        name="email"
+        label="Email"
+        styles={styles.input}
+      />
+      <MyTextInput
+        control={control}
+        name="password"
+        label="Пароль"
+        styles={styles.input}
+        type="password"
+      />
 
       <Button
         htmlType="submit"
         type="primary"
         size="medium"
         extraClass={styles.button}
-        disabled={!isValid}
+        disabled={!methods.formState.isValid}
       >
-        {isSubmitting ? 'Загрузка...' : 'Войти'}
+        Войти
       </Button>
 
       <div className={styles.line}>
