@@ -19,19 +19,19 @@ import ProtectedRoute from './ProtectedRoute';
 import Modal from '../components/modal/modal';
 import { history } from '../..';
 import { loadIngredientsAsync } from '../redux/ingredientsSlice';
+import Errors from '../../pages/Errors/Errors';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  let location = useLocation();
-  const { ingredientsLoaded } = useAppSelector(
-    (state) => state.ingredients
-  );
+  let location = useLocation<any>();
+  const { ingredientsLoaded } = useAppSelector((state) => state.ingredients);
 
   const dispatch = useAppDispatch();
   const initApp = useCallback(async () => {
     try {
       if (!ingredientsLoaded) dispatch(loadIngredientsAsync());
       dispatch(fetchProfile());
-
     } catch (error) {
       console.log(error);
     }
@@ -44,10 +44,11 @@ const App = () => {
   let background = location.state && location.state.background;
 
   return (
-    // <Provider store={store}>
-    <DndProvider backend={HTML5Backend}>
-      <div className={styles.body}>
-        <AppHeader />
+    <div className={styles.body}>
+      <ToastContainer position="bottom-right" hideProgressBar/>
+
+      <AppHeader />
+      <DndProvider backend={HTML5Backend}>
         <Switch location={background || location}>
           <Route exact path="/" component={Constructor} />
           <Route exact path="/login" component={Login} />
@@ -57,12 +58,21 @@ const App = () => {
           <ProtectedRoute exact path="/profile" component={Profile} />
           <Route exact path="/ingredients/:id" component={IngredientDetail} />
           <Route exact path="/orders" component={Orders} />
+          <Route exact path="/errors" component={Errors} />
           <Route component={NotFound} />
         </Switch>
-        {background && <Route path="/ingredients/:id" children={<Modal onClose={history.goBack}><IngredientDetail/></Modal>} />}
-      </div>
-    </DndProvider>
-    // </Provider>
+      </DndProvider>
+      {background && (
+        <Route
+          path="/ingredients/:id"
+          children={
+            <Modal onClose={history.goBack}>
+              <IngredientDetail />
+            </Modal>
+          }
+        />
+      )}
+    </div>
   );
 };
 

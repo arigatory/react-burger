@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import agent from '../api/agent';
 import { Bun } from '../models/bun';
 import { SelectedIngredient } from '../models/ingredient';
+import { Order } from '../models/order';
 
 interface ConstructorState {
   selectedBun: Bun | null;
@@ -21,9 +22,9 @@ const initialState: ConstructorState = {
 
 export const postOrderAsync = createAsyncThunk(
   'order/postOrder',
-  async (ingredients) => {
+  async (order: Order) => {
     try {
-      const res = await agent.Orders.post(ingredients);
+      const res = await agent.Orders.post(order);
       return res.order;
     } catch (error) {
       console.log(error);

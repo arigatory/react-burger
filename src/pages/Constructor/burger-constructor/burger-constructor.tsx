@@ -5,7 +5,10 @@ import BurgerBun from '../burger-bun/burger-bun';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorList from '../burger-constructor-list/burger-constructor-list';
 import Modal from '../../../app/components/modal/modal';
-import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../app/redux/configureStore';
 import {
   addIngredient,
   closeOrder,
@@ -51,14 +54,12 @@ const BurgerConstructor = () => {
     if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);
-    dispatch(postOrderAsync());
+    dispatch(postOrderAsync({ ingredients: ids }));
   };
 
   if (loading) {
     return (
-      <h1 className="text text_type_main-large pt-10">
-        Отправка заказа...
-      </h1>
+      <h1 className="text text_type_main-large pt-10">Отправка заказа...</h1>
     );
   }
 

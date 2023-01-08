@@ -24,12 +24,9 @@ export default function Login() {
   const dispatch = useAppDispatch();
 
   async function submitForm(data: FieldValues) {
-    try {
+    console.log(data);
       await dispatch(loginUser(data));
       history.push('/');
-    } catch (error) {
-      console.log('Login error:', error);
-    }
   }
 
   if (user) return <Redirect to={location?.state?.from || '/'} />;
@@ -59,7 +56,7 @@ export default function Login() {
         extraClass={styles.button}
         disabled={!methods.formState.isValid}
       >
-        Войти
+        {methods.formState.isSubmitting ? 'Загрузка...' : 'Войти'}
       </Button>
 
       <div className={styles.line}>
