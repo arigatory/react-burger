@@ -10,7 +10,7 @@ export default function ProtectedRoute({
   component: Component,
   ...rest
 }: Props) {
-  const { user } = useAppSelector((state) => state.account);
+  const { profile: user } = useAppSelector((state) => state.account);
   return (
     <Route
       {...rest}

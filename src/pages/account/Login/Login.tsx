@@ -12,7 +12,7 @@ import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './loginValidation';
 
 export default function Login() {
-  const { user } = useAppSelector((state) => state.account);
+  const { profile: user } = useAppSelector((state) => state.account);
   const history = useHistory();
   const location = useLocation<any>();
   const methods = useForm({

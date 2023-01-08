@@ -3,9 +3,10 @@ import { history } from '../..';
 import agent from '../api/agent';
 import { FieldValues } from 'react-hook-form';
 import { Profile } from '../models/user';
+import { toast } from 'react-toastify';
 
 interface AccountState {
-  user: Profile | null;
+  profile: Profile | null;
   status: string;
 }
 
@@ -23,7 +24,7 @@ export interface UserDto {
 }
 
 const initialState: AccountState = {
-  user: null,
+  profile: null,
   status: 'idle',
 };
 
@@ -41,7 +42,7 @@ export const loginUser = createAsyncThunk<Profile, FieldValues>(
           refreshToken: refreshToken!,
         };
         localStorage.setItem('profile', JSON.stringify(profile));
-        // thunkAPI.dispatch(setUser(user));
+        thunkAPI.dispatch(setUser(profile));
         return profile;
       } else {
         return thunkAPI.rejectWithValue({ error: userDto.message });
@@ -55,6 +56,7 @@ export const loginUser = createAsyncThunk<Profile, FieldValues>(
 export const fetchProfile = createAsyncThunk<Profile>(
   'auth/login',
   async (_, thunkAPI) => {
+    thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('profile')!)));
     try {
       const userDto: UserDto = await agent.Account.getProfile();
       const { success, user } = userDto;
@@ -79,6 +81,11 @@ export const fetchProfile = createAsyncThunk<Profile>(
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
+  },
+  {
+    condition: () => {
+      if (!localStorage.getItem('profile')) return false;
+    },
   }
 );
 
@@ -104,28 +111,6 @@ export const resetPassword = createAsyncThunk<void, FieldValues>(
   }
 );
 
-// export const fetchProfile = createAsyncThunk<User>(
-//   'auth/fetchProfile',
-//   async (_, thunkAPI) => {
-//     thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem('user')!)));
-//     try {
-//       const userDto = await agent.Account.getProfile();
-//       const { success, accessToken, refreshToken, user } = userDto;
-
-//       if (success) {
-//         user.accessToken = accessToken;
-//         user.refreshToken = refreshToken;
-//         thunkAPI.dispatch(setUser(user));
-//         return user;
-//       } else {
-//         return thunkAPI.rejectWithValue({ error: "Can't fetch" });
-//       }
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue({ error: error.data });
-//     }
-//   }
-// );
-
 export const refreshToken = createAsyncThunk(
   'auth/refreshToken',
   async (_, thunkAPI) => {
@@ -148,11 +133,11 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.profile = action.payload;
     },
     signOut: (state) => {
-      state.user = null;
-      localStorage.removeItem('token');
+      state.profile = null;
+      localStorage.removeItem('profile');
       history.push('/');
     },
   },
@@ -167,14 +152,20 @@ export const accountSlice = createSlice({
       console.log(action.payload);
       state.status = 'idle';
     });
+    builder.addCase(fetchProfile.rejected, (state) => {
+      state.profile = null;
+      localStorage.removeItem('profile');
+      toast.error('Сессия истекла. Пожалуйста, залогиньтесь снова');
+      history.push('/');
+    });
     builder.addMatcher(
       isAnyOf(loginUser.fulfilled, fetchProfile.fulfilled),
       (state, action) => {
-        state.user = action.payload;
+        state.profile = action.payload;
       }
     );
     builder.addMatcher(
-      isAnyOf(loginUser.rejected, fetchProfile.rejected, refreshToken.rejected),
+      isAnyOf(loginUser.rejected, refreshToken.rejected),
       (_, action) => {
         console.log(action.payload);
       }

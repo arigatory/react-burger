@@ -40,11 +40,12 @@ axios.interceptors.response.use(
   }
 );
 
-// axios.interceptors.request.use((config) => {
-//   const token = store.getState().account.token;
-//   if (token) config.headers.Authorization = token.accessToken;
-//   return config;
-// });
+axios.interceptors.request.use((config) => {
+  const accessToken = store.getState().account.profile?.accessToken;
+  config.headers = config.headers ?? {};
+  if (accessToken) config.headers.Authorization = accessToken;
+  return config;
+});
 
 const requests = {
   get: (url: string, params?: {}) =>

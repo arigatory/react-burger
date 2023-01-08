@@ -21,7 +21,7 @@ import { history } from '../../..';
 import { Bun } from '../../../app/models/bun';
 
 const BurgerConstructor = () => {
-  const { user } = useAppSelector((state) => state.account);
+  const { profile: user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
 
   const [, dropTarget] = useDrop({

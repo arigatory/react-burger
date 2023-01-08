@@ -10,7 +10,7 @@ import { useAppSelector } from '../../redux/configureStore';
 
 const AppHeader = () => {
   const location = useLocation();
-  const { user } = useAppSelector((state: any) => state.account);
+  const { profile } = useAppSelector((state: any) => state.account);
 
   const getNavLinkClass = (path: string) => {
     return location.pathname === path ? '' : 'text_color_inactive';
@@ -78,7 +78,7 @@ const AppHeader = () => {
             '/profile'
           )} text_type_main-default`}
         >
-          {user ? `${user.name}` : 'Личный кабинет'}
+          {profile ? `${profile.name}` : 'Личный кабинет'}
         </span>
       </NavLink>
     </header>
