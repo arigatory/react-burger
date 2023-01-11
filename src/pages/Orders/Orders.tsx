@@ -1,5 +1,6 @@
 import { OrderItem } from '../../app/models/order';
 import OrdersList from './OrdersList';
+import styles from './orders.module.scss';
 
 const orders: OrderItem[] = [
   {
@@ -24,9 +25,51 @@ const orders: OrderItem[] = [
 
 export default function Orders() {
   return (
-    <>
+    <div className={styles.container}>
       <h1 className="text text_type_main-large mb-8">Лента заказов</h1>
-      <OrdersList orders={orders} />
-    </>
+
+      <div className={styles.columns}>
+        <div className={`${styles.column} columns__left`}>
+          <OrdersList orders={orders} />
+        </div>
+        <div className={`${styles.column} columns__right`}>
+          <div className={styles.ordersStatuses}>
+            <div className="ordersStatuses__done">
+              <h3 className={`${styles.title} text text_type_main-medium`}>
+                Готовы
+              </h3>
+              <div className={styles.doneNumbers}>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+              </div>
+            </div>
+            <div className="ordersStatuses__active">
+              <h3 className={`${styles.title} text text_type_main-medium`}>
+                В работе
+              </h3>
+              <div>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+                <p className="text text_type_digits-medium">034533</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 className={`text text_type_main-medium`}>
+            Выполнено за все время:
+          </h2>
+          <p className="text text_type_digits-large mb-15">28 752</p>
+
+          <h2 className={`text text_type_main-medium`}>
+            Выполнено за сегодня:
+          </h2>
+          <p className="text text_type_digits-large">28 752</p>
+        </div>
+      </div>
+    </div>
   );
 }
