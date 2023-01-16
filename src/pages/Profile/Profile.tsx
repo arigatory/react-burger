@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
+import ProfileContent from './ProfileContent';
 
 export default function ResetPassword() {
   const history = useHistory();
@@ -55,6 +56,7 @@ export default function ResetPassword() {
           В этом разделе вы можете изменить свои персональные данные
         </span>
       </div>
+      <ProfileContent/>
     </form>
   );
 }
