@@ -1,62 +1,50 @@
 import styles from './profile.module.css';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
-import ProfileContent from './ProfileContent';
+import { router } from '../../app/router/Routes';
+import { Link, Route, Routes } from 'react-router-dom';
+import About from './About';
+import History from './History';
 
 export default function ResetPassword() {
-  const history = useHistory();
   const dispatch = useAppDispatch();
-  const {
-    handleSubmit,
-  } = useForm({
+  const { handleSubmit } = useForm({
     mode: 'onChange',
   });
 
   async function submitForm() {
-    history.push('/login');
+    router.navigate('/login');
   }
 
   return (
-    <form className={styles.profile} onSubmit={handleSubmit(submitForm)}>
+    <div className={styles.container}>
       <div className={styles.row}>
-        <span className="text text_type_main-medium">Профиль</span>
-        {/* <MyTextInput
-          label="Введите имя"
-          {...register('name', { required: 'Введите имя' })}
-        /> */}
-      </div>
+        <div className={styles.left}>
+          <Link to="about" className="text text_type_main-medium">
+            Профиль
+          </Link>
+          <Link to="history" className="text text_type_main-medium">
+            История заказов
+          </Link>
+          <Link
+            to="/"
+            className="text text_type_main-medium"
+            onClick={() => dispatch(signOut())}
+          >
+            Выход
+          </Link>
 
-      <div className={styles.row}>
-        <span className="text text_type_main-medium text_color_inactive">
-          История заказов
-        </span>
-        {/* <MyTextInput
-          label="Введите логин"
-          {...register('login', { required: 'Введите логин' })}
-        /> */}
-      </div>
+          
+        </div>
 
-      <div className={styles.row}>
-        <span
-          onClick={() => dispatch(signOut())}
-          className={`${styles.logOut} text text_type_main-medium text_color_inactive`}
-        >
-          Выход
-        </span>
-        {/* <MyTextInput
-          label="Введите логин"
-          {...register('password', { required: 'Введите пароль' })}
-        /> */}
+        <div className={styles.right}>
+          <Routes>
+            <Route path="about" element={<About />} />
+            <Route path="history" element={<History />} />
+          </Routes>
+        </div>
       </div>
-
-      <div>
-        <span className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете изменить свои персональные данные
-        </span>
-      </div>
-      <ProfileContent/>
-    </form>
+    </div>
   );
 }

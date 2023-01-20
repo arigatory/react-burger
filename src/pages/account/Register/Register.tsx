@@ -1,5 +1,4 @@
 import styles from './register.module.css';
-import { useHistory } from 'react-router-dom';
 import { Button } from '../../../app/components/yandex/dist';
 import { FieldValues, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,9 +6,9 @@ import { validationSchema } from './registerValidation';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { loginUser } from '../../../app/redux/accountSlice';
+import { router } from '../../../app/router/Routes';
 
 export default function Register() {
-  const history = useHistory();
   const methods = useForm({
     mode: 'all',
     resolver: yupResolver(validationSchema),
@@ -20,7 +19,7 @@ export default function Register() {
     try {
       //TODO: registerUser instead of login
       await dispatch(loginUser(data));
-      history.push('/');
+      router.navigate('/');
     } catch (error) {
       console.log('Login error:', error);
     }
@@ -69,7 +68,7 @@ export default function Register() {
           type="secondary"
           size="medium"
           onClick={() => {
-            history.push('/login');
+            router.navigate('/login');
           }}
           htmlType={'button'}
         >

@@ -1,5 +1,5 @@
 import styles from './login.module.css';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Button } from '../../../app/components/yandex/dist';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -10,11 +10,11 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './loginValidation';
+import { router } from '../../../app/router/Routes';
 
 export default function Login() {
   const { profile: user } = useAppSelector((state) => state.account);
-  const history = useHistory();
-  const location = useLocation<any>();
+  const location = useLocation();
   const methods = useForm({
     mode: 'all',
     resolver: yupResolver(validationSchema),
@@ -25,11 +25,11 @@ export default function Login() {
 
   async function submitForm(data: FieldValues) {
     console.log(data);
-      await dispatch(loginUser(data));
-      history.push('/');
+    await dispatch(loginUser(data));
+    router.navigate('/');
   }
 
-  if (user) return <Redirect to={location?.state?.from || '/'} />;
+  if (user) router.navigate(location?.state?.from || '/');
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
@@ -65,7 +65,7 @@ export default function Login() {
         </span>
         <Button
           htmlType="button"
-          onClick={() => history.push('/register')}
+          onClick={() => router.navigate('/register')}
           type="secondary"
           size="medium"
         >
@@ -80,7 +80,7 @@ export default function Login() {
           type="secondary"
           size="medium"
           htmlType="button"
-          onClick={() => history.push('/forgot-password')}
+          onClick={() => router.navigate('/forgot-password')}
         >
           Восстановить пароль
         </Button>

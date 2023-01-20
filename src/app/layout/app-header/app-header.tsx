@@ -23,10 +23,11 @@ const AppHeader = () => {
   return (
     <header className={`${styles.header}`}>
       <NavLink
-        exact
-        to="/"
-        activeClassName={styles.active}
-        className={styles.navItem}
+        end
+        to="constructor"
+        className={({ isActive }) =>
+          isActive ? styles.active : styles.navItem
+        }
       >
         <span className={`${styles.constructorIcon}`}>
           <BurgerIcon type={getNavLinkType('/')} />
@@ -41,10 +42,11 @@ const AppHeader = () => {
       </NavLink>
 
       <NavLink
-        exact
-        to="/orders"
-        activeClassName={styles.active}
-        className={styles.navItem}
+        end
+        to="orders"
+        className={({ isActive }) =>
+          isActive ? styles.active : styles.navItem
+        }
       >
         <span className={`${styles.constructorIcon}`}>
           <ListIcon type={getNavLinkType('/orders')} />
@@ -65,10 +67,11 @@ const AppHeader = () => {
       </div>
 
       <NavLink
-        exact
+        end
         to="/profile"
-        activeClassName={styles.active}
-        className={styles.navItem}
+        className={({ isActive }) =>
+          isActive ? styles.active : styles.navItem
+        }
       >
         <span className={`${styles.constructorIcon}`}>
           <ProfileIcon type={getNavLinkType('/profile')} />

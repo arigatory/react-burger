@@ -1,5 +1,4 @@
 import styles from './forgotPassword.module.css';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { FieldValues, useForm } from 'react-hook-form';
 import { forgotPassword } from '../../../app/redux/accountSlice';
@@ -7,9 +6,9 @@ import { Button } from '../../../app/components/yandex/dist';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './forgotPasswordValidation';
+import { router } from '../../../app/router/Routes';
 
 export default function ForgotPassword() {
-  const history = useHistory();
   const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'all',
@@ -20,7 +19,8 @@ export default function ForgotPassword() {
   async function submitForm(data: FieldValues) {
     try {
       await dispatch(forgotPassword(data));
-      history.push('/reset-password', { from: 'forgot-password' });
+      // router.navigate('/reset-password', { from: 'forgot-password' });
+      router.navigate('/reset-password');
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
           htmlType="button"
           type="secondary"
           size="medium"
-          onClick={() => history.push('/login')}
+          onClick={() => router.navigate('/login')}
         >
           Войти
         </Button>

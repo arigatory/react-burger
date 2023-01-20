@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { history } from '../..';
 import agent from '../api/agent';
 import { FieldValues } from 'react-hook-form';
 import { Profile } from '../models/user';
 import { toast } from 'react-toastify';
+import { router } from '../router/Routes';
 
 interface AccountState {
   profile: Profile | null;
@@ -138,7 +138,7 @@ export const accountSlice = createSlice({
     signOut: (state) => {
       state.profile = null;
       localStorage.removeItem('profile');
-      history.push('/');
+      router.navigate('/');
     },
   },
   extraReducers: (builder) => {
@@ -156,7 +156,7 @@ export const accountSlice = createSlice({
       state.profile = null;
       localStorage.removeItem('profile');
       toast.error('Сессия истекла. Пожалуйста, залогиньтесь снова');
-      history.push('/');
+      router.navigate('/');
     });
     builder.addMatcher(
       isAnyOf(loginUser.fulfilled, fetchProfile.fulfilled),

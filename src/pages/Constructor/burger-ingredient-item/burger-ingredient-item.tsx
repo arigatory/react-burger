@@ -38,8 +38,7 @@ export default function BurgerIngredientItem({ ingredient }: Props) {
       ref={dragRef}
       className={styles.article}
       to={{
-        pathname: `/ingredients/${ingredient._id}`,
-        state: { background: location },
+        pathname: `/ingredients/${ingredient._id}`
       }}
     >
       {count > 0 && <Counter count={count} />}

@@ -17,8 +17,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Button } from '../../../app/components/yandex/dist';
-import { history } from '../../..';
 import { Bun } from '../../../app/models/bun';
+import { router } from '../../../app/router/Routes';
 
 const BurgerConstructor = () => {
   const { profile: user } = useAppSelector((state) => state.account);
@@ -50,7 +50,8 @@ const BurgerConstructor = () => {
   }, [selectedBun, selectedIngredients]);
 
   const onPostClick = () => {
-    if (!user) history.push('/login', { from: '/' });
+    // TODO: if (!user) router.navigate('/login', { from: '/' });
+    if (!user) router.navigate('/login');
     if (!selectedBun || selectedIngredients.length === 0) return;
     const ids = selectedIngredients.map((e) => e._id);
     ids.push(selectedBun._id);
