@@ -1,13 +1,10 @@
 import { Ingredient } from "./ingredient";
 
-export interface Order {
-  ingredients: string[];
-}
-
-export interface FeedItem
+export interface HistoryItem
 {
   name: string;
   number: number;
   date: Date;
   ingredients: Ingredient[];
+  status: string;
 }

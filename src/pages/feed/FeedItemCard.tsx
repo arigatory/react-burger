@@ -1,7 +1,6 @@
 import React from 'react';
-import { OrderItem } from '../../app/models/order';
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
-import styles from './orderCard.module.scss';
+import styles from './feedItem.module.scss';
 
 interface Props {
   name: string;
@@ -11,7 +10,7 @@ interface Props {
   total: number;
 }
 
-export default function OrderCard({
+export default function FeedItemCard({
   name,
   number,
   date,
@@ -33,13 +32,10 @@ export default function OrderCard({
       </h2>
       <div className={styles.card__bottom}>
         <div className={styles.imgList}>
-          {images.map((i) => (
-            <div className={styles.imgWrapper}>
-              <div
-                key={i}
-                className={styles.img}
-              >
-                <img src={i} alt={i} />
+          {images.map((pic, i) => (
+            <div key={pic + i} className={styles.imgWrapper}>
+              <div className={styles.img}>
+                <img src={pic} alt={pic} />
               </div>
             </div>
           ))}

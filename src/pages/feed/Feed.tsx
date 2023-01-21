@@ -1,8 +1,8 @@
-import { OrderItem } from '../../app/models/order';
-import OrdersList from './OrdersList';
-import styles from './orders.module.scss';
+import { FeedItem } from '../../app/models/order';
+import FeedList from './FeedList';
+import styles from './feed.module.scss';
 
-const orders: OrderItem[] = [
+const orders: FeedItem[] = [
   {
     name: 'Interstellar бургер',
     number: 1231,
@@ -11,26 +11,26 @@ const orders: OrderItem[] = [
   },
   {
     name: 'Interstellar бургер',
-    number: 1231,
+    number: 1232,
     date: new Date(),
     ingredients: [],
   },
   {
     name: 'Interstellar бургер',
-    number: 1231,
+    number: 1233,
     date: new Date(),
     ingredients: [],
   },
 ];
 
-export default function Orders() {
+export default function Feed() {
   return (
     <div className={styles.container}>
       <h1 className="text text_type_main-large mb-8">Лента заказов</h1>
 
       <div className={styles.columns}>
         <div className={`${styles.column} columns__left`}>
-          <OrdersList orders={orders} />
+          <FeedList orders={orders} />
         </div>
         <div className={`${styles.column} columns__right`}>
           <div className={styles.ordersStatuses}>

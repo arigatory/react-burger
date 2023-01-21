@@ -23,38 +23,36 @@ const AppHeader = () => {
   return (
     <header className={`${styles.header}`}>
       <NavLink
-        end
         to="constructor"
+        end
         className={({ isActive }) =>
           isActive ? styles.active : styles.navItem
         }
       >
         <span className={`${styles.constructorIcon}`}>
-          <BurgerIcon type={getNavLinkType('/')} />
+          <BurgerIcon type={getNavLinkType('/constructor')} />
         </span>
         <span
           className={`${styles.navItemText}  ${getNavLinkClass(
-            '/'
-          )}  text_type_main-default`}
+            '/constructor'
+          )} text_type_main-default`}
         >
           Конструктор
         </span>
       </NavLink>
 
       <NavLink
+        to="feed"
         end
-        to="orders"
         className={({ isActive }) =>
           isActive ? styles.active : styles.navItem
         }
       >
         <span className={`${styles.constructorIcon}`}>
-          <ListIcon type={getNavLinkType('/orders')} />
+          <ListIcon type={getNavLinkType('/feed')} />
         </span>
         <span
-          className={`text text_type_main-default ${getNavLinkClass(
-            '/orders'
-          )}`}
+          className={`text text_type_main-default ${getNavLinkClass('/feed')}`}
         >
           Лента заказов
         </span>

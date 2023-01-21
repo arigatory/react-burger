@@ -2,7 +2,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from './app-header/app-header';
 import styles from './App.module.css';
-import { Route, useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 import IngredientDetail from '../../pages/IngredientDetail/IngredientDetail';
 import { useAppDispatch, useAppSelector } from '../redux/configureStore';
 import { useCallback, useEffect } from 'react';

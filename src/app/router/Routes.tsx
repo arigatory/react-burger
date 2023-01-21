@@ -8,7 +8,7 @@ import Profile from '../../pages/Profile/Profile';
 import ForgotPassword from '../../pages/account/ForgotPassword/ForgotPassword';
 import ResetPassword from '../../pages/account/ResetPassword/ResetPassword';
 import IngredientDetail from '../../pages/IngredientDetail/IngredientDetail';
-import Orders from '../../pages/Orders/Orders';
+import Feed from '../../pages/feed/Feed';
 import { createBrowserRouter } from 'react-router-dom';
 import Constructor from '../../pages/Constructor/Constructor';
 import About from '../../pages/Profile/About';
@@ -19,6 +19,7 @@ export const routes: RouteObject[] = [
     path: '/',
     element: <App />,
     children: [
+      { index: true, element: <Constructor /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
@@ -27,12 +28,13 @@ export const routes: RouteObject[] = [
         path: 'profile/*',
         element: <Profile />,
         children: [
+          { index: true, element: <About /> },
           { path: 'about', element: <About /> },
           { path: 'history', element: <History /> },
         ],
       },
       { path: 'ingredients/:id', element: <IngredientDetail /> },
-      { path: 'orders', element: <Orders /> },
+      { path: 'feed', element: <Feed /> },
       { path: 'constructor', element: <Constructor /> },
       { path: 'errors', element: <Errors /> },
       { path: 'not-found', element: <NotFound /> },

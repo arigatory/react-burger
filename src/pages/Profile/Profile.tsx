@@ -3,46 +3,52 @@ import { useAppDispatch } from '../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
 import { router } from '../../app/router/Routes';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom';
 import About from './About';
 import History from './History';
 
 export default function ResetPassword() {
   const dispatch = useAppDispatch();
-  const { handleSubmit } = useForm({
-    mode: 'onChange',
-  });
-
-  async function submitForm() {
-    router.navigate('/login');
-  }
 
   return (
     <div className={styles.container}>
       <div className={styles.row}>
         <div className={styles.left}>
-          <Link to="about" className="text text_type_main-medium">
+          <NavLink
+            to="about"
+            className={({ isActive }) =>
+              isActive
+                ? 'text text_type_main-medium'
+                : 'text text_type_main-medium text_color_inactive'
+            }
+          >
             Профиль
-          </Link>
-          <Link to="history" className="text text_type_main-medium">
+          </NavLink>
+          <NavLink
+            to="history"
+            className={({ isActive }) =>
+              isActive
+                ? 'text text_type_main-medium'
+                : 'text text_type_main-medium text_color_inactive'
+            }
+          >
             История заказов
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/"
-            className="text text_type_main-medium"
+            className={({ isActive }) =>
+              isActive
+                ? 'text text_type_main-medium'
+                : 'text text_type_main-medium text_color_inactive'
+            }
             onClick={() => dispatch(signOut())}
           >
             Выход
-          </Link>
-
-          
+          </NavLink>
         </div>
 
         <div className={styles.right}>
-          <Routes>
-            <Route path="about" element={<About />} />
-            <Route path="history" element={<History />} />
-          </Routes>
+          <Outlet/>
         </div>
       </div>
     </div>

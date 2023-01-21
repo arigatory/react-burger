@@ -1,16 +1,16 @@
 import React from 'react';
-import OrderCard from './OrderCard';
-import { OrderItem } from '../../app/models/order';
+import { FeedItem } from '../../app/models/order';
+import FeedItemCard from './FeedItemCard';
 
 interface Props {
-  orders: OrderItem[];
+  orders: FeedItem[];
 }
 
-export default function OrdersList({ orders }: Props) {
+export default function FeedList({ orders }: Props) {
   return (
     <div>
       {orders.map((order, i) => (
-        <OrderCard
+        <FeedItemCard
           key={order.number}
           name={order.name}
           date={order.date}
