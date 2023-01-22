@@ -2,7 +2,13 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from './app-header/app-header';
 import styles from './App.module.css';
-import { useLocation, Outlet, useNavigate } from 'react-router-dom';
+import {
+  useLocation,
+  Outlet,
+  useNavigate,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import IngredientDetail from '../../pages/IngredientDetail/IngredientDetail';
 import { useAppDispatch, useAppSelector } from '../redux/configureStore';
 import { useCallback, useEffect } from 'react';
@@ -15,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   const navigate = useNavigate();
   let location = useLocation();
+  const background = location.state && location.state.background;
   const { ingredientsLoaded } = useAppSelector((state) => state.ingredients);
 
   const dispatch = useAppDispatch();
@@ -31,8 +38,6 @@ const App = () => {
     initApp();
   }, [initApp]);
 
-  let background = location.state && location.state.background;
-
   return (
     <div className={styles.body}>
       <ToastContainer position="bottom-right" hideProgressBar />
@@ -41,10 +46,17 @@ const App = () => {
       <DndProvider backend={HTML5Backend}>
         <Outlet />
       </DndProvider>
-      {background && location.pathname === '/ingredients/:id' && (
-        <Modal onClose={() => navigate(-1)}>
-          <IngredientDetail />
-        </Modal>
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal onClose={() => navigate(-1)}>
+                <IngredientDetail />
+              </Modal>
+            }
+          />
+        </Routes>
       )}
     </div>
   );

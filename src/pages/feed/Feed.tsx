@@ -1,36 +1,37 @@
-import { FeedItem } from '../../app/models/order';
+import { useEffect } from 'react';
 import FeedList from './FeedList';
 import styles from './feed.module.scss';
-
-const orders: FeedItem[] = [
-  {
-    name: 'Interstellar бургер',
-    number: 1231,
-    date: new Date(),
-    ingredients: [],
-  },
-  {
-    name: 'Interstellar бургер',
-    number: 1232,
-    date: new Date(),
-    ingredients: [],
-  },
-  {
-    name: 'Interstellar бургер',
-    number: 1233,
-    date: new Date(),
-    ingredients: [],
-  },
-];
+import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
+import { wsConnect } from '../../app/redux/feedSlice';
 
 export default function Feed() {
+  const {
+    total,
+    totalToday,
+    feedItems,
+    isEstablishingConnection,
+    isConnected,
+  } = useAppSelector((state) => state.feed);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!isConnected && !isEstablishingConnection) {
+      dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'));
+    }
+  }, [dispatch, isConnected, isEstablishingConnection]);
+
+  const doneOrders = feedItems
+    ?.slice(0, 5)
+    .filter((item) => item.status === 'done');
+  const notDoneOrders = feedItems?.filter((item) => item.status !== 'done');
+
   return (
     <div className={styles.container}>
       <h1 className="text text_type_main-large mb-8">Лента заказов</h1>
-
+      {!isConnected && <h1>Загрузка заказов...</h1>}
       <div className={styles.columns}>
         <div className={`${styles.column} columns__left`}>
-          <FeedList orders={orders} />
+          <FeedList orders={feedItems} />
         </div>
         <div className={`${styles.column} columns__right`}>
           <div className={styles.ordersStatuses}>
@@ -39,12 +40,11 @@ export default function Feed() {
                 Готовы
               </h3>
               <div className={styles.doneNumbers}>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
+                {doneOrders.map((order) => (
+                  <p key={order._id} className="text text_type_digits-medium">
+                    {order.number}
+                  </p>
+                ))}
               </div>
             </div>
             <div className="ordersStatuses__active">
@@ -52,9 +52,11 @@ export default function Feed() {
                 В работе
               </h3>
               <div>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
-                <p className="text text_type_digits-medium">034533</p>
+                {notDoneOrders.map((order) => (
+                  <p key={order._id} className="text text_type_digits-medium">
+                    {order.number}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -62,12 +64,12 @@ export default function Feed() {
           <h2 className={`text text_type_main-medium`}>
             Выполнено за все время:
           </h2>
-          <p className="text text_type_digits-large mb-15">28 752</p>
+          <p className="text text_type_digits-large mb-15">{total}</p>
 
           <h2 className={`text text_type_main-medium`}>
             Выполнено за сегодня:
           </h2>
-          <p className="text text_type_digits-large">28 752</p>
+          <p className="text text_type_digits-large">{totalToday}</p>
         </div>
       </div>
     </div>

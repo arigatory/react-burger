@@ -8,6 +8,9 @@ export interface FeedItem
 {
   name: string;
   number: number;
-  date: Date;
-  ingredients: Ingredient[];
+  createdAt: Date;
+  updatedAt: Date;
+  ingredients: string[];
+  status: string;
+  _id: string;
 }

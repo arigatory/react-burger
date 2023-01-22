@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import { useAppSelector } from '../../../app/redux/configureStore';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Counter } from '../../../app/components/yandex/dist';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Ingredient } from '../../../app/models/ingredient';
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function BurgerIngredientItem({ ingredient }: Props) {
-  let location = useLocation();
   const { image, price, name } = ingredient;
   const { ingredients } = useAppSelector((state) => state.ingredients);
   const [, dragRef] = useDrag({

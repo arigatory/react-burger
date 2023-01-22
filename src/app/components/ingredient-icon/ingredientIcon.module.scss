@@ -1,0 +1,11 @@
+.img {
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(to right, #801ab2, #4c4cff) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}

@@ -1,48 +1,50 @@
 import React from 'react';
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
 import styles from './feedItem.module.scss';
+import IngredientIcon from '../../app/components/ingredient-icon/IngredientIcon';
+import { useAppSelector } from '../../app/redux/configureStore';
+import { FeedItem } from '../../app/models/order';
+import { ingredientsSelectors } from '../../app/redux/ingredientsSlice';
 
 interface Props {
-  name: string;
-  number: number;
-  date: Date;
-  images: string[];
-  total: number;
+  order: FeedItem;
 }
 
-export default function FeedItemCard({
-  name,
-  number,
-  date,
-  images,
-  total,
-}: Props) {
+export default function FeedItemCard({ order }: Props) {
+  const ingredients = useAppSelector((state) =>
+    ingredientsSelectors.selectEntities(state)
+  );
   return (
     <div className={styles.card}>
       <div className={styles.card__top}>
-        <span className="text text_type_main-medium">#{number}</span>
+        <span className="text text_type_main-medium">#{order?.number}</span>
         <span className={`text text_type_main-default text_color_inactive`}>
-          <FormattedDate date={date} />
+          <FormattedDate date={new Date(order.createdAt)} />
         </span>
       </div>
       <h2
         className={`${styles.card__title} text text_type_main-default text_color_inactive`}
       >
-        {name}
+        {order?.name}
       </h2>
       <div className={styles.card__bottom}>
         <div className={styles.imgList}>
-          {images.map((pic, i) => (
-            <div key={pic + i} className={styles.imgWrapper}>
-              <div className={styles.img}>
-                <img src={pic} alt={pic} />
-              </div>
-            </div>
-          ))}
+          {order?.ingredients.map((picId, i) => {
+            return (
+              <IngredientIcon
+                key={order._id + picId + i}
+                img={ingredients[picId]?.image!}
+              />
+            );
+          })}
         </div>
 
         <p className="text text_type_main-medium">
-          <span className=" mr-2">{total}</span>
+          <span className=" mr-2">
+            {order?.ingredients.reduce((a, c) => {
+              return ingredients[c]?.price! + a;
+            }, 0)}
+          </span>
           <CurrencyIcon type="primary" />
         </p>
       </div>
