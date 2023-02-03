@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import { useAppSelector } from '../../../app/redux/configureStore';
 import { CurrencyIcon } from '../../../app/components/yandex/dist';
 import { Counter } from '../../../app/components/yandex/dist';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Ingredient } from '../../../app/models/ingredient';
 
 interface Props {
@@ -17,7 +17,7 @@ export default function BurgerIngredientItem({ ingredient }: Props) {
     type: 'ingredient',
     item: ingredient,
   });
-
+  const location = useLocation();
   const selectedIngredients = ingredients.filter((i) => i.type !== 'bun');
   const selectedBun = ingredients.find((i) => i.type === 'bun');
 
@@ -34,10 +34,11 @@ export default function BurgerIngredientItem({ ingredient }: Props) {
     }
   return (
     <Link
+      state={{ background: location }}
       ref={dragRef}
       className={styles.article}
       to={{
-        pathname: `/ingredients/${ingredient._id}`
+        pathname: `/ingredients/${ingredient._id}`,
       }}
     >
       {count > 0 && <Counter count={count} />}

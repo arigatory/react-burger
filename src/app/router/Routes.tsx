@@ -1,4 +1,11 @@
-import { Navigate, RouteObject } from 'react-router';
+import {
+  createRoutesFromElements,
+  Navigate,
+  Route,
+  RouteObject,
+  Routes,
+  useNavigate,
+} from 'react-router';
 import App from '../layout/App';
 import Login from '../../pages/account/Login/Login';
 import Register from '../../pages/account/Register/Register';
@@ -14,33 +21,25 @@ import Constructor from '../../pages/Constructor/Constructor';
 import About from '../../pages/Profile/About';
 import History from '../../pages/Profile/History';
 
-export const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      { index: true, element: <Constructor /> },
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
-      { path: 'forgot-password', element: <ForgotPassword /> },
-      { path: 'reset-password', element: <ResetPassword /> },
-      {
-        path: 'profile/*',
-        element: <Profile />,
-        children: [
-          { index: true, element: <About /> },
-          { path: 'about', element: <About /> },
-          { path: 'history', element: <History /> },
-        ],
-      },
-      { path: 'ingredients/:id', element: <IngredientDetail /> },
-      { path: 'feed', element: <Feed /> },
-      { path: 'constructor', element: <Constructor /> },
-      { path: 'errors', element: <Errors /> },
-      { path: 'not-found', element: <NotFound /> },
-      { path: '*', element: <Navigate replace to="not-found" /> },
-    ],
-  },
-];
-
-export const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index={true} element={<Constructor />} />
+      <Route path={'login'} element={<Login />} />
+      <Route path={'register'} element={<Register />} />
+      <Route path={'forgot-password'} element={<ForgotPassword />} />
+      <Route path={'reset-password'} element={<ResetPassword />} />
+      <Route path={'/profile/*'} element={<Profile />}>
+        <Route index={true} element={<About />} />
+        <Route path={'about'} element={<About />} />
+        <Route path={'history'} element={<History />} />
+      </Route>
+      <Route path={'ingredients/:id'} element={<IngredientDetail />} />
+      <Route path={'feed'} element={<Feed />} />
+      <Route path={'constructor'} element={<Constructor />} />
+      <Route path={'errors'} element={<Errors />} />
+      <Route path={'not-found'} element={<NotFound />} />
+      <Route path={'*'} element={<Navigate replace to="not-found" />} />
+    </Route>
+  )
+);

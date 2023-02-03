@@ -2,7 +2,6 @@ import styles from './profile.module.css';
 import { useAppDispatch } from '../../app/redux/configureStore';
 import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
-import { router } from '../../app/router/Routes';
 import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom';
 import About from './About';
 import History from './History';
@@ -25,7 +24,7 @@ export default function ResetPassword() {
             Профиль
           </NavLink>
           <NavLink
-            to="history"
+            to="orders"
             className={({ isActive }) =>
               isActive
                 ? 'text text_type_main-medium'

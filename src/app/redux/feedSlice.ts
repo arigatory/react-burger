@@ -14,7 +14,7 @@ interface FeedState {
 }
 
 const feedAdapter = createEntityAdapter<FeedItem>({
-  selectId: (item) => item.number,
+  selectId: (item) => item._id,
 });
 
 export const feedSlice = createSlice({
@@ -48,6 +48,7 @@ export const feedSlice = createSlice({
       console.log('Feed error...', action.payload);
     },
     onMessage(state, action) {
+      feedAdapter.setAll(state, action.payload.orders);
       state.feedItems = action.payload.orders;
       state.total = action.payload.total;
       state.totalToday = action.payload.totalToday;
@@ -61,6 +62,7 @@ export const feedSlice = createSlice({
 export const feedSelectors = feedAdapter.getSelectors(
   (state: RootState) => state.feed
 );
+
 export const {
   wsConnect,
   wsSendMessage,
