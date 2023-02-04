@@ -117,7 +117,6 @@ export const refreshToken = createAsyncThunk(
     try {
       const tokenDto = await agent.Account.getProfile();
       const { success, accessToken, refreshToken } = tokenDto;
-      console.log(tokenDto);
       if (success) {
         localStorage.setItem('accessToken', JSON.stringify(accessToken));
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
@@ -149,7 +148,6 @@ export const accountSlice = createSlice({
       state.status = 'idle';
     });
     builder.addCase(resetPassword.rejected, (state, action) => {
-      console.log(action.payload);
       state.status = 'idle';
     });
     builder.addCase(fetchProfile.rejected, (state) => {

@@ -29,6 +29,7 @@ import Feed from '../../pages/feed/Feed';
 import Errors from '../../pages/Errors/Errors';
 import NotFound from '../../pages/NotFound/NotFound';
 import OrderDetail from '../../pages/orderDetail/OrderDetail';
+import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
   const navigate = useNavigate();
@@ -57,22 +58,30 @@ const App = () => {
       <AppHeader />
       <DndProvider backend={HTML5Backend}>
         <Routes location={background || location}>
-            <Route index={true} element={<Constructor />} />
-            <Route path={'login'} element={<Login />} />
-            <Route path={'register'} element={<Register />} />
-            <Route path={'forgot-password'} element={<ForgotPassword />} />
-            <Route path={'reset-password'} element={<ResetPassword />} />
-            <Route path={'/profile/*'} element={<Profile />}>
-              <Route index={true} element={<About />} />
-              <Route path={'about'} element={<About />} />
-              <Route path={'orders'} element={<History />} />
-            </Route>
-            <Route path={'ingredients/:id'} element={<IngredientDetail />} />
-            <Route path={'feed'} element={<Feed />} />
-            <Route path={'constructor'} element={<Constructor />} />
-            <Route path={'errors'} element={<Errors />} />
-            <Route path={'not-found'} element={<NotFound />} />
-            <Route path={'*'} element={<Navigate replace to="not-found" />} />
+          <Route index={true} element={<Constructor />} />
+          <Route path={'login'} element={<Login />} />
+          <Route path={'register'} element={<Register />} />
+          <Route path={'forgot-password'} element={<ForgotPassword />} />
+          <Route path={'reset-password'} element={<ResetPassword />} />
+          <Route
+            path={'/profile/*'}
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          >
+            <Route index={true} element={<About />} />
+            <Route path={'about'} element={<About />} />
+            <Route path={'orders'} element={<History />} />
+          </Route>
+          <Route path={'ingredients/:id'} element={<IngredientDetail />} />
+          <Route path={'feed/:id'} element={<OrderDetail />} />
+          <Route path={'feed'} element={<Feed />} />
+          <Route path={'constructor'} element={<Constructor />} />
+          <Route path={'errors'} element={<Errors />} />
+          <Route path={'not-found'} element={<NotFound />} />
+          <Route path={'*'} element={<Navigate replace to="not-found" />} />
         </Routes>
         {background && (
           <Routes>

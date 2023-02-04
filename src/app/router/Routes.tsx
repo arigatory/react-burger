@@ -20,6 +20,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Constructor from '../../pages/Constructor/Constructor';
 import About from '../../pages/Profile/About';
 import History from '../../pages/Profile/History';
+import OrderDetail from '../../pages/orderDetail/OrderDetail';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ export const router = createBrowserRouter(
         <Route path={'history'} element={<History />} />
       </Route>
       <Route path={'ingredients/:id'} element={<IngredientDetail />} />
+      <Route path={'feed/:id'} element={<OrderDetail />} />
       <Route path={'feed'} element={<Feed />} />
       <Route path={'constructor'} element={<Constructor />} />
       <Route path={'errors'} element={<Errors />} />

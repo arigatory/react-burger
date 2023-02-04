@@ -2,32 +2,28 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { FeedItem } from '../models/order';
 import { RootState } from './configureStore';
 
-interface FeedState {
-  feedLoaded: boolean;
+interface HistoryState {
+  historyLoaded: boolean;
   status: string;
-  feedItems: FeedItem[];
+  historyItems: FeedItem[];
   isEstablishingConnection: boolean;
   isConnected: boolean;
   url: string | null;
-  total: number | null;
-  totalToday: number | null;
 }
 
-const feedAdapter = createEntityAdapter<FeedItem>({
+const historyAdapter = createEntityAdapter<FeedItem>({
   selectId: (item) => item._id,
 });
 
-export const feedSlice = createSlice({
-  name: 'feed',
-  initialState: feedAdapter.getInitialState<FeedState>({
-    feedLoaded: false,
+export const historySlice = createSlice({
+  name: 'history',
+  initialState: historyAdapter.getInitialState<HistoryState>({
+    historyLoaded: false,
     status: 'idle',
-    feedItems: [],
+    historyItems: [],
     isConnected: false,
     isEstablishingConnection: false,
     url: null,
-    total: null,
-    totalToday: null,
   }),
   reducers: {
     wsConnect(state, action) {
@@ -45,21 +41,20 @@ export const feedSlice = createSlice({
     },
     onClose(state) {},
     onError(state, action) {
-      console.log('Feed error...', action.payload);
+      console.log('History error...', action.payload);
     },
     onMessage(state, action) {
-      feedAdapter.setAll(state, action.payload.orders);
-      state.feedItems = action.payload.orders;
-      state.total = action.payload.total;
-      state.totalToday = action.payload.totalToday;
+      historyAdapter.setAll(state, action.payload.orders);
+      state.historyItems = action.payload.orders;
+      state.historyLoaded = true;
     },
     wsConnecting(state) {},
     wsDisconnect(state) {},
   },
 });
 
-export const feedSelectors = feedAdapter.getSelectors(
-  (state: RootState) => state.feed
+export const historySelectors = historyAdapter.getSelectors(
+  (state: RootState) => state.history
 );
 
 export const {
@@ -71,4 +66,4 @@ export const {
   onMessage,
   wsConnecting,
   wsDisconnect,
-} = feedSlice.actions;
+} = historySlice.actions;

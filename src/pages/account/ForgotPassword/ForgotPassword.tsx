@@ -6,9 +6,10 @@ import { Button } from '../../../app/components/yandex/dist';
 import { yupResolver } from '@hookform/resolvers/yup';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './forgotPasswordValidation';
-import { router } from '../../../app/router/Routes';
+import { useNavigate } from 'react-router-dom';
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'all',
@@ -19,8 +20,7 @@ export default function ForgotPassword() {
   async function submitForm(data: FieldValues) {
     try {
       await dispatch(forgotPassword(data));
-      // router.navigate('/reset-password', { from: 'forgot-password' });
-      router.navigate('/reset-password');
+      navigate('/reset-password');
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
           htmlType="button"
           type="secondary"
           size="medium"
-          onClick={() => router.navigate('/login')}
+          onClick={() => navigate('/login')}
         >
           Войти
         </Button>

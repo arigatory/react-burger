@@ -7,9 +7,10 @@ import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './resetPasswordValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { router } from '../../../app/router/Routes';
+import { useNavigate } from 'react-router-dom';
 
 export default function ResetPassword() {
-  // const location = useLocation<any>();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'all',
@@ -21,9 +22,6 @@ export default function ResetPassword() {
     dispatch(resetPassword(data));
     router.navigate('/login');
   }
-
-  // if (location?.state?.from?.pathname !== '/forgot-password')
-  //   return history.push('/forgot-password');
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
@@ -62,7 +60,7 @@ export default function ResetPassword() {
           htmlType="button"
           type="secondary"
           size="medium"
-          onClick={() => router.navigate('/login')}
+          onClick={() => navigate('/login')}
         >
           Войти
         </Button>

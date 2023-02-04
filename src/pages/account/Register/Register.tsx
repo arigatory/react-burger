@@ -7,8 +7,10 @@ import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { loginUser } from '../../../app/redux/accountSlice';
 import { router } from '../../../app/router/Routes';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+  const navigate = useNavigate();
   const methods = useForm({
     mode: 'all',
     resolver: yupResolver(validationSchema),
@@ -67,9 +69,8 @@ export default function Register() {
         <Button
           type="secondary"
           size="medium"
-          onClick={() => {
-            router.navigate('/login');
-          }}
+          onClick={() => navigate('/login')}
+
           htmlType={'button'}
         >
           Войти

@@ -1,9 +1,10 @@
 import { Middleware } from 'redux';
 import { feedSlice } from '../redux/feedSlice';
+import { historySlice } from '../redux/historySlice';
 
-export type State = ReturnType<typeof feedSlice.reducer>;
+export type State = ReturnType<typeof feedSlice.reducer | typeof historySlice.reducer>;
 export const socketMiddleware = (
-  wsActions: typeof feedSlice.actions
+  wsActions: typeof feedSlice.actions | typeof historySlice.actions
 ): Middleware => {
   return (store) => {
     let socket: WebSocket | null = null;

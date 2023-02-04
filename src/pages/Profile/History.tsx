@@ -1,41 +1,32 @@
-import React from 'react';
-import HistoryCard from './HistoryCard';
-import { HistoryItem } from '../../app/models/historyItem';
-
-interface Props {
-  item: HistoryItem;
-}
-
-const orders: HistoryItem[] = [
-  {
-    name: 'Interstellar бургер',
-    number: 1231,
-    date: new Date(),
-    ingredients: [],
-    status: 'Создан',
-  },
-  {
-    name: 'Interstellar бургер',
-    number: 1232,
-    date: new Date(),
-    ingredients: [],
-    status: 'Готовится',
-  },
-  {
-    name: 'Interstellar бургер',
-    number: 1233,
-    date: new Date(),
-    ingredients: [],
-    status: 'Выполнен',
-  },
-];
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
+import { wsConnect } from '../../app/redux/historySlice';
+import FeedList from '../feed/FeedList';
 
 export default function History() {
+  const { profile: user } = useAppSelector((state) => state.account);
+  const { historyItems, isEstablishingConnection, isConnected, historyLoaded } =
+    useAppSelector((state) => state.history);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (!isConnected && !isEstablishingConnection) {
+      dispatch(
+        wsConnect(
+          `wss://norma.nomoreparties.space/orders?token=${
+            user?.accessToken.split(' ')[1]
+          }`
+        )
+      );
+    }
+  }, [dispatch, isConnected, isEstablishingConnection, user?.accessToken]);
+
   return (
-    <div>
-      {orders.map((o) => (
-        <HistoryCard key={o.number} item={o} />
-      ))}
-    </div>
+    <>
+      {!historyLoaded ? (
+        <h1>Загрузка заказов...</h1>
+      ) : (
+        <FeedList orders={historyItems} reverse/>
+      )}
+    </>
   );
 }
