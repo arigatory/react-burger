@@ -20,7 +20,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Constructor from '../../pages/Constructor/Constructor';
 import About from '../../pages/Profile/About';
 import History from '../../pages/Profile/History';
-import OrderDetail from '../../pages/orderDetail/OrderDetail';
+import OrderDetail from '../../pages/feed/OrderDetail';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

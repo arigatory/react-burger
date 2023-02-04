@@ -17,27 +17,14 @@ export default function OrderDetail() {
   const {
     feedLoaded
   } = useAppSelector((state) => state.feed);
-  const {
-    historyLoaded
-  } = useAppSelector((state) => state.history);
   const dispatch = useAppDispatch();
-
-  const { profile: user } = useAppSelector((state) => state.account);
 
   useEffect(() => {
     if (!feedLoaded) {
       dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'));
     }
-    if (!historyLoaded) {
-      dispatch(
-        wsConnect(
-          `wss://norma.nomoreparties.space/orders?token=${
-            user?.accessToken.split(' ')[1]
-          }`
-        )
-      );
-    }
-  }, [dispatch, feedLoaded, historyLoaded, user?.accessToken]);
+    
+  }, [dispatch, feedLoaded]);
 
   
   return (

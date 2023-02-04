@@ -28,9 +28,9 @@ import History from '../../pages/Profile/History';
 import Feed from '../../pages/feed/Feed';
 import Errors from '../../pages/Errors/Errors';
 import NotFound from '../../pages/NotFound/NotFound';
-import OrderDetail from '../../pages/orderDetail/OrderDetail';
 import ProtectedRoute from './ProtectedRoute';
 import HistoryOrderDetail from '../../pages/Profile/HistoryOrderDetail';
+import OrderDetail from '../../pages/feed/OrderDetail';
 
 const App = () => {
   const navigate = useNavigate();
