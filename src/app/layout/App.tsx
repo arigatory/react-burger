@@ -30,6 +30,7 @@ import Errors from '../../pages/Errors/Errors';
 import NotFound from '../../pages/NotFound/NotFound';
 import OrderDetail from '../../pages/orderDetail/OrderDetail';
 import ProtectedRoute from './ProtectedRoute';
+import HistoryOrderDetail from '../../pages/Profile/HistoryOrderDetail';
 
 const App = () => {
   const navigate = useNavigate();
@@ -77,6 +78,7 @@ const App = () => {
           </Route>
           <Route path={'ingredients/:id'} element={<IngredientDetail />} />
           <Route path={'feed/:id'} element={<OrderDetail />} />
+          <Route path={'orders/:id'} element={<HistoryOrderDetail />} />
           <Route path={'feed'} element={<Feed />} />
           <Route path={'constructor'} element={<Constructor />} />
           <Route path={'errors'} element={<Errors />} />
@@ -105,7 +107,7 @@ const App = () => {
               path="orders/:id"
               element={
                 <Modal onClose={() => navigate(-1)}>
-                  <OrderDetail />
+                  <HistoryOrderDetail />
                 </Modal>
               }
             />

@@ -1,5 +1,5 @@
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
-import styles from './feedItem.module.scss';
+import styles from './historyItem.module.scss';
 import IngredientIcon from '../../app/components/ingredient-icon/IngredientIcon';
 import { useAppSelector } from '../../app/redux/configureStore';
 import { FeedItem } from '../../app/models/order';
@@ -8,9 +8,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 interface Props {
   order: FeedItem;
+  status?: boolean;
 }
 
-export default function FeedItemCard({ order }: Props) {
+export default function HistoryItemCard({ order, status }: Props) {
   const location = useLocation();
   const ingredients = useAppSelector((state) =>
     ingredientsSelectors.selectEntities(state)
@@ -20,7 +21,7 @@ export default function FeedItemCard({ order }: Props) {
       state={{ background: location }}
       className={styles.article}
       to={{
-        pathname: `/feed/${order._id}`,
+        pathname: `/orders/${order._id}`,
       }}
     >
       <div className={styles.card}>
@@ -35,6 +36,10 @@ export default function FeedItemCard({ order }: Props) {
         >
           {order?.name}
         </h2>
+        {status && <>{order.status === 'created' && <p className={`${styles.created} text text_type_main-small mb-6`}>Создан</p>}</>}
+        {status && <>{order.status === 'pending' && <p className={`${styles.pending} text text_type_main-small mb-6`}>Готовится</p>}</>}
+        {status && <>{order.status === 'done' && <p className={`${styles.done} text text_type_main-small mb-6`}>Выполнен</p>}</>}
+        {status && <>{order.status === 'cancelled' && <p className={`${styles.cancelled} text text_type_main-small mb-6`}>Отменен</p>}</>}
         <div className={styles.card__bottom}>
           <div className={styles.imgList}>
             {order?.ingredients.map((picId, i) => {

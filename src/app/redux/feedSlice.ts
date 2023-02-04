@@ -42,8 +42,10 @@ export const feedSlice = createSlice({
     onOpen(state) {
       state.isEstablishingConnection = false;
       state.isConnected = true;
+      console.log('Feed connected...');
     },
-    onClose(state) {},
+    onClose(state) {
+    },
     onError(state, action) {
       console.log('Feed error...', action.payload);
     },
@@ -52,9 +54,12 @@ export const feedSlice = createSlice({
       state.feedItems = action.payload.orders;
       state.total = action.payload.total;
       state.totalToday = action.payload.totalToday;
+      state.feedLoaded = true;
     },
     wsConnecting(state) {},
-    wsDisconnect(state) {},
+    wsDisconnect(state) {
+      console.log('Feed disconnected...');
+    },
   },
 });
 

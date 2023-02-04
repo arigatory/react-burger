@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
-import { wsConnect } from '../../app/redux/historySlice';
-import FeedList from '../feed/FeedList';
+import { wsConnect, wsDisconnect } from '../../app/redux/historySlice';
+import HistoryList from './HistoryList';
 
 export default function History() {
   const { profile: user } = useAppSelector((state) => state.account);
@@ -18,14 +18,24 @@ export default function History() {
         )
       );
     }
-  }, [dispatch, isConnected, isEstablishingConnection, user?.accessToken]);
+
+    return () => {
+      if (isConnected) dispatch(wsDisconnect());
+    };
+  }, [
+    dispatch,
+    historyLoaded,
+    isConnected,
+    isEstablishingConnection,
+    user?.accessToken,
+  ]);
 
   return (
     <>
       {!historyLoaded ? (
         <h1>Загрузка заказов...</h1>
       ) : (
-        <FeedList orders={historyItems} reverse/>
+        <HistoryList orders={historyItems} />
       )}
     </>
   );

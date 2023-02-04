@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import FeedList from './FeedList';
 import styles from './feed.module.scss';
 import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
-import { wsConnect } from '../../app/redux/feedSlice';
+import { wsConnect, wsDisconnect } from '../../app/redux/feedSlice';
 
 export default function Feed() {
   const {
@@ -11,6 +11,7 @@ export default function Feed() {
     feedItems,
     isEstablishingConnection,
     isConnected,
+    feedLoaded,
   } = useAppSelector((state) => state.feed);
   const dispatch = useAppDispatch();
 
@@ -18,7 +19,11 @@ export default function Feed() {
     if (!isConnected && !isEstablishingConnection) {
       dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'));
     }
-  }, [dispatch, isConnected, isEstablishingConnection]);
+
+    return () => {
+      if (isConnected) dispatch(wsDisconnect());
+    };
+  }, [dispatch, feedLoaded, isConnected, isEstablishingConnection]);
 
   const doneOrders = feedItems
     ?.slice(0, 5)

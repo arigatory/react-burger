@@ -7,8 +7,11 @@ interface Props {
 }
 
 export default function FeedList({ orders, reverse }: Props) {
-  const itemsToRender = orders.map((order) => (
-    <FeedItemCard key={order._id} order={order} status={true} />
-  ));
-  return <div>{reverse ? itemsToRender.reverse() : itemsToRender}</div>;
+  return (
+    <div>
+      {orders.map((order) => (
+        <FeedItemCard key={order._id} order={order} />
+      ))}
+    </div>
+  );
 }

@@ -2,7 +2,9 @@ import { Middleware } from 'redux';
 import { feedSlice } from '../redux/feedSlice';
 import { historySlice } from '../redux/historySlice';
 
-export type State = ReturnType<typeof feedSlice.reducer | typeof historySlice.reducer>;
+export type State = ReturnType<
+  typeof feedSlice.reducer | typeof historySlice.reducer
+>;
 export const socketMiddleware = (
   wsActions: typeof feedSlice.actions | typeof historySlice.actions
 ): Middleware => {
@@ -15,14 +17,27 @@ export const socketMiddleware = (
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { wsConnect, onOpen, onClose, onError, onMessage, wsConnecting } =
-        wsActions;
+      const {
+        wsConnect,
+        onOpen,
+        onError,
+        onMessage,
+        wsConnecting,
+        onClose,
+        wsDisconnect,
+      } = wsActions;
       if (wsConnect?.match(action)) {
         url = action.payload;
         socket = new WebSocket(url);
-        console.log(socket, 'Connecting...');
+        console.log(`Connecting to ${url}`);
         isConnected = true;
         dispatch(wsConnecting());
+      }
+      if (wsDisconnect?.match(action)) {
+        url = '';
+        socket?.close();
+        isConnected = false;
+        socket = null;
       }
       if (socket) {
         socket.onopen = (event) => {
@@ -42,7 +57,7 @@ export const socketMiddleware = (
 
         socket.onclose = (event) => {
           if (event.code !== 1000) {
-            console.log('error');
+            console.log('Закрытие сокета произошло с ошибкой');
             dispatch(onError(event.code.toString()));
           }
           console.log('close');

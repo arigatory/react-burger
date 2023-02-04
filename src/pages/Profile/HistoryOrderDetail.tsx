@@ -3,20 +3,17 @@ import { useParams } from 'react-router-dom';
 import IngredientIcon from '../../app/components/ingredient-icon/IngredientIcon';
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
 import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
-import { feedSelectors, wsConnect } from '../../app/redux/feedSlice';
+import { historySelectors, wsConnect } from '../../app/redux/historySlice';
 import { ingredientsSelectors } from '../../app/redux/ingredientsSlice';
-import styles from './orderDetail.module.scss';
+import styles from './historyOrderDetail.module.scss';
 
-export default function OrderDetail() {
+export default function HistoryOrderDetail() {
   const { id } = useParams<{ id: string }>();
-  const order = useAppSelector((state) => feedSelectors.selectById(state, id!));
+  const order = useAppSelector((state) => historySelectors.selectById(state, id!));
   const ingredients = useAppSelector((state) =>
     ingredientsSelectors.selectEntities(state)
   );
 
-  const {
-    feedLoaded
-  } = useAppSelector((state) => state.feed);
   const {
     historyLoaded
   } = useAppSelector((state) => state.history);
@@ -25,9 +22,6 @@ export default function OrderDetail() {
   const { profile: user } = useAppSelector((state) => state.account);
 
   useEffect(() => {
-    if (!feedLoaded) {
-      dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'));
-    }
     if (!historyLoaded) {
       dispatch(
         wsConnect(
@@ -37,7 +31,7 @@ export default function OrderDetail() {
         )
       );
     }
-  }, [dispatch, feedLoaded, historyLoaded, user?.accessToken]);
+  }, [dispatch, historyLoaded, user?.accessToken]);
 
   
   return (

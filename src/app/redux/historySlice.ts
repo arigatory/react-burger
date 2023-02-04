@@ -38,18 +38,25 @@ export const historySlice = createSlice({
     onOpen(state) {
       state.isEstablishingConnection = false;
       state.isConnected = true;
+      console.log('History connected...');
     },
-    onClose(state) {},
+    onClose(state) {
+    },
     onError(state, action) {
-      console.log('History error...', action.payload);
+      console.log('History error...', action);
     },
     onMessage(state, action) {
       historyAdapter.setAll(state, action.payload.orders);
       state.historyItems = action.payload.orders;
       state.historyLoaded = true;
     },
-    wsConnecting(state) {},
-    wsDisconnect(state) {},
+    wsConnecting(state) {
+      console.log('Connecting history...');
+    },
+    wsDisconnect(state) {
+      state.isConnected = false;
+      console.log('History disconnected...');
+    },
   },
 });
 
