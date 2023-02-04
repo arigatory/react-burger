@@ -2,9 +2,6 @@ import {
   createRoutesFromElements,
   Navigate,
   Route,
-  RouteObject,
-  Routes,
-  useNavigate,
 } from 'react-router';
 import App from '../layout/App';
 import Login from '../../pages/account/Login/Login';
