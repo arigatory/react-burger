@@ -1,5 +1,5 @@
 import styles from './login.module.css';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../../app/components/yandex/dist';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -10,11 +10,12 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './loginValidation';
+import { router } from '../../../app/router/Routes';
 
 export default function Login() {
   const { profile: user } = useAppSelector((state) => state.account);
-  const history = useHistory();
-  const location = useLocation<any>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const methods = useForm({
     mode: 'all',
     resolver: yupResolver(validationSchema),
@@ -24,12 +25,11 @@ export default function Login() {
   const dispatch = useAppDispatch();
 
   async function submitForm(data: FieldValues) {
-    console.log(data);
-      await dispatch(loginUser(data));
-      history.push('/');
+    await dispatch(loginUser(data));
+    router.navigate('/');
   }
 
-  if (user) return <Redirect to={location?.state?.from || '/'} />;
+  if (user) return <Navigate to={location?.state?.from || '/'} replace />;
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
@@ -61,11 +61,11 @@ export default function Login() {
 
       <div className={styles.line}>
         <span className="text text_type_main-default text_color_inactive">
-          Вы — новый пользователь?
+          Вы — новый пользователь?
         </span>
         <Button
           htmlType="button"
-          onClick={() => history.push('/register')}
+          onClick={() => navigate('/register')}
           type="secondary"
           size="medium"
         >
@@ -80,7 +80,7 @@ export default function Login() {
           type="secondary"
           size="medium"
           htmlType="button"
-          onClick={() => history.push('/forgot-password')}
+          onClick={() => navigate('/forgot-password')}
         >
           Восстановить пароль
         </Button>

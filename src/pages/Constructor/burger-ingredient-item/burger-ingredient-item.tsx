@@ -11,14 +11,13 @@ interface Props {
 }
 
 export default function BurgerIngredientItem({ ingredient }: Props) {
-  let location = useLocation();
   const { image, price, name } = ingredient;
   const { ingredients } = useAppSelector((state) => state.ingredients);
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient,
   });
-
+  const location = useLocation();
   const selectedIngredients = ingredients.filter((i) => i.type !== 'bun');
   const selectedBun = ingredients.find((i) => i.type === 'bun');
 
@@ -35,11 +34,11 @@ export default function BurgerIngredientItem({ ingredient }: Props) {
     }
   return (
     <Link
+      state={{ background: location }}
       ref={dragRef}
       className={styles.article}
       to={{
         pathname: `/ingredients/${ingredient._id}`,
-        state: { background: location },
       }}
     >
       {count > 0 && <Counter count={count} />}

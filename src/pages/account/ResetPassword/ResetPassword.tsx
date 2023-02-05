@@ -1,5 +1,4 @@
 import styles from './resetPassword.module.css';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { Button } from '../../../app/components/yandex/dist';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -7,10 +6,11 @@ import { resetPassword } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './resetPasswordValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { router } from '../../../app/router/Routes';
+import { useNavigate } from 'react-router-dom';
 
 export default function ResetPassword() {
-  const history = useHistory();
-  // const location = useLocation<any>();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'all',
@@ -20,11 +20,8 @@ export default function ResetPassword() {
 
   async function submitForm(data: FieldValues) {
     dispatch(resetPassword(data));
-    history.push('/login');
+    router.navigate('/login');
   }
-
-  // if (location?.state?.from?.pathname !== '/forgot-password')
-  //   return history.push('/forgot-password');
 
   return (
     <form className={styles.login} onSubmit={handleSubmit(submitForm)}>
@@ -63,7 +60,7 @@ export default function ResetPassword() {
           htmlType="button"
           type="secondary"
           size="medium"
-          onClick={() => history.push('/login')}
+          onClick={() => navigate('/login')}
         >
           Войти
         </Button>

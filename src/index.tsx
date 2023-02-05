@@ -1,17 +1,17 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import App from './app/layout/App';
 import { store } from './app/redux/configureStore';
-import { createBrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './app/layout/App';
 
-export const history = createBrowserHistory();
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
-  <Router history={history}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Router>
       <App />
-    </Provider>
-  </Router>
+    </Router>
+  </Provider>
 );

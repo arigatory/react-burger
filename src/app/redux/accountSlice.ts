@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { history } from '../..';
 import agent from '../api/agent';
 import { FieldValues } from 'react-hook-form';
 import { Profile } from '../models/user';
 import { toast } from 'react-toastify';
+import { router } from '../router/Routes';
 
 interface AccountState {
   profile: Profile | null;
@@ -117,7 +117,6 @@ export const refreshToken = createAsyncThunk(
     try {
       const tokenDto = await agent.Account.getProfile();
       const { success, accessToken, refreshToken } = tokenDto;
-      console.log(tokenDto);
       if (success) {
         localStorage.setItem('accessToken', JSON.stringify(accessToken));
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
@@ -138,7 +137,7 @@ export const accountSlice = createSlice({
     signOut: (state) => {
       state.profile = null;
       localStorage.removeItem('profile');
-      history.push('/');
+      router.navigate('/');
     },
   },
   extraReducers: (builder) => {
@@ -149,14 +148,13 @@ export const accountSlice = createSlice({
       state.status = 'idle';
     });
     builder.addCase(resetPassword.rejected, (state, action) => {
-      console.log(action.payload);
       state.status = 'idle';
     });
     builder.addCase(fetchProfile.rejected, (state) => {
       state.profile = null;
       localStorage.removeItem('profile');
       toast.error('Сессия истекла. Пожалуйста, залогиньтесь снова');
-      history.push('/');
+      router.navigate('/');
     });
     builder.addMatcher(
       isAnyOf(loginUser.fulfilled, fetchProfile.fulfilled),
