@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './ingredientIcon.module.scss';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 export default function IngredientIcon({ img, text }: Props) {
   return (
       <div className={styles.img}>
-        <img src={img} alt={img} />
+        <img src={img} alt='Ingredient icon' />
       </div>
   );
 }
