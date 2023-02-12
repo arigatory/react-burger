@@ -3,7 +3,6 @@ import agent from '../api/agent';
 import { FieldValues } from 'react-hook-form';
 import { Profile } from '../models/user';
 import { toast } from 'react-toastify';
-import { router } from '../router/Routes';
 
 interface AccountState {
   profile: Profile | null;
@@ -23,7 +22,7 @@ export interface UserDto {
   message?: string;
 }
 
-const initialState: AccountState = {
+export const initialState: AccountState = {
   profile: null,
   status: 'idle',
 };
@@ -137,7 +136,6 @@ export const accountSlice = createSlice({
     signOut: (state) => {
       state.profile = null;
       localStorage.removeItem('profile');
-      router.navigate('/');
     },
   },
   extraReducers: (builder) => {
@@ -154,7 +152,6 @@ export const accountSlice = createSlice({
       state.profile = null;
       localStorage.removeItem('profile');
       toast.error('Сессия истекла. Пожалуйста, залогиньтесь снова');
-      router.navigate('/');
     });
     builder.addMatcher(
       isAnyOf(loginUser.fulfilled, fetchProfile.fulfilled),
