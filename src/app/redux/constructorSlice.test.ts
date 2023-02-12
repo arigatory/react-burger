@@ -6,7 +6,6 @@ import {
 } from './constructorSlice';
 
 jest.mock('../api/agent', () => jest.fn());
-jest.mock('../router/Routes', () => jest.fn());
 
 describe('burgerConstructorSlice', () => {
   describe('addIngredient', () => {
@@ -58,6 +57,7 @@ describe('burgerConstructorSlice', () => {
       expect(nextState.selectedIngredients).toEqual([ingredient]);
     });
   });
+
   describe('removeIngredient reducer', () => {
     it('should remove ingredient at given index', () => {
       const state = {
@@ -164,6 +164,7 @@ describe('burgerConstructorSlice', () => {
       ]);
     });
   });
+  
   describe('moveIngredient reducer', () => {
     it('should move an ingredient from index i to index j', () => {
       const initialState: ReturnType<

@@ -1,7 +1,6 @@
 import { accountSlice, initialState, setUser } from './accountSlice';
 
 jest.mock('../api/agent', () => jest.fn());
-jest.mock('../router/Routes', () => jest.fn());
 
 const reducer = accountSlice.reducer;
 

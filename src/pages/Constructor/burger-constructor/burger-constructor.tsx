@@ -65,7 +65,7 @@ const BurgerConstructor = () => {
   }
 
   return (
-    <div className={styles.main} ref={dropTarget}>
+    <div className={styles.main} ref={dropTarget} data-testid="droppable">
       <div className={styles.burger}>
         {selectedBun && <BurgerBun bun={selectedBun} type="top" />}
         {selectedIngredients.length === 0 && (

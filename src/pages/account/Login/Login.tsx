@@ -39,6 +39,7 @@ export default function Login() {
         name="email"
         label="Email"
         styles={styles.input}
+        data-testid='email_input'
       />
       <MyTextInput
         control={control}
@@ -46,6 +47,7 @@ export default function Login() {
         label="Пароль"
         styles={styles.input}
         type="password"
+        data-testid='password_input'
       />
 
       <Button

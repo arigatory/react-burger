@@ -43,7 +43,7 @@ export const historySlice = createSlice({
     onClose(state) {
     },
     onError(state, action) {
-      console.log('History error...', action);
+      console.log('History error...', action.payload);
     },
     onMessage(state, action) {
       historyAdapter.setAll(state, action.payload.orders);
@@ -54,7 +54,6 @@ export const historySlice = createSlice({
       console.log('Connecting history...');
     },
     wsDisconnect(state) {
-      state.isConnected = false;
       console.log('History disconnected...');
     },
   },

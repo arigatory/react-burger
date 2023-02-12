@@ -34,6 +34,7 @@ export default function BurgerIngredientItem({ ingredient }: Props) {
     }
   return (
     <Link
+      data-testid={`draggable-${ingredient.type}`}
       state={{ background: location }}
       ref={dragRef}
       className={styles.article}

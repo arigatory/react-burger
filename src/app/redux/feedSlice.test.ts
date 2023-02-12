@@ -9,7 +9,6 @@ import {
 } from './feedSlice';
 
 jest.mock('../api/agent', () => jest.fn());
-jest.mock('../router/Routes', () => jest.fn());
 
 describe('feedSlice reducers', () => {
   it('should handle wsConnect', () => {

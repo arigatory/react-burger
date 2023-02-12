@@ -56,7 +56,8 @@ export const feedSlice = createSlice({
       state.totalToday = action.payload.totalToday;
       state.feedLoaded = true;
     },
-    wsConnecting(state) {},
+    wsConnecting(state) {
+      console.log('Connecting feed...');},
     wsDisconnect(state) {
       console.log('Feed disconnected...');
     },

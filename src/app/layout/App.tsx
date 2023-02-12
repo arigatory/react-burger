@@ -61,6 +61,7 @@ const App = () => {
         <Routes location={background || location}>
           <Route index={true} element={<Constructor />} />
           <Route path={'login'} element={<Login />} />
+          <Route path={'react-burger'} element={<Constructor />} />
           <Route path={'register'} element={<Register />} />
           <Route path={'forgot-password'} element={<ForgotPassword />} />
           <Route path={'reset-password'} element={<ResetPassword />} />

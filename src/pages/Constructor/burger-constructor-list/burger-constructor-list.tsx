@@ -1,7 +1,15 @@
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
 import styles from './burger-constructor-list.module.css';
-import { useAppDispatch, useAppSelector } from '../../../app/redux/configureStore';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../app/redux/configureStore';
 import { moveIngredient } from '../../../app/redux/constructorSlice';
 
 const BurgerConstructorList = () => {
@@ -24,7 +32,10 @@ const BurgerConstructorList = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="ingredients">
         {(provided) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef}>
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
             {selectedIngredients &&
               selectedIngredients.length > 0 &&
               selectedIngredients.map((item, index) => {

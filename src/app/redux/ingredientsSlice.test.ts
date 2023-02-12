@@ -5,7 +5,6 @@ import {
 } from './ingredientsSlice';
 
 jest.mock('../api/agent', () => jest.fn());
-jest.mock('../router/Routes', () => jest.fn());
 
 describe('Ingredients reducer tests', () => {
   it('Should handle setIngredients', () => {
