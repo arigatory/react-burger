@@ -6,7 +6,6 @@ import { validationSchema } from './registerValidation';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { useAppDispatch } from '../../../app/redux/configureStore';
 import { loginUser } from '../../../app/redux/accountSlice';
-import { router } from '../../../app/router/Routes';
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
@@ -19,9 +18,8 @@ export default function Register() {
   const dispatch = useAppDispatch();
   async function submitForm(data: FieldValues) {
     try {
-      //TODO: registerUser instead of login
       await dispatch(loginUser(data));
-      router.navigate('/');
+      navigate('/');
     } catch (error) {
       console.log('Login error:', error);
     }

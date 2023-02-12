@@ -10,7 +10,6 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './loginValidation';
-import { router } from '../../../app/router/Routes';
 
 export default function Login() {
   const { profile: user } = useAppSelector((state) => state.account);
@@ -26,7 +25,7 @@ export default function Login() {
 
   async function submitForm(data: FieldValues) {
     await dispatch(loginUser(data));
-    router.navigate('/');
+    navigate('/');
   }
 
   if (user) return <Navigate to={location?.state?.from || '/'} replace />;
