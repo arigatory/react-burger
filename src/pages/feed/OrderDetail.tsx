@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import IngredientIcon from '../../app/components/ingredient-icon/IngredientIcon';
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
+import { FeedItem } from '../../app/models/order';
 import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
 import { feedSelectors, wsConnect } from '../../app/redux/feedSlice';
 import { ingredientsSelectors } from '../../app/redux/ingredientsSlice';
@@ -14,19 +15,14 @@ export default function OrderDetail() {
     ingredientsSelectors.selectEntities(state)
   );
 
-  const {
-    feedLoaded
-  } = useAppSelector((state) => state.feed);
+  const { feedLoaded } = useAppSelector((state) => state.feed);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!feedLoaded) {
       dispatch(wsConnect('wss://norma.nomoreparties.space/orders/all'));
     }
-    
   }, [dispatch, feedLoaded]);
-
-  
   return (
     <div className={styles.content}>
       {order && (
@@ -37,14 +33,11 @@ export default function OrderDetail() {
           <h1 className={`${styles.title} text text_type_main-medium mb-4`}>
             {order.name}
           </h1>
-          <p className={`${styles.label} text text_type_main-small`}>
-            Выполнен
-          </p>
           <p className={`${styles.title} text text_type_main-medium mb-4`}>
             Состав:
           </p>
           <ul>
-            {order.ingredients.map((ingredientId, i) => (
+            {Array.from(new Set(order.ingredients)).map((ingredientId, i) => (
               <li key={ingredientId + i}>
                 <div className={styles.item}>
                   <div className={styles.itemRight}>
@@ -56,9 +49,14 @@ export default function OrderDetail() {
                   <div
                     className={`${styles.itemLeft} text text_type_digits-default`}
                   >
-                    <span>2</span>
+                    <span>
+                      {
+                        order.ingredients.filter((x) => x === ingredientId)
+                          .length
+                      }
+                    </span>
                     <span> x </span>
-                    <span>300 </span>
+                    <span>{ingredients[ingredientId]?.price} </span>
                     <CurrencyIcon type="primary" />
                   </div>
                 </div>
