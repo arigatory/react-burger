@@ -1,5 +1,6 @@
-import { historySlice } from './historySlice';
 import {
+  historySlice,
+  initialState,
   wsConnect,
   onOpen,
   onClose,
@@ -7,7 +8,6 @@ import {
 
 describe('historySlice', () => {
   it('wsConnect', () => {
-    const initialState = historySlice.getInitialState();
     const url = 'wss://norma.nomoreparties.space/orders/all';
 
     const newState = historySlice.reducer(initialState, wsConnect(url));
@@ -18,14 +18,12 @@ describe('historySlice', () => {
   });
 
   it('onOpen', () => {
-    const initialState = historySlice.getInitialState();
     const newState = historySlice.reducer(initialState, onOpen());
     expect(newState.isEstablishingConnection).toBe(false);
     expect(newState.isConnected).toBe(true);
   });
 
   it('onClose', () => {
-    const initialState = historySlice.getInitialState();
     const newState = historySlice.reducer(initialState, onClose());
     expect(newState).toEqual({
       ...initialState,

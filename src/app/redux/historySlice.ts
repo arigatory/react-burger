@@ -15,16 +15,18 @@ const historyAdapter = createEntityAdapter<FeedItem>({
   selectId: (item) => item._id,
 });
 
+export const initialState = historyAdapter.getInitialState<HistoryState>({
+  historyLoaded: false,
+  status: 'idle',
+  historyItems: [],
+  isConnected: false,
+  isEstablishingConnection: false,
+  url: null,
+})
+
 export const historySlice = createSlice({
   name: 'history',
-  initialState: historyAdapter.getInitialState<HistoryState>({
-    historyLoaded: false,
-    status: 'idle',
-    historyItems: [],
-    isConnected: false,
-    isEstablishingConnection: false,
-    url: null,
-  }),
+  initialState: initialState,
   reducers: {
     wsConnect(state, action) {
       state.isConnected = false;

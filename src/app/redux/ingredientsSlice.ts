@@ -39,13 +39,16 @@ export const loadIngredientAsync = createAsyncThunk(
   }
 );
 
-export const ingredientsSlice = createSlice({
-  name: 'ingredients',
-  initialState: ingredientsAdapter.getInitialState<IngredientsState>({
+export const initialState =
+  ingredientsAdapter.getInitialState<IngredientsState>({
     ingredientsLoaded: false,
     status: 'idle',
     ingredients: [],
-  }),
+  });
+
+export const ingredientsSlice = createSlice({
+  name: 'ingredients',
+  initialState: initialState,
   reducers: {
     setIngredients(state, action) {
       state.ingredients = action.payload;
@@ -70,5 +73,4 @@ export const ingredientsSelectors = ingredientsAdapter.getSelectors(
   (state: RootState) => state.ingredients
 );
 
-export const { setIngredients } =
-  ingredientsSlice.actions;
+export const { setIngredients } = ingredientsSlice.actions;

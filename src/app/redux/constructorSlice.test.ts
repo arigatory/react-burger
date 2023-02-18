@@ -3,6 +3,7 @@ import {
   burgerConstructorSlice,
   removeIngredient,
   moveIngredient,
+  initialState,
 } from './constructorSlice';
 
 jest.mock('../api/agent', () => jest.fn());
@@ -10,14 +11,6 @@ jest.mock('../api/agent', () => jest.fn());
 describe('burgerConstructorSlice', () => {
   describe('addIngredient', () => {
     it('should add a bun to the state', () => {
-      const initialState = {
-        selectedBun: null,
-        selectedIngredients: [],
-        order: null,
-        status: 'idle',
-        loading: false,
-      };
-
       const bun = {
         type: 'bun',
         id: 1,
@@ -34,14 +27,6 @@ describe('burgerConstructorSlice', () => {
     });
 
     it('should add an ingredient to the state', () => {
-      const initialState = {
-        selectedBun: null,
-        selectedIngredients: [],
-        order: null,
-        status: 'idle',
-        loading: false,
-      };
-
       const ingredient = {
         type: 'ingredient',
         id: 2,
@@ -58,71 +43,30 @@ describe('burgerConstructorSlice', () => {
     });
   });
 
+  const item = {
+    dragId: '1',
+    name: 'lettuce',
+    type: 'bun',
+    _id: '1',
+    proteins: 2,
+    fat: 2,
+    carbohydrates: 2,
+    calories: 3,
+    price: 3,
+    image: 'no',
+    image_mobile: 'no',
+    image_large: 'no',
+    __v: 2,
+  };
+  const item1 = item;
+  const item2 = { ...item, dragId: '2', _id: '2' };
+  const item3 = { ...item, dragId: '3', _id: '3' };
+
   describe('removeIngredient reducer', () => {
     it('should remove ingredient at given index', () => {
       const state = {
-        selectedBun: {
-          dragId: '1',
-          name: 'lettuce',
-          type: 'bun',
-          _id: '1',
-          proteins: 2,
-          fat: 2,
-          carbohydrates: 2,
-          calories: 3,
-          price: 3,
-          image: 'no',
-          image_mobile: 'no',
-          image_large: 'no',
-          __v: 2,
-        },
-        selectedIngredients: [
-          {
-            dragId: '1',
-            name: 'lettuce',
-            type: 'main',
-            _id: '1',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '2',
-            name: 'lettuce',
-            type: 'main',
-            _id: '2',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '3',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '3',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-        ],
+        selectedBun: item,
+        selectedIngredients: [item1, item2, item3],
         order: null,
         status: 'idle',
         loading: false,
@@ -130,155 +74,23 @@ describe('burgerConstructorSlice', () => {
       const index = 1;
       const action = removeIngredient(index);
       const newState = burgerConstructorSlice.reducer(state, action);
-      expect(newState.selectedIngredients).toEqual([
-        {
-          dragId: '1',
-          name: 'lettuce',
-          type: 'main',
-          _id: '1',
-          proteins: 2,
-          fat: 2,
-          carbohydrates: 2,
-          calories: 3,
-          price: 3,
-          image: 'no',
-          image_mobile: 'no',
-          image_large: 'no',
-          __v: 2,
-        },
-        {
-          dragId: '3',
-          name: 'lettuce',
-          type: 'lettuce',
-          _id: '3',
-          proteins: 2,
-          fat: 2,
-          carbohydrates: 2,
-          calories: 3,
-          price: 3,
-          image: 'no',
-          image_mobile: 'no',
-          image_large: 'no',
-          __v: 2,
-        },
-      ]);
+      expect(newState.selectedIngredients).toEqual([item1, item3]);
     });
   });
-  
+
   describe('moveIngredient reducer', () => {
     it('should move an ingredient from index i to index j', () => {
-      const initialState: ReturnType<
-        typeof burgerConstructorSlice.getInitialState
-      > = {
-        selectedBun: null,
-        selectedIngredients: [
-          {
-            dragId: '1',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '1',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '2',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '2',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '3',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '3',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-        ],
-        order: null,
-        status: 'idle',
-        loading: false,
+      const beforeTestState = {
+        ...initialState,
+        selectedIngredients: [item1, item2, item3],
       };
-
       const nextState = {
-        selectedBun: null,
-        selectedIngredients: [
-          {
-            dragId: '1',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '1',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '3',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '3',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-          {
-            dragId: '2',
-            name: 'lettuce',
-            type: 'lettuce',
-            _id: '2',
-            proteins: 2,
-            fat: 2,
-            carbohydrates: 2,
-            calories: 3,
-            price: 3,
-            image: 'no',
-            image_mobile: 'no',
-            image_large: 'no',
-            __v: 2,
-          },
-        ],
-        order: null,
-        status: 'idle',
-        loading: false,
+        ...initialState,
+        selectedIngredients: [item1, item3, item2],
       };
 
       const action = moveIngredient({ i: 1, j: 2 });
-      const result = burgerConstructorSlice.reducer(initialState, action);
+      const result = burgerConstructorSlice.reducer(beforeTestState, action);
 
       expect(result).toEqual(nextState);
     });

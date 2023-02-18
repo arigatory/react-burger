@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, } from '@reduxjs/toolkit';
 import { FeedItem } from '../models/order';
 import { RootState } from './configureStore';
 
@@ -17,18 +17,20 @@ const feedAdapter = createEntityAdapter<FeedItem>({
   selectId: (item) => item._id,
 });
 
+export const initialState = feedAdapter.getInitialState<FeedState>({
+  feedLoaded: false,
+  status: 'idle',
+  feedItems: [],
+  isConnected: false,
+  isEstablishingConnection: false,
+  url: null,
+  total: null,
+  totalToday: null,
+})
+
 export const feedSlice = createSlice({
   name: 'feed',
-  initialState: feedAdapter.getInitialState<FeedState>({
-    feedLoaded: false,
-    status: 'idle',
-    feedItems: [],
-    isConnected: false,
-    isEstablishingConnection: false,
-    url: null,
-    total: null,
-    totalToday: null,
-  }),
+  initialState: initialState,
   reducers: {
     wsConnect(state, action) {
       state.isConnected = false;
