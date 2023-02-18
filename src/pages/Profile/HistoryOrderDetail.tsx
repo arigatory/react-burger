@@ -50,7 +50,7 @@ export default function HistoryOrderDetail() {
             Состав:
           </p>
           <ul>
-            {order.ingredients.map((ingredientId, i) => (
+            {Array.from(new Set(order.ingredients)).map((ingredientId, i) => (
               <li key={ingredientId + i}>
                 <div className={styles.item}>
                   <div className={styles.itemRight}>
@@ -62,9 +62,15 @@ export default function HistoryOrderDetail() {
                   <div
                     className={`${styles.itemLeft} text text_type_digits-default`}
                   >
-                    <span>2</span>
+                    <span>
+                      {' '}
+                      {
+                        order.ingredients.filter((x) => x === ingredientId)
+                          .length
+                      }
+                    </span>
                     <span> x </span>
-                    <span>300 </span>
+                    <span>{ingredients[ingredientId]?.price} </span>
                     <CurrencyIcon type="primary" />
                   </div>
                 </div>
