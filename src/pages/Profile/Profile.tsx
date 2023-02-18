@@ -1,10 +1,7 @@
 import styles from './profile.module.css';
 import { useAppDispatch } from '../../app/redux/configureStore';
-import { useForm } from 'react-hook-form';
 import { signOut } from '../../app/redux/accountSlice';
-import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom';
-import About from './About';
-import History from './History';
+import { NavLink, Outlet } from 'react-router-dom';
 
 export default function ResetPassword() {
   const dispatch = useAppDispatch();

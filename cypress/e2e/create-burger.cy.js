@@ -1,11 +1,10 @@
-const email = 'arigatory@gmail.com';
-const password = '!QAZxsw2';
+import { baseUrl, email, password } from './consts';
 
 describe('Creating order', () => {
   beforeEach(() => {});
 
   it('Visits the page and creates an order', () => {
-    cy.visit('http://localhost:3000/constructor');
+    cy.visit(`${baseUrl}/constructor`);
     cy.get('[data-testid="draggable-bun"]')
       .first()
       .trigger('dragstart')

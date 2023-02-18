@@ -9,14 +9,14 @@ import styles from './historyOrderDetail.module.scss';
 
 export default function HistoryOrderDetail() {
   const { id } = useParams<{ id: string }>();
-  const order = useAppSelector((state) => historySelectors.selectById(state, id!));
+  const order = useAppSelector((state) =>
+    historySelectors.selectById(state, id!)
+  );
   const ingredients = useAppSelector((state) =>
     ingredientsSelectors.selectEntities(state)
   );
 
-  const {
-    historyLoaded
-  } = useAppSelector((state) => state.history);
+  const { historyLoaded } = useAppSelector((state) => state.history);
   const dispatch = useAppDispatch();
 
   const { profile: user } = useAppSelector((state) => state.account);
@@ -31,9 +31,8 @@ export default function HistoryOrderDetail() {
         )
       );
     }
-  }, [dispatch, historyLoaded, user?.accessToken]);
+  }, [dispatch, historyLoaded, user, user?.accessToken]);
 
-  
   return (
     <div className={styles.content}>
       {order && (

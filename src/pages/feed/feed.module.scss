@@ -15,24 +15,23 @@
   width: 49%;
 
   &Left {
-  overflow-y: auto;
-  height: calc(100vh - 200px);
-  padding-right: 10px;
+    overflow-y: auto;
+    height: calc(100vh - 200px);
+    padding-right: 10px;
   }
 }
-
 
 .title {
   margin-bottom: 24px;
 }
 
 .ordersStatuses {
-  display: flex; 
+  display: flex;
   gap: 36px;
 }
 
 .doneNumbers {
- list-style: none;
- height: 300px;
- color: #00CCCC;
+  list-style: none;
+  height: 300px;
+  color: #00cccc;
 }

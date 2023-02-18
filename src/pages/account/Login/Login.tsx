@@ -25,7 +25,8 @@ export default function Login() {
 
   async function submitForm(data: FieldValues) {
     await dispatch(loginUser(data));
-    navigate('/');
+    console.log(location);
+    navigate(location?.state?.from || '/');
   }
 
   if (user) return <Navigate to={location?.state?.from || '/'} replace />;

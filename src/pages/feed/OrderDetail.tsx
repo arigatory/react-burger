@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import IngredientIcon from '../../app/components/ingredient-icon/IngredientIcon';
 import { CurrencyIcon, FormattedDate } from '../../app/components/yandex/dist';
-import { FeedItem } from '../../app/models/order';
 import { useAppDispatch, useAppSelector } from '../../app/redux/configureStore';
 import { feedSelectors, wsConnect } from '../../app/redux/feedSlice';
 import { ingredientsSelectors } from '../../app/redux/ingredientsSlice';
