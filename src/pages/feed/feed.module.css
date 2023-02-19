@@ -3,7 +3,6 @@
   max-width: 1100px;
   margin: auto;
   padding: 0;
-  overflow-y: hidden;
 }
 
 .columns {
@@ -13,12 +12,6 @@
 
 .column {
   width: 49%;
-
-  &Left {
-    overflow-y: auto;
-    height: calc(100vh - 200px);
-    padding-right: 10px;
-  }
 }
 
 .title {
@@ -33,5 +26,5 @@
 .doneNumbers {
   list-style: none;
   height: 300px;
-  color: #00cccc;
-}
+  color: #00CCCC;
+}/*# sourceMappingURL=feed.module.css.map */

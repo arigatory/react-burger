@@ -15,7 +15,10 @@ export default function BurgerIngredientCategory({
 }: Props) {
   const renderedIngredients = ingredients.map((ingredient) => {
     return (
-      <BurgerIngredientItem ingredient={ingredient} key={ingredient._id} />
+      <BurgerIngredientItem
+        ingredient={ingredient}
+        key={ingredient._id}
+      />
     );
   });
 

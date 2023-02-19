@@ -1,0 +1,31 @@
+.card {
+  background-color: #1c1c21;
+  min-width: 200px;
+  max-width: 600px;
+  border-radius: 40px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.card__top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.card__title {
+  margin-bottom: 24px;
+}
+.card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imgList {
+  width: 150px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10px, max-content));
+}
+
+.done {
+  color: #00CCCC;
+}/*# sourceMappingURL=feedItem.module.css.map */

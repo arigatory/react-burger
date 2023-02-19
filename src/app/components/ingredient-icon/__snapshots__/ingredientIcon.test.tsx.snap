@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Рисует иконку ингредиента бургера 1`] = `
+<div
+  className="img"
+>
+  <img
+    alt="Ingredient icon"
+    src="https://code.s3.yandex.net/react/code/bun-02.png"
+  />
+</div>
+`;

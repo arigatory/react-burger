@@ -5,7 +5,9 @@ interface Props {
 }
 
 const ModalOverlay = ({ onClick }: Props) => {
-  return <div className={styles.overlay} onClick={onClick} />;
+  return (
+    <div className={styles.overlay} onClick={onClick} data-testid="test" />
+  );
 };
 
 export default ModalOverlay;

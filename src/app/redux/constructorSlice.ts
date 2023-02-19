@@ -12,7 +12,7 @@ interface ConstructorState {
   loading: boolean;
 }
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   selectedBun: null,
   selectedIngredients: [],
   order: null,

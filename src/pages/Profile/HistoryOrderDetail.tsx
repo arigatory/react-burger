@@ -9,14 +9,14 @@ import styles from './historyOrderDetail.module.scss';
 
 export default function HistoryOrderDetail() {
   const { id } = useParams<{ id: string }>();
-  const order = useAppSelector((state) => historySelectors.selectById(state, id!));
+  const order = useAppSelector((state) =>
+    historySelectors.selectById(state, id!)
+  );
   const ingredients = useAppSelector((state) =>
     ingredientsSelectors.selectEntities(state)
   );
 
-  const {
-    historyLoaded
-  } = useAppSelector((state) => state.history);
+  const { historyLoaded } = useAppSelector((state) => state.history);
   const dispatch = useAppDispatch();
 
   const { profile: user } = useAppSelector((state) => state.account);
@@ -31,9 +31,8 @@ export default function HistoryOrderDetail() {
         )
       );
     }
-  }, [dispatch, historyLoaded, user?.accessToken]);
+  }, [dispatch, historyLoaded, user, user?.accessToken]);
 
-  
   return (
     <div className={styles.content}>
       {order && (
@@ -51,7 +50,7 @@ export default function HistoryOrderDetail() {
             Состав:
           </p>
           <ul>
-            {order.ingredients.map((ingredientId, i) => (
+            {Array.from(new Set(order.ingredients)).map((ingredientId, i) => (
               <li key={ingredientId + i}>
                 <div className={styles.item}>
                   <div className={styles.itemRight}>
@@ -63,9 +62,15 @@ export default function HistoryOrderDetail() {
                   <div
                     className={`${styles.itemLeft} text text_type_digits-default`}
                   >
-                    <span>2</span>
+                    <span>
+                      {' '}
+                      {
+                        order.ingredients.filter((x) => x === ingredientId)
+                          .length
+                      }
+                    </span>
                     <span> x </span>
-                    <span>300 </span>
+                    <span>{ingredients[ingredientId]?.price} </span>
                     <CurrencyIcon type="primary" />
                   </div>
                 </div>

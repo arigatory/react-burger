@@ -6,7 +6,6 @@ import { resetPassword } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './resetPasswordValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { router } from '../../../app/router/Routes';
 import { useNavigate } from 'react-router-dom';
 
 export default function ResetPassword() {
@@ -20,7 +19,7 @@ export default function ResetPassword() {
 
   async function submitForm(data: FieldValues) {
     dispatch(resetPassword(data));
-    router.navigate('/login');
+    navigate('/login');
   }
 
   return (

@@ -1,0 +1,62 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px;
+  min-height: 350px;
+  align-content: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.number {
+  align-self: center;
+}
+
+ul {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.name {
+  margin-bottom: 32px;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.label {
+  color: #00cccc;
+  margin-bottom: 60px;
+}
+
+.price {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=orderDetail.module.css.map */

@@ -35,10 +35,10 @@ export default function Feed() {
       <h1 className="text text_type_main-large mb-8">Лента заказов</h1>
       {!isConnected && <h1>Загрузка заказов...</h1>}
       <div className={styles.columns}>
-        <div className={`${styles.column} columns__left`}>
+        <div className={`${styles.column} ${styles.columnLeft}`}>
           <FeedList orders={feedItems} />
         </div>
-        <div className={`${styles.column} columns__right`}>
+        <div className={`${styles.column} `}>
           <div className={styles.ordersStatuses}>
             <div className="ordersStatuses__done">
               <h3 className={`${styles.title} text text_type_main-medium`}>

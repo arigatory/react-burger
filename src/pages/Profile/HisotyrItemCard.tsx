@@ -21,7 +21,7 @@ export default function HistoryItemCard({ order, status }: Props) {
       state={{ background: location }}
       className={styles.article}
       to={{
-        pathname: `/orders/${order._id}`,
+        pathname: `${order._id}`,
       }}
     >
       <div className={styles.card}>

@@ -10,7 +10,6 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { loginUser } from '../../../app/redux/accountSlice';
 import MyTextInput from '../../../app/components/my-text-input/MyTextInput';
 import { validationSchema } from './loginValidation';
-import { router } from '../../../app/router/Routes';
 
 export default function Login() {
   const { profile: user } = useAppSelector((state) => state.account);
@@ -26,7 +25,8 @@ export default function Login() {
 
   async function submitForm(data: FieldValues) {
     await dispatch(loginUser(data));
-    router.navigate('/');
+    console.log(location);
+    navigate(location?.state?.from || '/');
   }
 
   if (user) return <Navigate to={location?.state?.from || '/'} replace />;
@@ -40,6 +40,7 @@ export default function Login() {
         name="email"
         label="Email"
         styles={styles.input}
+        data-testid='email_input'
       />
       <MyTextInput
         control={control}
@@ -47,6 +48,7 @@ export default function Login() {
         label="Пароль"
         styles={styles.input}
         type="password"
+        data-testid='password_input'
       />
 
       <Button

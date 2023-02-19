@@ -10,7 +10,7 @@ import { useAppSelector } from '../../redux/configureStore';
 
 const AppHeader = () => {
   const location = useLocation();
-  const { profile } = useAppSelector((state: any) => state.account);
+  const { profile } = useAppSelector((state) => state.account);
 
   const getNavLinkClass = (path: string) => {
     return location.pathname === path ? '' : 'text_color_inactive';
@@ -75,6 +75,7 @@ const AppHeader = () => {
           <ProfileIcon type={getNavLinkType('/profile')} />
         </span>
         <span
+          data-testid="profile_link"
           className={`text  ${getNavLinkClass(
             '/profile'
           )} text_type_main-default`}

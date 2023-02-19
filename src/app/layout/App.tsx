@@ -61,29 +61,35 @@ const App = () => {
         <Routes location={background || location}>
           <Route index={true} element={<Constructor />} />
           <Route path={'login'} element={<Login />} />
+          <Route path={'react-burger'} element={<Constructor />} />
           <Route path={'register'} element={<Register />} />
           <Route path={'forgot-password'} element={<ForgotPassword />} />
           <Route path={'reset-password'} element={<ResetPassword />} />
           <Route
             path={'/profile/*'}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute backUrl={location?.state?.from}>
                 <Profile />
               </ProtectedRoute>
             }
           >
             <Route index={true} element={<About />} />
             <Route path={'about'} element={<About />} />
+            <Route path={'orders/:id'} element={<HistoryOrderDetail />} />
             <Route path={'orders'} element={<History />} />
+            <Route path={'*'} element={<Navigate replace to="not-found" />} />
           </Route>
+          <Route path={'profile/orders/:id'} element={<HistoryOrderDetail />} />
           <Route path={'ingredients/:id'} element={<IngredientDetail />} />
           <Route path={'feed/:id'} element={<OrderDetail />} />
-          <Route path={'orders/:id'} element={<HistoryOrderDetail />} />
           <Route path={'feed'} element={<Feed />} />
           <Route path={'constructor'} element={<Constructor />} />
           <Route path={'errors'} element={<Errors />} />
           <Route path={'not-found'} element={<NotFound />} />
-          <Route path={'*'} element={<Navigate replace to="not-found" />} />
+          <Route
+            path={'*'}
+            element={<Navigate replace to="not-found" />}
+          ></Route>
         </Routes>
         {background && (
           <Routes>
@@ -104,7 +110,7 @@ const App = () => {
               }
             />
             <Route
-              path="orders/:id"
+              path="profile/orders/:id"
               element={
                 <Modal onClose={() => navigate(-1)}>
                   <HistoryOrderDetail />
